@@ -22,9 +22,8 @@
 package net.fhirfactory.pegacorn.mimic.fhirtools.practitionerrole.subcommands.practitionerrolecsv;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.fhirfactory.pegacorn.internals.directories.entries.PractitionerRoleDirectoryEntry;
 import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.cvsentries.PractitionerRoleCSVEntry;
-import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.intermediary.SimplisticPractitionerRole;
-import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.intermediary.TrivialOrganization;
 import org.jgroups.Address;
 import org.jgroups.JChannel;
 import org.jgroups.View;
@@ -62,14 +61,14 @@ public class LoadFromCSVCLI implements Runnable{
 
         PractitionerRoleCSVReader cvsReader = new PractitionerRoleCSVReader();
         List<PractitionerRoleCSVEntry> prCSVSet = cvsReader.readOPractitionerRoleCSV(this.fileName);
-        List<SimplisticPractitionerRole> prSet = cvsReader.convertCSVEntry2SimplisticPractitionerRole(prCSVSet);
+        List<PractitionerRoleDirectoryEntry> prSet = cvsReader.convertCSVEntry2PractitionerRoleLite(prCSVSet);
         initialiseJGroupsChannel();
         RequestOptions requestOptions = new RequestOptions(ResponseMode.GET_FIRST, 5000);
         Class classes[] = new Class[1];
         classes[0] = String.class;
-        for(SimplisticPractitionerRole currentPR: prSet){
+        for(PractitionerRoleDirectoryEntry currentPR: prSet){
             Object objectSet[] = new Object[1];
-            String currentSimplisticPR = SimplisticPractitionerRoleAsJSONString(currentPR);
+            String currentSimplisticPR = PractitionerRoleLiteAsJSONString(currentPR);
             objectSet[0] = currentSimplisticPR;
             try {
                 LOG.info(".doLoadFromCSV(): Sending request --> {}", currentSimplisticPR);
@@ -103,10 +102,10 @@ public class LoadFromCSVCLI implements Runnable{
         }
     }
 
-    private String SimplisticPractitionerRoleAsJSONString(SimplisticPractitionerRole practitionerRole){
+    private String PractitionerRoleLiteAsJSONString(PractitionerRoleDirectoryEntry practitionerRoleDirectoryEntry){
         try{
             ObjectMapper jsonMapper = new ObjectMapper();
-            String prAsString = jsonMapper.writeValueAsString(practitionerRole);
+            String prAsString = jsonMapper.writeValueAsString(practitionerRoleDirectoryEntry);
             return(prAsString);
         } catch(Exception ex){
             ex.printStackTrace();

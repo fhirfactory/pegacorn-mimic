@@ -22,8 +22,8 @@
 package net.fhirfactory.pegacorn.mimic.fhirtools.practitioner.subcommands.create;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.intermediary.SimplisticOrganization;
-import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.intermediary.TrivialOrganization;
+import net.fhirfactory.pegacorn.internals.directories.entries.PractitionerDirectoryEntry;
+import net.fhirfactory.pegacorn.internals.directories.entries.datatypes.*;
 import org.jgroups.Address;
 import org.jgroups.JChannel;
 import org.jgroups.View;
@@ -32,6 +32,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import picocli.CommandLine;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 @CommandLine.Command(
@@ -41,7 +43,7 @@ import java.util.List;
 public class createPractitioner implements Runnable{
     private static final Logger LOG = LoggerFactory.getLogger(createPractitioner.class);
     private Address actualAddress;
-    private JChannel organizationRPCClient;
+    private JChannel rpcClient;
     private RpcDispatcher rpcDispatcher;
 
     @CommandLine.Option(names = {"-n", "--name"})
@@ -65,74 +67,105 @@ public class createPractitioner implements Runnable{
     }
 
     public void doCreate(){
-        LOG.info(".doLoadFromCSV(): Entry");
+        LOG.info(".doCreate(): Entry");
+        PractitionerDirectoryEntry practitioner = new PractitionerDirectoryEntry();
+        practitioner.setEmailAddress(getPractitionerEmail());
+        practitioner.setDisplayName(getPractitionerName());
+        // Name
+        HumanNameDE practitionerName = new HumanNameDE();
+        practitionerName.setDisplayName(getPractitionerName());
+        String[] nameSplit = getPractitionerName().split(" ");
+        if(nameSplit.length == 2){
+            practitionerName.setPreferredGivenName(nameSplit[0]);
+            practitionerName.setFamilyName(nameSplit[1]);
+            practitionerName.setNameUse(HumanNameDEUseEnum.OFFICIAL);
+        }
+        EffectivePeriod period = new EffectivePeriod();
+        period.setStartDate(Date.from(Instant.now()));
+        practitionerName.setPeriod(period);
+        practitioner.setOfficialName(practitionerName);
+        // Extension
+        ContactPointDE primaryPhone = new ContactPointDE();
+        primaryPhone.setName("Extension");
+        primaryPhone.setValue(extensionNumber);
+        primaryPhone.setType(ContactPointDETypeEnum.PABX_EXTENSION);
+        primaryPhone.setUse(ContactPointDEUseEnum.WORK);
+        primaryPhone.setRank(1);
+        practitioner.getContactPoints().add(primaryPhone);
+        // Mobile
+        ContactPointDE mobilePhone = new ContactPointDE();
+        mobilePhone.setName("Mobile");
+        mobilePhone.setValue(mobileNumber);
+        mobilePhone.setType(ContactPointDETypeEnum.MOBILE);
+        primaryPhone.setUse(ContactPointDEUseEnum.WORK);
+        primaryPhone.setRank(2);
+        practitioner.getContactPoints().add(mobilePhone);
+        String practitionerAsString = entryAsJSONObject(practitioner);
+        String result;
+        if(practitionerAsString != null){
+            result = performQuery(practitionerAsString);
+        } else {
+            result = null;
+        }
+        LOG.info(".doCreate(): Result --> {}", result);
+        LOG.debug(".doCreate(): Exit");
+    }
 
-        OrganizationCSVReader cvsReader = new OrganizationCSVReader();
-        cvsReader.readOrganizationCSV(this.extensionNumber);
-        List<SimplisticOrganization> simplisticOrganizations = cvsReader.organiseOrganizationHierarchy();
+    public String performQuery(String practitioner){
+        LOG.debug(".performQuery(): Entry");
         initialiseJGroupsChannel();
         RequestOptions requestOptions = new RequestOptions(ResponseMode.GET_FIRST, 5000);
         Class classes[] = new Class[1];
         classes[0] = String.class;
-        for(SimplisticOrganization currentOrganization: simplisticOrganizations){
-            Object objectSet[] = new Object[1];
-            TrivialOrganization trivOrg = makeTrivial(currentOrganization);
-            String currentTrivialOrganization = TrivalObjectAsJSONString(trivOrg);
-            objectSet[0] = currentTrivialOrganization;
-            try {
-                LOG.info(".doLoadFromCSV(): Sending request --> {}", currentTrivialOrganization);
-                String response = rpcDispatcher.callRemoteMethod(this.actualAddress, "processRequest", objectSet, classes, requestOptions);
-                LOG.info(".doLoadFromCSV(): Response --> {}", response);
-            } catch(Exception ex){
-                ex.printStackTrace();
-                LOG.error(".doLoadFromCSV(): Error --> {}", ex.toString());
-            }
+        String objectSet[] = new String[1];
+        objectSet[0] = practitioner;
+        try {
+            LOG.info(".performQuery(): Sending request --> {}", practitioner);
+            String response = rpcDispatcher.callRemoteMethod(this.actualAddress, "createPractitioner", objectSet, classes, requestOptions);
+            LOG.info(".performQuery(): Response --> {}", response);
+            return(response);
+        } catch(Exception ex){
+            ex.printStackTrace();
+            LOG.error(".performQuery(): Error --> {}", ex.toString());
         }
-        LOG.info(".doLoadFromCSV(): Exit");
+        LOG.debug(".performQuery(): Exit");
+        return("Error... ");
     }
+
 
     void initialiseJGroupsChannel(){
         try {
             LOG.info(".initialiseJGroupsChannel(): Entry");
-            this.organizationRPCClient = new JChannel("udp.xml").name("OrganizationRCPClient");
-            this.organizationRPCClient.connect("ResourceCLI");
-            View view = this.organizationRPCClient.view();
+            this.rpcClient = new JChannel("udp.xml").name("PractitionerRCPClient");
+            this.rpcClient.connect("ResourceCLI");
+            View view = this.rpcClient.view();
             List<Address> members = view.getMembers();
             for(Address member: members) {
-                if ("OrganizationRPC".contentEquals(member.toString())) {
+                if ("PractitionerRPC".contentEquals(member.toString())) {
                     LOG.info(".initialiseJGroupsChannel(): Found Server Endpoint");
                     this.actualAddress = member;
                     break;
                 }
             }
-            this.rpcDispatcher = new RpcDispatcher(this.organizationRPCClient,null);
+            this.rpcDispatcher = new RpcDispatcher(this.rpcClient,null);
         } catch(Exception ex){
             LOG.error(".initialiseJGroupsChannel(): Error --> " + ex.toString());
         }
     }
 
-    private String TrivalObjectAsJSONString(TrivialOrganization org){
+    private String entryAsJSONObject(PractitionerDirectoryEntry practitioner){
         try{
             ObjectMapper jsonMapper = new ObjectMapper();
-            String orgAsString = jsonMapper.writeValueAsString(org);
+            String orgAsString = jsonMapper.writerWithDefaultPrettyPrinter().writeValueAsString(practitioner);
             return(orgAsString);
         } catch(Exception ex){
             ex.printStackTrace();
         }
-        return("");
+        return(null);
     }
 
-    private TrivialOrganization makeTrivial(SimplisticOrganization simple){
-        TrivialOrganization trivialOrganization = new TrivialOrganization();
-        trivialOrganization.setOrganizationLongName(simple.getOrganizationLongName());
-        trivialOrganization.setOrganizationShortName(simple.getOrganizationShortName());
-        trivialOrganization.setOrganizationTypeCode(simple.getOrganizationTypeCode());
-        trivialOrganization.setOrganizationTypeName(simple.getOrganizationTypeName());
-        trivialOrganization.setParentOrganizationShortName(simple.getParentOrganizationShortName());
-        for(SimplisticOrganization currentOrg: simple.getContainedOrgs()){
-            trivialOrganization.getContainedOrganisationShortNames().add(currentOrg.getOrganizationShortName());
-        }
-        return(trivialOrganization);
+    public static Logger getLOG() {
+        return LOG;
     }
 
     public Address getActualAddress() {
@@ -143,12 +176,12 @@ public class createPractitioner implements Runnable{
         this.actualAddress = actualAddress;
     }
 
-    public JChannel getOrganizationRPCClient() {
-        return organizationRPCClient;
+    public JChannel getRpcClient() {
+        return rpcClient;
     }
 
-    public void setOrganizationRPCClient(JChannel organizationRPCClient) {
-        this.organizationRPCClient = organizationRPCClient;
+    public void setRpcClient(JChannel rpcClient) {
+        this.rpcClient = rpcClient;
     }
 
     public RpcDispatcher getRpcDispatcher() {

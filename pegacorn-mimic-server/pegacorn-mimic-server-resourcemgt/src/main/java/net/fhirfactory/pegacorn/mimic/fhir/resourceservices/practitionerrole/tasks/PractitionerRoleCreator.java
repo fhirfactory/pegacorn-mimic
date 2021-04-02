@@ -21,18 +21,12 @@
  */
 package net.fhirfactory.pegacorn.mimic.fhir.resourceservices.practitionerrole.tasks;
 
-import ca.uhn.fhir.context.FhirContext;
-import ca.uhn.fhir.parser.IParser;
-import ca.uhn.fhir.rest.api.MethodOutcome;
-import ca.uhn.fhir.rest.client.api.IGenericClient;
-import net.fhirfactory.pegacorn.datasets.fhir.r4.operationaloutcome.OperationOutcomeGenerator;
-import net.fhirfactory.pegacorn.datasets.fhir.r4.operationaloutcome.OperationOutcomeSeverityEnum;
-import net.fhirfactory.pegacorn.mimic.fhir.FHIRServerClientMimic;
-import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.practitionerrole.transformations.SimplisticPractitionerRole2FHIRPractitionerRole;
-import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.intermediary.SimplisticPractitionerRole;
-import net.fhirfactory.pegacorn.util.FHIRContextUtility;
-import org.hl7.fhir.r4.model.OperationOutcome;
-import org.hl7.fhir.r4.model.PractitionerRole;
+import net.fhirfactory.pegacorn.internals.directories.brokers.PractitionerRoleDirectoryResourceBroker;
+import net.fhirfactory.pegacorn.internals.directories.entries.PractitionerRoleDirectoryEntry;
+import net.fhirfactory.pegacorn.internals.directories.model.DirectoryMethodOutcome;
+import net.fhirfactory.pegacorn.internals.directories.model.DirectoryMethodOutcomeEnum;
+import net.fhirfactory.pegacorn.internals.directories.transformers.PractitionerRoleDirectoryEntry2FHIRPractitionerRole;
+import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.common.ResourceStorageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,57 +34,33 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 @ApplicationScoped
-public class PractitionerRoleCreator {
+public class PractitionerRoleCreator extends ResourceStorageService {
     private static final Logger LOG = LoggerFactory.getLogger(PractitionerRoleCreator.class);
 
     @Inject
-    private FHIRServerClientMimic clientMimic;
+    private PractitionerRoleDirectoryEntry2FHIRPractitionerRole simplisticPR2PractitionerRole;
 
     @Inject
-    private FHIRContextUtility contextUtility;
+    private PractitionerRoleDirectoryResourceBroker practitionerRoleDirectoryResourceBroker;
 
-    @Inject
-    private SimplisticPractitionerRole2FHIRPractitionerRole simplisticPR2PractitionerRole;
-
-    @Inject
-    private OperationOutcomeGenerator outcomeGeneration;
-
-    public MethodOutcome createPractitionerRole(SimplisticPractitionerRole simplisticPR){
-        LOG.info(".createPractitionerRole(): Entry, simplisticPR --> {}", simplisticPR);
-        if(simplisticPR == null){
+    public DirectoryMethodOutcome createPractitionerRole(PractitionerRoleDirectoryEntry practitionerRoleDirectoryEntry){
+        LOG.info(".createPractitionerRole(): Entry, simplisticPR --> {}", practitionerRoleDirectoryEntry);
+        if(practitionerRoleDirectoryEntry == null){
             LOG.info(".createPractitionerRole(): simplisticPR is null, return a failed MethodOutcome");
-            OperationOutcome operationOutcome = outcomeGeneration.generateResourceFailedAddOutcome(null, OperationOutcomeSeverityEnum.SEVERITY_ERROR);
-            MethodOutcome outcome = new MethodOutcome();
-            outcome.setId(operationOutcome.getIdElement());
+            DirectoryMethodOutcome outcome = new DirectoryMethodOutcome();
             outcome.setCreated(false);
-            outcome.setOperationOutcome(operationOutcome);
+            outcome.setStatus(DirectoryMethodOutcomeEnum.CREATE_ENTRY_INVALID);
+            outcome.setStatusReason("PractitionerRoleDirectoryEntry resource is null");
             return(outcome);
         }
-        LOG.info(".createPractitionerRole(): Resolve the FHIR Context");
-        FhirContext fhirContext = contextUtility.getFhirContext();
-        LOG.info(".createPractitionerRole(): Get the FHIR Server Client (server address:{})",clientMimic.getTargetFHIRServerURL() );
-        IGenericClient fhirServerClient = fhirContext.newRestfulGenericClient(clientMimic.getTargetFHIRServerURL());
-        LOG.info(".createPractitionerRole(): Convert TrivialOrganization --> to --> FHIR::Organization");
-        PractitionerRole builtPractitionerRole = null;
-        try {
-            builtPractitionerRole = simplisticPR2PractitionerRole.convertToPractitionerRole(simplisticPR);
-        } catch(Exception ex){
-            ex.printStackTrace();
-        }
-        LOG.info(".createPractitionerRole(): Convert Resource to JSON String");
-        String resourceAsString = convertToJSONString(builtPractitionerRole);
-        LOG.info(".createPractitionerRole(): Call the FHIR Server and Add Organization");
-        MethodOutcome outcome = fhirServerClient
-                .create()
-                .resource(resourceAsString)
-                .execute();
+        LOG.info(".createPractitionerRole(): Invoke the PractitionerRoleDirectoryResourceBroker and create local entry");
+        DirectoryMethodOutcome outcome = practitionerRoleDirectoryResourceBroker.createPractitionerRole(practitionerRoleDirectoryEntry);
         LOG.info(".createPractitionerRole(): FHIR Server called, returning MethodOutcome");
         return(outcome);
     }
 
-    private String convertToJSONString(PractitionerRole practitionerRole){
-        IParser jsonParser = contextUtility.getJsonParser();
-        String orgAsString = jsonParser.encodeResourceToString(practitionerRole);
-        return(orgAsString);
+    @Override
+    protected Logger getLogger(){
+        return(LOG);
     }
 }

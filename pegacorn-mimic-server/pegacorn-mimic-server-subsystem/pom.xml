@@ -15,7 +15,7 @@
     <packaging>war</packaging>
 
     <name>Pegacorn :: Mimic :: Server :: Subsystem(WAR)</name>
-    <description>The server-side Endpoint Simulation Engine </description>
+    <description>The server-side Endpoint Simulation Engine (deployable WAR file) </description>
 
     <licenses>
         <license>
@@ -99,6 +99,14 @@
             <scope>compile</scope>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>net.fhirfactory.pegacorn</groupId>
+            <artifactId>pegacorn-mimic-server-microapis-roleselection</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <scope>compile</scope>
+            <type>jar</type>
+        </dependency>
+
         <dependency>
             <groupId>net.fhirfactory.pegacorn</groupId>
             <artifactId>pegacorn-mimic-common</artifactId>
@@ -196,6 +204,13 @@
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-componentdsl</artifactId>
+            <version>${version-org.apache.camel}</version>
+            <scope>compile</scope>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-netty-http</artifactId>
             <version>${version-org.apache.camel}</version>
             <scope>compile</scope>
             <type>jar</type>

@@ -21,10 +21,10 @@
  */
 package net.fhirfactory.pegacorn.mimic.fhir.resourceservices.organization.transformations;
 
-import net.fhirfactory.pegacorn.datasets.fhir.r4.resources.organization.OrganizationFactory;
-import net.fhirfactory.pegacorn.datasets.fhir.r4.resources.organization.OrganizationResourceHelpers;
-import net.fhirfactory.pegacorn.datasets.fhir.r4.resources.resource.InformationConfidentialitySecurityCodeEnum;
-import net.fhirfactory.pegacorn.datasets.fhir.r4.resources.resource.SecurityLabelFactory;
+import net.fhirfactory.pegacorn.internals.fhir.r4.resources.organization.OrganizationFactory;
+import net.fhirfactory.pegacorn.internals.fhir.r4.resources.organization.OrganizationResourceHelpers;
+import net.fhirfactory.pegacorn.internals.fhir.r4.resources.resource.InformationConfidentialitySecurityCodeEnum;
+import net.fhirfactory.pegacorn.internals.fhir.r4.resources.resource.SecurityLabelFactory;
 import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.intermediary.TrivialOrganization;
 import org.hl7.fhir.r4.model.*;
 import org.hl7.fhir.r4.model.codesystems.OrganizationType;

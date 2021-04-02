@@ -24,22 +24,17 @@ package net.fhirfactory.pegacorn.mimic.fhirtools.practitionerrole.subcommands.pr
 import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
-import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.cvsentries.OrganizationCSVEntry;
+import net.fhirfactory.pegacorn.internals.directories.entries.PractitionerRoleDirectoryEntry;
+import net.fhirfactory.pegacorn.internals.directories.entries.datatypes.*;
 import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.cvsentries.PractitionerRoleCSVEntry;
 import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.intermediary.SimplisticOrganization;
-import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.intermediary.SimplisticPractitionerRole;
-import org.jgroups.Address;
-import org.jgroups.JChannel;
-import org.jgroups.blocks.RpcDispatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import picocli.CommandLine;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class PractitionerRoleCSVReader {
@@ -73,26 +68,53 @@ public class PractitionerRoleCSVReader {
         return(this.elementList);
     }
 
-    public List<SimplisticPractitionerRole> convertCSVEntry2SimplisticPractitionerRole(List<PractitionerRoleCSVEntry> prSet){
-        LOG.debug(".convertCSVEntry2SimplisticPractitionerRole(): Entry");
-        ArrayList<SimplisticPractitionerRole> workingList = new ArrayList<>();
-        LOG.trace(".convertCSVEntry2SimplisticPractitionerRole(): Iterate through CSV Entries and Converting to Simplistic PractitionerRole");
+    public List<PractitionerRoleDirectoryEntry> convertCSVEntry2PractitionerRoleLite(List<PractitionerRoleCSVEntry> prSet){
+        LOG.debug(".convertCSVEntry2PractitionerRoleLite(): Entry");
+        ArrayList<PractitionerRoleDirectoryEntry> workingList = new ArrayList<>();
+        LOG.trace(".convertCSVEntry2PractitionerRoleLite(): Iterate through CSV Entries and Converting to PractitionerRoleLite");
         for(PractitionerRoleCSVEntry currentEntry: prSet) {
-            SimplisticPractitionerRole currentPractitionerRole = new SimplisticPractitionerRole();
-            currentPractitionerRole.setOrganizationShortName(currentEntry.getOrganisationUnitShortName());
-            currentPractitionerRole.setPractitionerRoleShortName(currentEntry.getPractitionerRoleShortName());
-            currentPractitionerRole.setPractitionerRoleLongName(currentEntry.getPractitionerRoleLongName());
-            currentPractitionerRole.setRoleCategory(currentEntry.getRoleCategory());
-            currentPractitionerRole.setRoleShortName(currentEntry.getRoleShortName());
-            List<String> fixedLineNumbers = getFixedLineNumbers(currentEntry.getContactExtensions());
-            currentPractitionerRole.getLandlineNumbers().addAll(fixedLineNumbers);
-            currentPractitionerRole.setLocationShortName(currentEntry.getLocationTag());
-            currentPractitionerRole.setRoleADGroup(currentEntry.getActiveDirectoryGroup());
-            List<String> mobilePhoneNumbers = getMobilePhoneNumbers(currentEntry.getContactMobile());
-            currentPractitionerRole.getMobileNumbers().addAll(mobilePhoneNumbers);
-            workingList.add(currentPractitionerRole);
+            PractitionerRoleDirectoryEntry currentPractitionerRoleDirectoryEntry = new PractitionerRoleDirectoryEntry();
+            // Add Organization
+            IdentifierDE organizationIdentifier = new IdentifierDE();
+            organizationIdentifier.setValue(currentEntry.getOrganisationUnitShortName());
+            organizationIdentifier.setType("ShortName");
+            organizationIdentifier.setUse(IdentifierDEUseEnum.USUAL);
+            currentPractitionerRoleDirectoryEntry.setPrimaryOrganizationID(organizationIdentifier);
+            // Add ShortName
+            IdentifierDE practitionerRoleIdentifier0 = new IdentifierDE();
+            practitionerRoleIdentifier0.setType("ShortName");
+            practitionerRoleIdentifier0.setUse(IdentifierDEUseEnum.OFFICIAL);
+            practitionerRoleIdentifier0.setValue(currentEntry.getPractitionerRoleShortName());
+            currentPractitionerRoleDirectoryEntry.addIdentifier(practitionerRoleIdentifier0);
+            // Add LongName
+            IdentifierDE practitionerRoleIdentifier1 = new IdentifierDE();
+            practitionerRoleIdentifier1.setType("LongName");
+            practitionerRoleIdentifier1.setUse(IdentifierDEUseEnum.SECONDARY);
+            practitionerRoleIdentifier1.setValue(currentEntry.getPractitionerRoleLongName());
+            currentPractitionerRoleDirectoryEntry.addIdentifier(practitionerRoleIdentifier1);
+            // Display Name
+            currentPractitionerRoleDirectoryEntry.setDisplayName(currentEntry.getPractitionerRoleLongName());
+            // Set Role Category & RoleID
+            currentPractitionerRoleDirectoryEntry.setPrimaryRoleCategory(currentEntry.getRoleCategory());
+            currentPractitionerRoleDirectoryEntry.setPrimaryRoleID(currentEntry.getRoleShortName());
+            // Add Telephone ContactPoints
+            List<ContactPointDE> fixedLineNumbers = getFixedLineNumbers(currentEntry.getContactExtensions());
+            currentPractitionerRoleDirectoryEntry.getContactPoints().addAll(fixedLineNumbers);
+            // Add Location
+            IdentifierDE locationIdentifier = new IdentifierDE();
+            locationIdentifier.setType("Campus");
+            locationIdentifier.setUse(IdentifierDEUseEnum.SECONDARY);
+            locationIdentifier.setValue(currentEntry.getLocationTag());
+            currentPractitionerRoleDirectoryEntry.setPrimaryLocationID(locationIdentifier);
+            // Add Active Directory Group
+            currentPractitionerRoleDirectoryEntry.setPractitionerRoleADGroup(currentEntry.getActiveDirectoryGroup());
+            // Add Mobile Phone ContactPoints
+            List<ContactPointDE> mobilePhoneNumbers = getMobilePhoneNumbers(currentEntry.getContactMobile());
+            currentPractitionerRoleDirectoryEntry.getContactPoints().addAll(mobilePhoneNumbers);
+            // All done!
+            workingList.add(currentPractitionerRoleDirectoryEntry);
         }
-        LOG.debug(".organiseOrganizationHierarchy(): Exit, Organization hierarchy established");
+        LOG.debug(".convertCSVEntry2PractitionerRoleLite(): Exit, Organization hierarchy established");
         return(workingList);
     }
 
@@ -105,7 +127,7 @@ public class PractitionerRoleCSVReader {
         LOG.info("Hierarchy: {}", outputString);
     }
 
-    private List<String> getFixedLineNumbers(String entry){
+    private List<ContactPointDE> getFixedLineNumbers(String entry){
         if(entry == null || entry.length() < 5){
             return(new ArrayList<>());
         }
@@ -116,21 +138,27 @@ public class PractitionerRoleCSVReader {
             entrySet = new String[1];
             entrySet[0] = entry;
         }
-        ArrayList<String> phoneList = new ArrayList<>();
+        ArrayList<ContactPointDE> phoneList = new ArrayList<>();
         for(int counter = 0; counter < entrySet.length; counter += 1){
             String strippedString = entrySet[counter].strip();
             String completeNumber = "";
+            ContactPointDETypeEnum channelType = ContactPointDETypeEnum.LANDLINE;
             if(strippedString.length() == 5){
                 completeNumber = SWITCH_PREFIX_NUMBER + strippedString;
+                channelType = ContactPointDETypeEnum.PABX_EXTENSION;
             } else {
                 completeNumber = strippedString;
             }
-            phoneList.add(completeNumber);
+            ContactPointDE commChannel = new ContactPointDE();
+            commChannel.setType(channelType);
+            commChannel.setUse(ContactPointDEUseEnum.WORK);
+            commChannel.setValue(completeNumber);
+            phoneList.add(commChannel);
         }
         return(phoneList);
     }
 
-    private List<String> getMobilePhoneNumbers(String entry){
+    private List<ContactPointDE> getMobilePhoneNumbers(String entry){
         if(entry == null || entry.length() < 8){
             return(new ArrayList<>());
         }
@@ -141,10 +169,13 @@ public class PractitionerRoleCSVReader {
             entrySet = new String[1];
             entrySet[0] = entry;
         }
-        ArrayList<String> phoneList = new ArrayList<>();
+        ArrayList<ContactPointDE> phoneList = new ArrayList<>();
         for(int counter = 0; counter < entrySet.length; counter += 1){
             String strippedString = entrySet[counter].strip();
-            phoneList.add(strippedString);
+            ContactPointDE commChannel = new ContactPointDE();
+            commChannel.setValue(strippedString);
+            commChannel.setType(ContactPointDETypeEnum.MOBILE);
+            phoneList.add(commChannel);
         }
         return(phoneList);
     }

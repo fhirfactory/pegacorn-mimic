@@ -43,9 +43,11 @@ public class FHIRServerClientMimic {
     private OrganizationCLIRPCServer organisationCLIServer;
 
     private String targetFHIRServerURL;
+    private boolean targetFHIRServerDefined;
 
     public FHIRServerClientMimic(){
-        initialised = false;
+        this.initialised = false;
+        this.targetFHIRServerDefined = false;
     }
 
     @PostConstruct
@@ -76,7 +78,48 @@ public class FHIRServerClientMimic {
     public String setFHIRServerURL(String inputString) throws Exception {
         LOG.info(".setFHIRServerURL(): Entry, message --> {}", inputString);
         this.targetFHIRServerURL = inputString;
+        this.targetFHIRServerDefined = true;
         LOG.info(".setFHIRServerURL(): FHIR Server URL set to --> {}", this.targetFHIRServerURL);
         return("OK");
+    }
+
+    public boolean isTargetFHIRServerDefined() {
+        return targetFHIRServerDefined;
+    }
+
+    public void setTargetFHIRServerDefined(boolean targetFHIRServerDefined) {
+        this.targetFHIRServerDefined = targetFHIRServerDefined;
+    }
+
+    public boolean isInitialised() {
+        return initialised;
+    }
+
+    public void setInitialised(boolean initialised) {
+        this.initialised = initialised;
+    }
+
+    public JChannel getChannel() {
+        return channel;
+    }
+
+    public void setChannel(JChannel channel) {
+        this.channel = channel;
+    }
+
+    public RpcDispatcher getRpcDispatcher() {
+        return rpcDispatcher;
+    }
+
+    public void setRpcDispatcher(RpcDispatcher rpcDispatcher) {
+        this.rpcDispatcher = rpcDispatcher;
+    }
+
+    public OrganizationCLIRPCServer getOrganisationCLIServer() {
+        return organisationCLIServer;
+    }
+
+    public void setOrganisationCLIServer(OrganizationCLIRPCServer organisationCLIServer) {
+        this.organisationCLIServer = organisationCLIServer;
     }
 }

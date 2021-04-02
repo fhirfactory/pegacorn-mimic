@@ -3,7 +3,8 @@ package net.fhirfactory.pegacorn.mimic.fhir.resourceservices.organization.api;
 import ca.uhn.fhir.rest.api.MethodOutcome;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.organization.tasks.OrganizationCVSLoaderTask;
+import net.fhirfactory.pegacorn.internals.directories.model.DirectoryMethodOutcome;
+import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.organization.tasks.OrganizationCreator;
 import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.intermediary.TrivialOrganization;
 import org.apache.camel.CamelContext;
 import org.jgroups.JChannel;
@@ -27,7 +28,7 @@ public class OrganizationCLIRPCServer {
     private CamelContext camelContext;
 
     @Inject
-    private OrganizationCVSLoaderTask cvsLoaderTask;
+    private OrganizationCreator cvsLoaderTask;
 
     public OrganizationCLIRPCServer(){
         initialised = false;
@@ -38,7 +39,6 @@ public class OrganizationCLIRPCServer {
         if(!initialised) {
             try {
                 JChannel organizationCLIServer = new JChannel().name("OrganizationRPC");
-//                JgroupsComponentBuilderFactory.jgroups().channel(organizationCLIServer).register(camelContext, "OrganizationRPC");
                 rpcDispatcher = new RpcDispatcher(organizationCLIServer, this);
                 organizationCLIServer.connect("ResourceCLI");
             } catch (Exception ex) {
@@ -67,7 +67,7 @@ public class OrganizationCLIRPCServer {
         LOG.info(".processRequest(): Check to see if the TrivialOrganization has been converted");
         if(trivOrg != null){
             LOG.info(".processRequest(): Invoke Organization Conversion & Server Creation process");
-            MethodOutcome outcome = cvsLoaderTask.doCommandCreateFromCSVEntry(trivOrg);
+            DirectoryMethodOutcome outcome = cvsLoaderTask.doCommandCreateFromCSVEntry(trivOrg);
             LOG.info(".processRequest(): Conversion/Creation process complete. Outcome --> {}", outcome);
             return(outcome.toString());
         }

@@ -1,11 +1,10 @@
 package net.fhirfactory.pegacorn.mimic.fhir.resourceservices.practitionerrole.api;
 
-import ca.uhn.fhir.rest.api.MethodOutcome;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.practitionerrole.tasks.PractitionerGroupCreator;
+import net.fhirfactory.pegacorn.internals.directories.entries.PractitionerRoleDirectoryEntry;
+import net.fhirfactory.pegacorn.internals.directories.model.DirectoryMethodOutcome;
 import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.practitionerrole.tasks.PractitionerRoleCreator;
-import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.intermediary.SimplisticPractitionerRole;
 import org.apache.camel.CamelContext;
 import org.jgroups.JChannel;
 import org.jgroups.blocks.RpcDispatcher;
@@ -29,9 +28,6 @@ public class PractitionerRoleCLIRPCServer {
 
     @Inject
     private PractitionerRoleCreator practitionerRoleCreator;
-
-    @Inject
-    private PractitionerGroupCreator practitionerGroupCreator;
 
     public PractitionerRoleCLIRPCServer(){
         initialised = false;
@@ -58,21 +54,19 @@ public class PractitionerRoleCLIRPCServer {
         LOG.info(".processRequest(): Entry, message --> {}", inputString);
         LOG.info(".processRequest(): Create a JSON Mapper");
         ObjectMapper jsonMapper = new ObjectMapper();
-        LOG.info(".processRequest(): Initialise the simplisticPR (SimplisticPractitionerRole) attribute");
-        SimplisticPractitionerRole simplisticPR = null;
+        LOG.info(".processRequest(): Initialise the practitionerRoleDE (PractitionerRoleDirectoryEntry) attribute");
+        PractitionerRoleDirectoryEntry practitionerRoleDE = null;
         try{
-            LOG.info(".processRequest(): Convert the incoming message string to a TrivialOrganization object");
-            simplisticPR = jsonMapper.readValue(inputString, SimplisticPractitionerRole.class);
+            LOG.info(".processRequest(): Convert the incoming message string to a PractitionerRoleDirectoryEntry object");
+            practitionerRoleDE = jsonMapper.readValue(inputString, PractitionerRoleDirectoryEntry.class);
         } catch(JsonMappingException mappingException){
             LOG.error(".processRequest(): JSON Mapper Error --> {}", mappingException.getMessage());
-            simplisticPR = null;
+            practitionerRoleDE = null;
         }
-        LOG.info(".processRequest(): Check to see if the SimplisticPractitionerRole has been converted");
-        if(simplisticPR != null){
-            LOG.info(".processRequest(): Invoke SimplisticPractitionerRole Conversion & Server Creation process");
-            MethodOutcome outcome = practitionerRoleCreator.createPractitionerRole(simplisticPR);
-            LOG.info(".processRequest(): Invoke SimplisticPractitionerRole Group Creation process");
-            MethodOutcome outcome2 = practitionerGroupCreator.createPractitionerGroup(simplisticPR);
+        LOG.info(".processRequest(): Check to see if the PractitionerRoleDirectoryEntry has been converted");
+        if(practitionerRoleDE != null){
+            LOG.info(".processRequest(): Invoke PractitionerRole/PractitionerRoleDirectoryEntry Conversion & Server Creation process");
+            DirectoryMethodOutcome outcome = practitionerRoleCreator.createPractitionerRole(practitionerRoleDE);
             LOG.info(".processRequest(): Conversion/Creation process complete. Outcome --> {}", outcome);
             return(outcome.toString());
         }

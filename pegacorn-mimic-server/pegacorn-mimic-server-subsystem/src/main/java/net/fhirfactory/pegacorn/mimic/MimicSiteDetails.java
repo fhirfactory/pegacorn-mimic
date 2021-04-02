@@ -1,6 +1,6 @@
 package net.fhirfactory.pegacorn.mimic;
 
-import net.fhirfactory.pegacorn.datasets.fhir.r4.internal.systems.DeploymentInstanceDetail;
+import net.fhirfactory.pegacorn.internals.fhir.r4.internal.systems.DeploymentInstanceDetail;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
 

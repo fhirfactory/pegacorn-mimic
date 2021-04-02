@@ -22,14 +22,12 @@
 package net.fhirfactory.pegacorn.mimic.fhirtools.organization.subcommands.organizationcsv;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.reactivex.internal.operators.observable.ObservableJoin;
 import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.intermediary.SimplisticOrganization;
 import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.intermediary.TrivialOrganization;
 import org.jgroups.Address;
 import org.jgroups.JChannel;
 import org.jgroups.View;
 import org.jgroups.blocks.*;
-import org.jgroups.util.Rsp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import picocli.CommandLine;
@@ -67,8 +65,8 @@ public class LoadFromCSVCLI implements Runnable{
         Class classes[] = new Class[1];
         classes[0] = String.class;
         for(SimplisticOrganization currentOrganization: simplisticOrganizations){
-            Object objectSet[] = new Object[1];
-            TrivialOrganization trivOrg = makeTrivial(currentOrganization);
+            java.lang.Object objectSet[] = new java.lang.Object[1];
+            Object trivOrg = makeTrivial(currentOrganization);
             String currentTrivialOrganization = TrivalObjectAsJSONString(trivOrg);
             objectSet[0] = currentTrivialOrganization;
             try {
@@ -103,7 +101,7 @@ public class LoadFromCSVCLI implements Runnable{
         }
     }
 
-    private String TrivalObjectAsJSONString(TrivialOrganization org){
+    private String TrivalObjectAsJSONString(Object org){
         try{
             ObjectMapper jsonMapper = new ObjectMapper();
             String orgAsString = jsonMapper.writeValueAsString(org);
@@ -122,7 +120,7 @@ public class LoadFromCSVCLI implements Runnable{
         trivialOrganization.setOrganizationTypeName(simple.getOrganizationTypeName());
         trivialOrganization.setParentOrganizationShortName(simple.getParentOrganizationShortName());
         for(SimplisticOrganization currentOrg: simple.getContainedOrgs()){
-            trivialOrganization.getContainedOrganisationShortNames().add(currentOrg.getOrganizationShortName());
+            trivialOrganization.getContainedOrgs().add(currentOrg.getOrganizationShortName());
         }
         return(trivialOrganization);
     }

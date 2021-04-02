@@ -1,6 +1,7 @@
 package net.fhirfactory.pegacorn.mimic.fhir;
 
 import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.organization.api.OrganizationCLIRPCServer;
+import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.practitioner.api.PractitionerCLIRPCServer;
 import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.practitionerrole.api.PractitionerRoleCLIRPCServer;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
@@ -24,11 +25,15 @@ public class ResourceCLIServer extends RouteBuilder {
     @Inject
     private FHIRServerClientMimic fhirServerClientMimic;
 
+    @Inject
+    private PractitionerCLIRPCServer practitionerCLIRPCServer;
+
     @PostConstruct
     public void initialise(){
         organizationCLIServer.doInitialisation();
         fhirServerClientMimic.doInitialisation();
         practitionerRoleCLIRPCServer.doInitialisation();
+        practitionerCLIRPCServer.doInitialisation();
     }
 
     @Override
