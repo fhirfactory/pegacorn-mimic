@@ -96,7 +96,7 @@ public class PractitionerRoleCSVReader {
             currentPractitionerRoleDirectoryEntry.setDisplayName(currentEntry.getPractitionerRoleLongName());
             // Set Role Category & RoleID
             currentPractitionerRoleDirectoryEntry.setPrimaryRoleCategory(currentEntry.getRoleCategory());
-            currentPractitionerRoleDirectoryEntry.setPrimaryRoleID(currentEntry.getRoleShortName());
+            currentPractitionerRoleDirectoryEntry.setPrimaryRole(currentEntry.getRoleShortName());
             // Add Telephone ContactPoints
             List<ContactPointDE> fixedLineNumbers = getFixedLineNumbers(currentEntry.getContactExtensions());
             currentPractitionerRoleDirectoryEntry.getContactPoints().addAll(fixedLineNumbers);

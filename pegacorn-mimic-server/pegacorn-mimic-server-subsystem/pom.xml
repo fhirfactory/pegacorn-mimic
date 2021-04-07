@@ -48,28 +48,7 @@
         <!--                         -->
         <dependency>
             <groupId>net.fhirfactory.pegacorn</groupId>
-            <artifactId>pegacorn-deployment-datasets</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-            <scope>compile</scope>
-            <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>net.fhirfactory.pegacorn</groupId>
-            <artifactId>pegacorn-deployment-properties</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-            <scope>compile</scope>
-            <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>net.fhirfactory.pegacorn</groupId>
             <artifactId>pegacorn-platform-commoncode</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-            <scope>compile</scope>
-            <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>net.fhirfactory.pegacorn</groupId>
-            <artifactId>pegacorn-mimic-common</artifactId>
             <version>1.0.0-SNAPSHOT</version>
             <scope>compile</scope>
             <type>jar</type>
@@ -89,6 +68,31 @@
             <type>jar</type>
         </dependency>
 
+        <!--                               -->
+        <!-- Pegacorn Deployment Libraries -->
+        <!--                               -->
+        <dependency>
+            <groupId>net.fhirfactory.pegacorn</groupId>
+            <artifactId>pegacorn-deployment-model</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <scope>compile</scope>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>net.fhirfactory.pegacorn</groupId>
+            <artifactId>pegacorn-deployment-properties</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <scope>compile</scope>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>net.fhirfactory.pegacorn</groupId>
+            <artifactId>pegacorn-deployment-datasets</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <scope>compile</scope>
+            <type>jar</type>
+        </dependency>
+
         <!--                          -->
         <!-- Pegacorn Mimic Libraries -->
         <!--                          -->
@@ -101,15 +105,25 @@
         </dependency>
         <dependency>
             <groupId>net.fhirfactory.pegacorn</groupId>
-            <artifactId>pegacorn-mimic-server-microapis-roleselection</artifactId>
+            <artifactId>pegacorn-mimic-common</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <scope>compile</scope>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>net.fhirfactory.pegacorn</groupId>
+            <artifactId>pegacorn-mimic-server-microapis-directoryservices</artifactId>
             <version>1.0.0-SNAPSHOT</version>
             <scope>compile</scope>
             <type>jar</type>
         </dependency>
 
+        <!--                                    -->
+        <!-- Pegacorn Building Blocks Libraries -->
+        <!--                                    -->
         <dependency>
             <groupId>net.fhirfactory.pegacorn</groupId>
-            <artifactId>pegacorn-mimic-common</artifactId>
+            <artifactId>pegacorn-buildingblocks-directoryservices</artifactId>
             <version>1.0.0-SNAPSHOT</version>
             <scope>compile</scope>
             <type>jar</type>
@@ -292,6 +306,7 @@
             </plugin>
             <!--Build configuration for the WAR plugin: -->
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>${version-org.apache.maven-war-plugin}</version>
                 <configuration>
@@ -306,6 +321,7 @@
                 <version>${version-org.apache.maven-surefire-plugin}</version>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>${version-org.apache.maven-failsafe-plugin}</version>
             </plugin>
