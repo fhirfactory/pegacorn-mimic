@@ -229,7 +229,20 @@
             <scope>compile</scope>
             <type>jar</type>
         </dependency>
-
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-rest</artifactId>
+            <version>${version-org.apache.camel}</version>
+            <scope>compile</scope>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-jackson</artifactId>
+            <version>${version-org.apache.camel}</version>
+            <scope>compile</scope>
+            <type>jar</type>
+        </dependency>
         <!--                     -->
         <!-- HAPI FHIR Libraries -->
         <!--                     -->
