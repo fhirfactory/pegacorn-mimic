@@ -21,46 +21,146 @@
  */
 package net.fhirfactory.pegacorn.mimic.fhir.resourceservices.practitionerrole.tasks;
 
-import net.fhirfactory.pegacorn.internals.directories.brokers.PractitionerRoleDirectoryResourceBroker;
-import net.fhirfactory.pegacorn.internals.directories.entries.PractitionerRoleDirectoryEntry;
-import net.fhirfactory.pegacorn.internals.directories.model.DirectoryMethodOutcome;
-import net.fhirfactory.pegacorn.internals.directories.model.DirectoryMethodOutcomeEnum;
-import net.fhirfactory.pegacorn.internals.directories.transformers.PractitionerRoleDirectoryEntry2FHIRPractitionerRole;
+import net.fhirfactory.pegacorn.internals.esr.brokers.LocationESRBroker;
+import net.fhirfactory.pegacorn.internals.esr.brokers.OrganizationESRBroker;
+import net.fhirfactory.pegacorn.internals.esr.brokers.PractitionerRoleESRBroker;
+import net.fhirfactory.pegacorn.internals.esr.resources.PractitionerRoleESR;
+import net.fhirfactory.pegacorn.internals.esr.resources.common.ExtremelySimplifiedResource;
+import net.fhirfactory.pegacorn.internals.esr.transactions.ESRMethodOutcome;
+import net.fhirfactory.pegacorn.internals.esr.transactions.ESRMethodOutcomeEnum;
+import net.fhirfactory.pegacorn.internals.esr.resources.common.CommonIdentifierESDTTypes;
+import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.IdentifierESDT;
 import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.common.ResourceStorageService;
+import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.intermediary.PractitionerRoleESRApproximate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 @ApplicationScoped
 public class PractitionerRoleCreator extends ResourceStorageService {
     private static final Logger LOG = LoggerFactory.getLogger(PractitionerRoleCreator.class);
 
     @Inject
-    private PractitionerRoleDirectoryEntry2FHIRPractitionerRole simplisticPR2PractitionerRole;
+    private PractitionerRoleESRBroker practitionerRoleDirectoryResourceBroker;
 
     @Inject
-    private PractitionerRoleDirectoryResourceBroker practitionerRoleDirectoryResourceBroker;
+    private CommonIdentifierESDTTypes commonIdentifierESDTTypes;
 
-    public DirectoryMethodOutcome createPractitionerRole(PractitionerRoleDirectoryEntry practitionerRoleDirectoryEntry){
-        LOG.info(".createPractitionerRole(): Entry, simplisticPR --> {}", practitionerRoleDirectoryEntry);
-        if(practitionerRoleDirectoryEntry == null){
-            LOG.info(".createPractitionerRole(): simplisticPR is null, return a failed MethodOutcome");
-            DirectoryMethodOutcome outcome = new DirectoryMethodOutcome();
-            outcome.setCreated(false);
-            outcome.setStatus(DirectoryMethodOutcomeEnum.CREATE_ENTRY_INVALID);
-            outcome.setStatusReason("PractitionerRoleDirectoryEntry resource is null");
-            return(outcome);
-        }
-        LOG.info(".createPractitionerRole(): Invoke the PractitionerRoleDirectoryResourceBroker and create local entry");
-        DirectoryMethodOutcome outcome = practitionerRoleDirectoryResourceBroker.createPractitionerRole(practitionerRoleDirectoryEntry);
-        LOG.info(".createPractitionerRole(): FHIR Server called, returning MethodOutcome");
-        return(outcome);
-    }
+    @Inject
+    private RoleCreator roleCreator;
+
+    @Inject
+    private RoleCategoryCreator roleCategoryCreator;
+
+    @Inject
+    private LocationESRBroker locationBroker;
+
+    @Inject
+    private OrganizationESRBroker organizationBroker;
 
     @Override
     protected Logger getLogger(){
         return(LOG);
+    }
+
+    public ESRMethodOutcome createPractitionerRole(PractitionerRoleESRApproximate practitionerRoleApprox){
+        LOG.info(".createPractitionerRole(): Entry, simplisticPR --> {}", practitionerRoleApprox);
+        if(practitionerRoleApprox == null){
+            LOG.info(".createPractitionerRole(): simplisticPR is null, return a failed MethodOutcome");
+            ESRMethodOutcome outcome = new ESRMethodOutcome();
+            outcome.setCreated(false);
+            outcome.setStatus(ESRMethodOutcomeEnum.CREATE_ENTRY_INVALID);
+            outcome.setStatusReason("PractitionerRoleDirectoryEntry resource is null");
+            return(outcome);
+        }
+        LOG.info(".createPractitionerRole(): Invoke the PractitionerRoleDirectoryResourceBroker and create local entry");
+        PractitionerRoleESR practitionerRole = new PractitionerRoleESR();
+        practitionerRole.getIdentifiers().addAll(practitionerRoleApprox.getIdentifiers());
+        practitionerRole.setDisplayName(practitionerRoleApprox.getDisplayName());
+        if(practitionerRoleApprox.isPrimaryLocationIDContextual()){
+            String locationID = getLocationID(practitionerRoleApprox.getPrimaryLocationID());
+            practitionerRole.setPrimaryLocationID(locationID);
+        } else {
+            practitionerRole.setPrimaryLocationID(practitionerRoleApprox.getPrimaryLocationID());
+        }
+        if(practitionerRoleApprox.isPrimaryOrganizationIDContextual()){
+            String organizationID = getOrganizationID(practitionerRoleApprox.getPrimaryOrganizationID());
+            practitionerRole.setPrimaryLocationID(organizationID);
+        } else {
+            practitionerRole.setPrimaryLocationID(practitionerRoleApprox.getPrimaryOrganizationID());
+        }
+        ArrayList<String> roles = new ArrayList<>();
+        roles.add(practitionerRoleApprox.getPrimaryRoleID());
+        String roleCategoryID = createRoleCategory(practitionerRoleApprox.getPrimaryRoleCategoryID(), roles);
+        practitionerRole.setPrimaryRoleCategoryID(roleCategoryID);
+        String roleID = createRole(roleCategoryID, practitionerRoleApprox);
+        practitionerRole.setPrimaryRoleID(roleID);
+        practitionerRole.getContactPoints().addAll(practitionerRoleApprox.getContactPoints());
+        practitionerRole.setPractitionerRoleADGroup(practitionerRoleApprox.getPractitionerRoleADGroup());
+        ESRMethodOutcome outcome = practitionerRoleDirectoryResourceBroker.createPractitionerRole(practitionerRoleApprox);
+        LOG.info(".createPractitionerRole(): PractitionerRoleESRBroker called, returning MethodOutcome");
+        return(outcome);
+    }
+
+    private String createRole(String roleCategoryID, PractitionerRoleESRApproximate practitionerRoleESRApproximate){
+        LOG.debug(".createRole(): Entry, roleCategory->{}, practitionerRole->{}", roleCategoryID, practitionerRoleESRApproximate);
+        if(roleCategoryID == null || practitionerRoleESRApproximate == null ){
+            LOG.debug(".createRole(): Exit, either roleCategoryID or practitionerRole are null");
+            return(null);
+        }
+        if(practitionerRoleESRApproximate.getPrimaryRoleID() == null){
+            LOG.debug(".createRole(): Exit, primaryRoleID is null");
+            return(null);
+        }
+        ESRMethodOutcome outcome = roleCreator.createRole(roleCategoryID, practitionerRoleESRApproximate.getPrimaryRoleID());
+        if(outcome.isCreated()){
+            LOG.debug(".createRole(): Exit, Role created.");
+            return(outcome.getId());
+        }
+        LOG.debug(".createRole(): Exit, Role failed to be created.");
+        return(null);
+    }
+
+    private String createRoleCategory(String roleCategoryID, List<String> roleIDs){
+        if(roleCategoryID == null ){
+            return(null);
+        }
+        ESRMethodOutcome outcome = roleCategoryCreator.createRoleCategory(roleCategoryID, roleIDs);
+        if(outcome.isCreated()){
+            return(outcome.getId());
+        }
+        return(null);
+    }
+
+    private String getLocationID(String providedName){
+        try {
+            ESRMethodOutcome outcome = locationBroker.searchForESRsUsingAttribute("leafValue", providedName, null, null, null, null);
+            if(outcome.isSearchSuccessful()) {
+                ExtremelySimplifiedResource esr = outcome.getSearchResult().get(0);
+                String identifierValue = esr.getSimplifiedID();
+                return (identifierValue);
+            }
+        } catch( Exception ex) {
+            // nothing
+        }
+        return(null);
+    }
+
+    private String getOrganizationID(String providedName){
+        try {
+            ESRMethodOutcome outcome = organizationBroker.searchForESRsUsingAttribute("leafValue", providedName, null, null, null, null);
+            if(outcome.isSearchSuccessful()) {
+                ExtremelySimplifiedResource esr = outcome.getSearchResult().get(0);
+                String identifierValue = esr.getSimplifiedID();
+                return (identifierValue);
+            }
+        } catch( Exception ex) {
+            // nothing
+        }
+        return(null);
     }
 }

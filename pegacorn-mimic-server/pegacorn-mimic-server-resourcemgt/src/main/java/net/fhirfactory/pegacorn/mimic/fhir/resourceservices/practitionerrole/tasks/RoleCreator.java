@@ -19,12 +19,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.fhirfactory.pegacorn.mimic.fhir.resourceservices.organization.tasks;
+package net.fhirfactory.pegacorn.mimic.fhir.resourceservices.practitionerrole.tasks;
 
-import net.fhirfactory.pegacorn.internals.esr.brokers.OrganizationESRBroker;
+import net.fhirfactory.pegacorn.internals.esr.brokers.RoleESRBroker;
 import net.fhirfactory.pegacorn.internals.esr.transactions.ESRMethodOutcome;
 import net.fhirfactory.pegacorn.internals.esr.transactions.ESRMethodOutcomeEnum;
-import net.fhirfactory.pegacorn.internals.esr.resources.OrganizationESR;
 import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.common.ResourceStorageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,30 +32,30 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 @ApplicationScoped
-public class OrganizationCreator extends ResourceStorageService {
-    private static final Logger LOG = LoggerFactory.getLogger(OrganizationCreator.class);
+public class RoleCreator extends ResourceStorageService {
+    private static final Logger LOG = LoggerFactory.getLogger(RoleCreator.class);
 
     @Inject
-    private OrganizationESRBroker organizationESRBroker;
-
-    public ESRMethodOutcome createOrganization(OrganizationESR organizationESR){
-        LOG.info(".createOrganization(): Entry, organizationESR --> {}", organizationESR);
-        if(organizationESR == null){
-            LOG.info(".createOrganization(): organizationESR is null, return a failed MethodOutcome");
-            ESRMethodOutcome outcome = new ESRMethodOutcome();
-            outcome.setCreated(false);
-            outcome.setStatus(ESRMethodOutcomeEnum.CREATE_ENTRY_INVALID);
-            outcome.setStatusReason("createOrganization resource is null");
-            return(outcome);
-        }
-        LOG.info(".createOrganization(): Invoke the OrganizationESRBroker and create local entry");
-        ESRMethodOutcome outcome = organizationESRBroker.createOrganizationDE(organizationESR);
-        LOG.info(".createOrganization(): FHIR Server called, returning MethodOutcome");
-        return(outcome);
-    }
+    private RoleESRBroker roleBroker;
 
     @Override
     protected Logger getLogger(){
         return(LOG);
+    }
+
+    public ESRMethodOutcome createRole(String roleCategoryID, String roleID){
+        LOG.info(".createRole(): Entry, roleCategoryID --> {}, role --> {}", roleCategoryID, roleID );
+        if(roleID == null){
+            LOG.info(".createRole(): roleID is null, return a failed MethodOutcome");
+            ESRMethodOutcome outcome = new ESRMethodOutcome();
+            outcome.setCreated(false);
+            outcome.setStatus(ESRMethodOutcomeEnum.CREATE_ENTRY_INVALID);
+            outcome.setStatusReason("createRole resource is null");
+            return(outcome);
+        }
+        LOG.info(".createRole(): Invoke the RoleESRBroker and create local entry");
+        ESRMethodOutcome outcome = roleBroker.createRole(roleCategoryID, roleID);
+        LOG.info(".createRole(): FHIR Server called, returning MethodOutcome");
+        return(outcome);
     }
 }

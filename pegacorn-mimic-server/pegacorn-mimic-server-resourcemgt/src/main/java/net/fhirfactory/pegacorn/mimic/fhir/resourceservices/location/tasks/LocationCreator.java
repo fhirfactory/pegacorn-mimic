@@ -19,12 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.fhirfactory.pegacorn.mimic.fhir.resourceservices.organization.tasks;
+package net.fhirfactory.pegacorn.mimic.fhir.resourceservices.location.tasks;
 
-import net.fhirfactory.pegacorn.internals.esr.brokers.OrganizationESRBroker;
+import net.fhirfactory.pegacorn.internals.esr.brokers.LocationESRBroker;
 import net.fhirfactory.pegacorn.internals.esr.transactions.ESRMethodOutcome;
 import net.fhirfactory.pegacorn.internals.esr.transactions.ESRMethodOutcomeEnum;
-import net.fhirfactory.pegacorn.internals.esr.resources.OrganizationESR;
+import net.fhirfactory.pegacorn.internals.esr.resources.LocationESR;
 import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.common.ResourceStorageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,25 +33,25 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 @ApplicationScoped
-public class OrganizationCreator extends ResourceStorageService {
-    private static final Logger LOG = LoggerFactory.getLogger(OrganizationCreator.class);
+public class LocationCreator extends ResourceStorageService {
+    private static final Logger LOG = LoggerFactory.getLogger(LocationCreator.class);
 
     @Inject
-    private OrganizationESRBroker organizationESRBroker;
+    private LocationESRBroker esrBroker;
 
-    public ESRMethodOutcome createOrganization(OrganizationESR organizationESR){
-        LOG.info(".createOrganization(): Entry, organizationESR --> {}", organizationESR);
-        if(organizationESR == null){
-            LOG.info(".createOrganization(): organizationESR is null, return a failed MethodOutcome");
+    public ESRMethodOutcome createLocation(LocationESR location){
+        LOG.info(".createLocation(): Entry, location --> {}", location);
+        if(location == null){
+            LOG.info(".createLocation(): location is null, return a failed MethodOutcome");
             ESRMethodOutcome outcome = new ESRMethodOutcome();
             outcome.setCreated(false);
             outcome.setStatus(ESRMethodOutcomeEnum.CREATE_ENTRY_INVALID);
-            outcome.setStatusReason("createOrganization resource is null");
+            outcome.setStatusReason("createLocation resource is null");
             return(outcome);
         }
-        LOG.info(".createOrganization(): Invoke the OrganizationESRBroker and create local entry");
-        ESRMethodOutcome outcome = organizationESRBroker.createOrganizationDE(organizationESR);
-        LOG.info(".createOrganization(): FHIR Server called, returning MethodOutcome");
+        LOG.info(".createLocation(): Invoke the OrganizationESRBroker and create local entry");
+        ESRMethodOutcome outcome = esrBroker.createLocationDE(location);
+        LOG.info(".createLocation(): FHIR Server called, returning MethodOutcome");
         return(outcome);
     }
 

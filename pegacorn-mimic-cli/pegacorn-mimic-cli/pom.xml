@@ -24,5 +24,6 @@
         <module>../pegacorn-mimic-cli-organization</module>
         <module>../pegacorn-mimic-cli-healthcareservice</module>
         <module>../pegacorn-mimic-cli-practitioner</module>
+        <module>../pegacorn-mimic-cli-location</module>
     </modules>
 </project>

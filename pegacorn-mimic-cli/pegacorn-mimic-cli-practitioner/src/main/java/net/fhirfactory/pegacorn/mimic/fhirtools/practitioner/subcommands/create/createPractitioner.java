@@ -22,8 +22,8 @@
 package net.fhirfactory.pegacorn.mimic.fhirtools.practitioner.subcommands.create;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.fhirfactory.pegacorn.internals.directories.entries.PractitionerDirectoryEntry;
-import net.fhirfactory.pegacorn.internals.directories.entries.datatypes.*;
+import net.fhirfactory.pegacorn.internals.esr.resources.PractitionerESR;
+import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.*;
 import org.jgroups.Address;
 import org.jgroups.JChannel;
 import org.jgroups.View;
@@ -68,36 +68,36 @@ public class createPractitioner implements Runnable{
 
     public void doCreate(){
         LOG.info(".doCreate(): Entry");
-        PractitionerDirectoryEntry practitioner = new PractitionerDirectoryEntry();
+        PractitionerESR practitioner = new PractitionerESR();
         practitioner.setEmailAddress(getPractitionerEmail());
         practitioner.setDisplayName(getPractitionerName());
         // Name
-        HumanNameDE practitionerName = new HumanNameDE();
+        HumanNameESDT practitionerName = new HumanNameESDT();
         practitionerName.setDisplayName(getPractitionerName());
         String[] nameSplit = getPractitionerName().split(" ");
         if(nameSplit.length == 2){
             practitionerName.setPreferredGivenName(nameSplit[0]);
             practitionerName.setFamilyName(nameSplit[1]);
-            practitionerName.setNameUse(HumanNameDEUseEnum.OFFICIAL);
+            practitionerName.setNameUse(HumanNameESDTUseEnum.OFFICIAL);
         }
         EffectivePeriod period = new EffectivePeriod();
         period.setStartDate(Date.from(Instant.now()));
         practitionerName.setPeriod(period);
         practitioner.setOfficialName(practitionerName);
         // Extension
-        ContactPointDE primaryPhone = new ContactPointDE();
+        ContactPointESDT primaryPhone = new ContactPointESDT();
         primaryPhone.setName("Extension");
         primaryPhone.setValue(extensionNumber);
-        primaryPhone.setType(ContactPointDETypeEnum.PABX_EXTENSION);
-        primaryPhone.setUse(ContactPointDEUseEnum.WORK);
+        primaryPhone.setType(ContactPointESDTTypeEnum.PABX_EXTENSION);
+        primaryPhone.setUse(ContactPointESDTUseEnum.WORK);
         primaryPhone.setRank(1);
         practitioner.getContactPoints().add(primaryPhone);
         // Mobile
-        ContactPointDE mobilePhone = new ContactPointDE();
+        ContactPointESDT mobilePhone = new ContactPointESDT();
         mobilePhone.setName("Mobile");
         mobilePhone.setValue(mobileNumber);
-        mobilePhone.setType(ContactPointDETypeEnum.MOBILE);
-        primaryPhone.setUse(ContactPointDEUseEnum.WORK);
+        mobilePhone.setType(ContactPointESDTTypeEnum.MOBILE);
+        primaryPhone.setUse(ContactPointESDTUseEnum.WORK);
         primaryPhone.setRank(2);
         practitioner.getContactPoints().add(mobilePhone);
         String practitionerAsString = entryAsJSONObject(practitioner);
@@ -153,7 +153,7 @@ public class createPractitioner implements Runnable{
         }
     }
 
-    private String entryAsJSONObject(PractitionerDirectoryEntry practitioner){
+    private String entryAsJSONObject(PractitionerESR practitioner){
         try{
             ObjectMapper jsonMapper = new ObjectMapper();
             String orgAsString = jsonMapper.writerWithDefaultPrettyPrinter().writeValueAsString(practitioner);

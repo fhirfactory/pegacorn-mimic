@@ -19,11 +19,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.fhirfactory.pegacorn.mimic.fhirtools.organization.subcommands.organizationcsv;
+package net.fhirfactory.pegacorn.mimic.fhirtools.location.subcommands.locationcsv;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.fhirfactory.pegacorn.internals.esr.resources.OrganizationESR;
-import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.intermediary.TrivialOrganization;
+import net.fhirfactory.pegacorn.internals.esr.resources.LocationESR;
 import org.jgroups.Address;
 import org.jgroups.JChannel;
 import org.jgroups.View;
@@ -36,12 +35,12 @@ import java.util.List;
 
 @CommandLine.Command(
         name="loadCSV",
-        description="Loads Organization Elements into a FHIR Service"
+        description="Loads Location Elements into a FHIR Service"
 )
 public class LoadFromCSVCLI implements Runnable{
     private static final Logger LOG = LoggerFactory.getLogger(LoadFromCSVCLI.class);
     private Address actualAddress;
-    private JChannel organizationRPCClient;
+    private JChannel locationRPCClient;
     private RpcDispatcher rpcDispatcher;
 
     @CommandLine.Option(names = {"-f", "--filename"})
@@ -57,19 +56,19 @@ public class LoadFromCSVCLI implements Runnable{
     public void doLoadFromCSV(){
         LOG.info(".doLoadFromCSV(): Entry");
 
-        OrganizationCSVReader cvsReader = new OrganizationCSVReader();
-        cvsReader.readOrganizationCSV(this.fileName);
-        List<OrganizationESR> organizationESRList = cvsReader.organiseOrganizationHierarchy();
+        LocationCSVReader cvsReader = new LocationCSVReader();
+        cvsReader.readLocationCSV(this.fileName);
+        List<LocationESR> locationList = cvsReader.organiseLocationHierarchy();
         initialiseJGroupsChannel();
         RequestOptions requestOptions = new RequestOptions(ResponseMode.GET_FIRST, 5000);
         Class classes[] = new Class[1];
         classes[0] = String.class;
-        for(OrganizationESR currentOrganization: organizationESRList){
+        for(LocationESR currentLocation: locationList){
             java.lang.Object objectSet[] = new java.lang.Object[1];
-            String currentTrivialOrganization = TrivalObjectAsJSONString(currentOrganization);
-            objectSet[0] = currentTrivialOrganization;
+            String locationAsString = ESRObjectAsJSONString(currentLocation);
+            objectSet[0] = locationAsString;
             try {
-                LOG.info(".doLoadFromCSV(): Sending request --> {}", currentTrivialOrganization);
+                LOG.info(".doLoadFromCSV(): Sending request --> {}", locationAsString);
                 String response = rpcDispatcher.callRemoteMethod(this.actualAddress, "processRequest", objectSet, classes, requestOptions);
                 LOG.info(".doLoadFromCSV(): Response --> {}", response);
             } catch(Exception ex){
@@ -83,28 +82,28 @@ public class LoadFromCSVCLI implements Runnable{
     void initialiseJGroupsChannel(){
         try {
             LOG.info(".initialiseJGroupsChannel(): Entry");
-            this.organizationRPCClient = new JChannel("udp.xml").name("OrganizationRCPClient");
-            this.organizationRPCClient.connect("ResourceCLI");
-            View view = this.organizationRPCClient.view();
+            this.locationRPCClient = new JChannel("udp.xml").name("LocationRCPClient");
+            this.locationRPCClient.connect("ResourceCLI");
+            View view = this.locationRPCClient.view();
             List<Address> members = view.getMembers();
             for(Address member: members) {
-                if ("OrganizationRPC".contentEquals(member.toString())) {
+                if ("LocationRPC".contentEquals(member.toString())) {
                     LOG.info(".initialiseJGroupsChannel(): Found Server Endpoint");
                     this.actualAddress = member;
                     break;
                 }
             }
-            this.rpcDispatcher = new RpcDispatcher(this.organizationRPCClient,null);
+            this.rpcDispatcher = new RpcDispatcher(this.locationRPCClient,null);
         } catch(Exception ex){
             LOG.error(".initialiseJGroupsChannel(): Error --> " + ex.toString());
         }
     }
 
-    private String TrivalObjectAsJSONString(Object org){
+    private String ESRObjectAsJSONString(LocationESR location){
         try{
             ObjectMapper jsonMapper = new ObjectMapper();
-            String orgAsString = jsonMapper.writeValueAsString(org);
-            return(orgAsString);
+            String locationAsString = jsonMapper.writeValueAsString(location);
+            return(locationAsString);
         } catch(Exception ex){
             ex.printStackTrace();
         }
@@ -119,12 +118,12 @@ public class LoadFromCSVCLI implements Runnable{
         this.actualAddress = actualAddress;
     }
 
-    public JChannel getOrganizationRPCClient() {
-        return organizationRPCClient;
+    public JChannel getLocationRPCClient() {
+        return locationRPCClient;
     }
 
-    public void setOrganizationRPCClient(JChannel organizationRPCClient) {
-        this.organizationRPCClient = organizationRPCClient;
+    public void setLocationRPCClient(JChannel locationRPCClient) {
+        this.locationRPCClient = locationRPCClient;
     }
 
     public String getFileName() {

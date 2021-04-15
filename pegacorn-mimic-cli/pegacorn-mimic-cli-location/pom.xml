@@ -6,15 +6,16 @@
 
     <parent>
         <groupId>net.fhirfactory.pegacorn</groupId>
-        <artifactId>pegacorn-mimic</artifactId>
+        <artifactId>pegacorn-mimic-cli</artifactId>
         <version>1.0.0-SNAPSHOT</version>
-        <relativePath>../pegacorn-mimic</relativePath>
+        <relativePath>../pegacorn-mimic-cli</relativePath>
     </parent>
 
-    <artifactId>pegacorn-mimic-common</artifactId>
+    <artifactId>pegacorn-mimic-cli-location</artifactId>
     <packaging>jar</packaging>
 
-    <name>Pegacorn :: Mimic :: Common (Models)</name>
+    <name>Pegacorn :: Mimic :: CLI :: Location</name>
+    <description>CLI for Locations details (including a CSV loader)</description>
 
     <licenses>
         <license>
@@ -42,12 +43,6 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>javax.enterprise</groupId>
-            <artifactId>cdi-api</artifactId>
-            <version>${version-javax.enterprise-cdi-api}</version>
-            <scope>provided</scope>
-        </dependency>
 
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -68,18 +63,17 @@
             <version>${version-com.fasterxml.jackson.core-jackson-core}</version>
         </dependency>
 
-
-        <!-- Pegacorn Deployment Datasets -->
         <dependency>
-            <groupId>net.fhirfactory.pegacorn</groupId>
-            <artifactId>pegacorn-deployment-datasets</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${version-com.fasterxml.jackson.core-jackson-core}</version>
         </dependency>
-        <!-- Pegacorn Deployment Datasets -->
+
+
+        <!-- Pegacorn Mimic Datasets -->
         <dependency>
             <groupId>net.fhirfactory.pegacorn</groupId>
-            <artifactId>pegacorn-buildingblocks-datamodels-esr</artifactId>
+            <artifactId>pegacorn-mimic-common</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
@@ -90,24 +84,6 @@
             <version>4.1</version>
         </dependency>
 
-        <!-- This dependency includes the core HAPI-FHIR classes -->
-        <dependency>
-            <groupId>ca.uhn.hapi.fhir</groupId>
-            <artifactId>hapi-fhir-base</artifactId>
-            <version>${version-ca.uhn.hapi.fhir}</version>
-        </dependency>
-        <!-- At least one "structures" JAR must also be included -->
-        <dependency>
-            <groupId>ca.uhn.hapi.fhir</groupId>
-            <artifactId>hapi-fhir-structures-r4</artifactId>
-            <version>${version-ca.uhn.hapi.fhir}</version>
-        </dependency>
-        <!-- Used for validation -->
-        <dependency>
-            <groupId>ca.uhn.hapi.fhir</groupId>
-            <artifactId>hapi-fhir-validation-resources-r4</artifactId>
-            <version>${version-ca.uhn.hapi.fhir}</version>
-        </dependency>
         <dependency>
             <groupId>info.picocli</groupId>
             <artifactId>picocli</artifactId>
@@ -134,6 +110,7 @@
                     <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 

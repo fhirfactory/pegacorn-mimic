@@ -21,10 +21,10 @@
  */
 package net.fhirfactory.pegacorn.mimic.fhir.resourceservices.practitioner.tasks;
 
-import net.fhirfactory.pegacorn.internals.directories.brokers.PractitionerDirectoryResourceBroker;
-import net.fhirfactory.pegacorn.internals.directories.entries.PractitionerDirectoryEntry;
-import net.fhirfactory.pegacorn.internals.directories.model.DirectoryMethodOutcome;
-import net.fhirfactory.pegacorn.internals.directories.model.DirectoryMethodOutcomeEnum;
+import net.fhirfactory.pegacorn.internals.esr.brokers.PractitionerESRBroker;
+import net.fhirfactory.pegacorn.internals.esr.resources.PractitionerESR;
+import net.fhirfactory.pegacorn.internals.esr.transactions.ESRMethodOutcome;
+import net.fhirfactory.pegacorn.internals.esr.transactions.ESRMethodOutcomeEnum;
 import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.common.ResourceStorageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,20 +37,20 @@ public class PractitionerCreator extends ResourceStorageService {
     private static final Logger LOG = LoggerFactory.getLogger(PractitionerCreator.class);
 
     @Inject
-    private PractitionerDirectoryResourceBroker practitionerDirectoryResourceBroker;
+    private PractitionerESRBroker practitionerDirectoryResourceBroker;
 
-    public DirectoryMethodOutcome createPractitioner(PractitionerDirectoryEntry practitionerDirectoryEntry){
-        LOG.info(".createPractitioner(): Entry, practitionerDirectoryEntry --> {}", practitionerDirectoryEntry);
-        if(practitionerDirectoryEntry == null){
+    public ESRMethodOutcome createPractitioner(PractitionerESR practitionerESR){
+        LOG.info(".createPractitioner(): Entry, practitionerDirectoryEntry --> {}", practitionerESR);
+        if(practitionerESR == null){
             LOG.info(".createPractitioner(): practitionerDirectoryEntry is null, return a failed MethodOutcome");
-            DirectoryMethodOutcome outcome = new DirectoryMethodOutcome();
+            ESRMethodOutcome outcome = new ESRMethodOutcome();
             outcome.setStatusReason("PractitionerDirectoryEntry resource is null");
             outcome.setCreated(false);
-            outcome.setStatus(DirectoryMethodOutcomeEnum.CREATE_ENTRY_INVALID);
+            outcome.setStatus(ESRMethodOutcomeEnum.CREATE_ENTRY_INVALID);
             return(outcome);
         }
         LOG.info(".createPractitioner(): Invoke the PractitionerDirectoryResourceBroker and create local entry");
-        DirectoryMethodOutcome outcome = practitionerDirectoryResourceBroker.createPractitioner(practitionerDirectoryEntry);
+        ESRMethodOutcome outcome = practitionerDirectoryResourceBroker.createPractitionerDE(practitionerESR);
         LOG.info(".createPractitioner(): FHIR Server called, returning MethodOutcome");
         return(outcome);
     }

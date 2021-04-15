@@ -2,8 +2,9 @@ package net.fhirfactory.pegacorn.mimic.fhir.resourceservices.practitioner.api;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.fhirfactory.pegacorn.internals.directories.entries.PractitionerDirectoryEntry;
-import net.fhirfactory.pegacorn.internals.directories.model.DirectoryMethodOutcome;
+import net.fhirfactory.pegacorn.internals.esr.resources.PractitionerESR;
+import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.IdentifierESDTUseEnum;
+import net.fhirfactory.pegacorn.internals.esr.transactions.ESRMethodOutcome;
 import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.practitioner.tasks.PractitionerCreator;
 import org.apache.camel.CamelContext;
 import org.jgroups.JChannel;
@@ -55,19 +56,20 @@ public class PractitionerCLIRPCServer {
         LOG.info(".createPractitioner(): Create a JSON Mapper");
         ObjectMapper jsonMapper = new ObjectMapper();
         LOG.info(".createPractitioner(): Initialise the practitionerDirectoryEntry (PractitionerDirectoryEntry) attribute");
-        PractitionerDirectoryEntry practitionerDirectoryEntry = null;
+        PractitionerESR practitionerESR = null;
         try{
             LOG.info(".createPractitioner(): Convert the incoming message string to a PractitionerDirectoryEntry object");
-            practitionerDirectoryEntry = jsonMapper.readValue(inputString, PractitionerDirectoryEntry.class);
+            practitionerESR = jsonMapper.readValue(inputString, PractitionerESR.class);
             LOG.info(".createPractitioner(): Conversion successful....");
         } catch(JsonMappingException mappingException){
             LOG.error(".createPractitioner(): JSON Mapper Error --> {}", mappingException.getMessage());
             mappingException.printStackTrace();
-            practitionerDirectoryEntry = null;
+            practitionerESR = null;
         }
-        if(practitionerDirectoryEntry != null){
+        if(practitionerESR != null){
             LOG.info(".createPractitioner(): Invoke PractitionerDirectoryEntry Conversion & Server Creation process");
-            DirectoryMethodOutcome outcome = practitionerCreator.createPractitioner(practitionerDirectoryEntry);
+            practitionerESR.assignSimplifiedID(true, "EmailAddress", IdentifierESDTUseEnum.USUAL);
+            ESRMethodOutcome outcome = practitionerCreator.createPractitioner(practitionerESR);
             LOG.info(".createPractitioner(): Conversion/Creation process complete. Outcome --> {}", outcome);
             return(outcome.toString());
         }

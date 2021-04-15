@@ -24,10 +24,10 @@ package net.fhirfactory.pegacorn.mimic.fhirtools.practitionerrole.subcommands.pr
 import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
-import net.fhirfactory.pegacorn.internals.directories.entries.PractitionerRoleDirectoryEntry;
-import net.fhirfactory.pegacorn.internals.directories.entries.datatypes.*;
+import net.fhirfactory.pegacorn.internals.esr.resources.common.CommonIdentifierESDTTypes;
+import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.*;
 import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.cvsentries.PractitionerRoleCSVEntry;
-import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.intermediary.SimplisticOrganization;
+import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.intermediary.PractitionerRoleESRApproximate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -68,66 +68,59 @@ public class PractitionerRoleCSVReader {
         return(this.elementList);
     }
 
-    public List<PractitionerRoleDirectoryEntry> convertCSVEntry2PractitionerRoleLite(List<PractitionerRoleCSVEntry> prSet){
+    public List<PractitionerRoleESRApproximate> convertCSVEntry2PractitionerRoleLite(List<PractitionerRoleCSVEntry> prSet){
         LOG.debug(".convertCSVEntry2PractitionerRoleLite(): Entry");
-        ArrayList<PractitionerRoleDirectoryEntry> workingList = new ArrayList<>();
+        CommonIdentifierESDTTypes identifierTypes = new CommonIdentifierESDTTypes();
+        ArrayList<PractitionerRoleESRApproximate> workingList = new ArrayList<>();
         LOG.trace(".convertCSVEntry2PractitionerRoleLite(): Iterate through CSV Entries and Converting to PractitionerRoleLite");
         for(PractitionerRoleCSVEntry currentEntry: prSet) {
-            PractitionerRoleDirectoryEntry currentPractitionerRoleDirectoryEntry = new PractitionerRoleDirectoryEntry();
+            PractitionerRoleESRApproximate practitionerRoleESRApproximate = new PractitionerRoleESRApproximate();
             // Add Organization
-            IdentifierDE organizationIdentifier = new IdentifierDE();
-            organizationIdentifier.setValue(currentEntry.getOrganisationUnitShortName());
-            organizationIdentifier.setType("ShortName");
-            organizationIdentifier.setUse(IdentifierDEUseEnum.USUAL);
-            currentPractitionerRoleDirectoryEntry.setPrimaryOrganizationID(organizationIdentifier);
+            practitionerRoleESRApproximate.setPrimaryOrganizationID(currentEntry.getOrganisationUnitShortName());
+            practitionerRoleESRApproximate.setPrimaryOrganizationIDContextual(true);
             // Add ShortName
-            IdentifierDE practitionerRoleIdentifier0 = new IdentifierDE();
+            IdentifierESDT practitionerRoleIdentifier0 = new IdentifierESDT();
             practitionerRoleIdentifier0.setType("ShortName");
-            practitionerRoleIdentifier0.setUse(IdentifierDEUseEnum.OFFICIAL);
+            practitionerRoleIdentifier0.setUse(IdentifierESDTUseEnum.USUAL);
             practitionerRoleIdentifier0.setValue(currentEntry.getPractitionerRoleShortName());
-            currentPractitionerRoleDirectoryEntry.addIdentifier(practitionerRoleIdentifier0);
+            practitionerRoleIdentifier0.setLeafValue(currentEntry.getPractitionerRoleShortName());
+            practitionerRoleESRApproximate.addIdentifier(practitionerRoleIdentifier0);
             // Add LongName
-            IdentifierDE practitionerRoleIdentifier1 = new IdentifierDE();
+            IdentifierESDT practitionerRoleIdentifier1 = new IdentifierESDT();
             practitionerRoleIdentifier1.setType("LongName");
-            practitionerRoleIdentifier1.setUse(IdentifierDEUseEnum.SECONDARY);
+            practitionerRoleIdentifier1.setUse(IdentifierESDTUseEnum.SECONDARY);
             practitionerRoleIdentifier1.setValue(currentEntry.getPractitionerRoleLongName());
-            currentPractitionerRoleDirectoryEntry.addIdentifier(practitionerRoleIdentifier1);
+            practitionerRoleIdentifier1.setLeafValue(currentEntry.getPractitionerRoleLongName());
+            practitionerRoleESRApproximate.addIdentifier(practitionerRoleIdentifier1);
             // Display Name
-            currentPractitionerRoleDirectoryEntry.setDisplayName(currentEntry.getPractitionerRoleLongName());
+            practitionerRoleESRApproximate.setDisplayName(currentEntry.getPractitionerRoleShortName());
+            practitionerRoleESRApproximate.setDescription(currentEntry.getPractitionerRoleLongName());
             // Set Role Category & RoleID
-            currentPractitionerRoleDirectoryEntry.setPrimaryRoleCategory(currentEntry.getRoleCategory());
-            currentPractitionerRoleDirectoryEntry.setPrimaryRole(currentEntry.getRoleShortName());
+            practitionerRoleESRApproximate.setPrimaryRoleCategoryID(currentEntry.getRoleCategory());
+            practitionerRoleESRApproximate.setPrimaryRoleCategoryIDContextual(true);
+            practitionerRoleESRApproximate.setPrimaryRoleID(currentEntry.getRoleShortName());
+            practitionerRoleESRApproximate.setPrimaryRoleIDContextual(true);
             // Add Telephone ContactPoints
-            List<ContactPointDE> fixedLineNumbers = getFixedLineNumbers(currentEntry.getContactExtensions());
-            currentPractitionerRoleDirectoryEntry.getContactPoints().addAll(fixedLineNumbers);
-            // Add Location
-            IdentifierDE locationIdentifier = new IdentifierDE();
-            locationIdentifier.setType("Campus");
-            locationIdentifier.setUse(IdentifierDEUseEnum.SECONDARY);
-            locationIdentifier.setValue(currentEntry.getLocationTag());
-            currentPractitionerRoleDirectoryEntry.setPrimaryLocationID(locationIdentifier);
+            List<ContactPointESDT> fixedLineNumbers = getFixedLineNumbers(currentEntry.getContactExtensions());
+            practitionerRoleESRApproximate.getContactPoints().addAll(fixedLineNumbers);
+            // Add Location (TODO Need to add better location primaryKey establishment)
+            practitionerRoleESRApproximate.setPrimaryLocationID(currentEntry.getLocationTag());
+            practitionerRoleESRApproximate.setPrimaryLocationIDContextual(true);
             // Add Active Directory Group
-            currentPractitionerRoleDirectoryEntry.setPractitionerRoleADGroup(currentEntry.getActiveDirectoryGroup());
+            practitionerRoleESRApproximate.setPractitionerRoleADGroup(currentEntry.getActiveDirectoryGroup());
             // Add Mobile Phone ContactPoints
-            List<ContactPointDE> mobilePhoneNumbers = getMobilePhoneNumbers(currentEntry.getContactMobile());
-            currentPractitionerRoleDirectoryEntry.getContactPoints().addAll(mobilePhoneNumbers);
+            List<ContactPointESDT> mobilePhoneNumbers = getMobilePhoneNumbers(currentEntry.getContactMobile());
+            practitionerRoleESRApproximate.getContactPoints().addAll(mobilePhoneNumbers);
+            // Assign SimplifiedID
+            practitionerRoleESRApproximate.assignSimplifiedID(true, identifierTypes.getShortName(), IdentifierESDTUseEnum.USUAL);
             // All done!
-            workingList.add(currentPractitionerRoleDirectoryEntry);
+            workingList.add(practitionerRoleESRApproximate);
         }
         LOG.debug(".convertCSVEntry2PractitionerRoleLite(): Exit, Organization hierarchy established");
         return(workingList);
     }
 
-    private void printHierarchy(SimplisticOrganization leaf){
-        String outputString = leaf.getOrganizationShortName();
-        while(leaf.getParentOrganization() != null){
-            leaf = leaf.getParentOrganization();
-            outputString = leaf.getOrganizationShortName() + "->" + outputString;
-        }
-        LOG.info("Hierarchy: {}", outputString);
-    }
-
-    private List<ContactPointDE> getFixedLineNumbers(String entry){
+    private List<ContactPointESDT> getFixedLineNumbers(String entry){
         if(entry == null || entry.length() < 5){
             return(new ArrayList<>());
         }
@@ -138,27 +131,27 @@ public class PractitionerRoleCSVReader {
             entrySet = new String[1];
             entrySet[0] = entry;
         }
-        ArrayList<ContactPointDE> phoneList = new ArrayList<>();
+        ArrayList<ContactPointESDT> phoneList = new ArrayList<>();
         for(int counter = 0; counter < entrySet.length; counter += 1){
             String strippedString = entrySet[counter].strip();
             String completeNumber = "";
-            ContactPointDETypeEnum channelType = ContactPointDETypeEnum.LANDLINE;
+            ContactPointESDTTypeEnum channelType = ContactPointESDTTypeEnum.LANDLINE;
             if(strippedString.length() == 5){
                 completeNumber = SWITCH_PREFIX_NUMBER + strippedString;
-                channelType = ContactPointDETypeEnum.PABX_EXTENSION;
+                channelType = ContactPointESDTTypeEnum.PABX_EXTENSION;
             } else {
                 completeNumber = strippedString;
             }
-            ContactPointDE commChannel = new ContactPointDE();
+            ContactPointESDT commChannel = new ContactPointESDT();
             commChannel.setType(channelType);
-            commChannel.setUse(ContactPointDEUseEnum.WORK);
+            commChannel.setUse(ContactPointESDTUseEnum.WORK);
             commChannel.setValue(completeNumber);
             phoneList.add(commChannel);
         }
         return(phoneList);
     }
 
-    private List<ContactPointDE> getMobilePhoneNumbers(String entry){
+    private List<ContactPointESDT> getMobilePhoneNumbers(String entry){
         if(entry == null || entry.length() < 8){
             return(new ArrayList<>());
         }
@@ -169,12 +162,12 @@ public class PractitionerRoleCSVReader {
             entrySet = new String[1];
             entrySet[0] = entry;
         }
-        ArrayList<ContactPointDE> phoneList = new ArrayList<>();
+        ArrayList<ContactPointESDT> phoneList = new ArrayList<>();
         for(int counter = 0; counter < entrySet.length; counter += 1){
             String strippedString = entrySet[counter].strip();
-            ContactPointDE commChannel = new ContactPointDE();
+            ContactPointESDT commChannel = new ContactPointESDT();
             commChannel.setValue(strippedString);
-            commChannel.setType(ContactPointDETypeEnum.MOBILE);
+            commChannel.setType(ContactPointESDTTypeEnum.MOBILE);
             phoneList.add(commChannel);
         }
         return(phoneList);

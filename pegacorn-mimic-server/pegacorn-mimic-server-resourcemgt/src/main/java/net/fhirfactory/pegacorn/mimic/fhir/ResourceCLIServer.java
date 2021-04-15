@@ -1,5 +1,6 @@
 package net.fhirfactory.pegacorn.mimic.fhir;
 
+import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.location.api.LocationCLIRPCServer;
 import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.organization.api.OrganizationCLIRPCServer;
 import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.practitioner.api.PractitionerCLIRPCServer;
 import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.practitionerrole.api.PractitionerRoleCLIRPCServer;
@@ -28,12 +29,16 @@ public class ResourceCLIServer extends RouteBuilder {
     @Inject
     private PractitionerCLIRPCServer practitionerCLIRPCServer;
 
+    @Inject
+    private LocationCLIRPCServer locationCLIRPCServer;
+
     @PostConstruct
     public void initialise(){
         organizationCLIServer.doInitialisation();
         fhirServerClientMimic.doInitialisation();
         practitionerRoleCLIRPCServer.doInitialisation();
         practitionerCLIRPCServer.doInitialisation();
+        locationCLIRPCServer.doInitialisation();
     }
 
     @Override
