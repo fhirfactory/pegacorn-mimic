@@ -173,6 +173,7 @@ public class OrganizationCSVReader {
         longNameBasedIdentifier.setValue(newLongNameIdentifierValue);
         longNameBasedIdentifier.setLeafValue(entry.getOrganisationLongName());
         organization.getIdentifiers().add(longNameBasedIdentifier);
+        // Assign simplifiedID
         organization.assignSimplifiedID(true, identifierTypes.getShortName(), IdentifierESDTUseEnum.USUAL);
         organization.setDisplayName(entry.getOrganisationShortName());
         organization.setDescription(entry.getOrganisationLongName());
