@@ -30,6 +30,9 @@ import net.fhirfactory.pegacorn.internals.esr.transactions.ESRMethodOutcome;
 import net.fhirfactory.pegacorn.internals.esr.transactions.ESRMethodOutcomeEnum;
 import net.fhirfactory.pegacorn.internals.esr.resources.common.CommonIdentifierESDTTypes;
 import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.IdentifierESDT;
+import net.fhirfactory.pegacorn.internals.esr.resources.search.common.Pagination;
+import net.fhirfactory.pegacorn.internals.esr.resources.search.common.SearchCriteria;
+import net.fhirfactory.pegacorn.internals.esr.resources.search.common.Sort;
 import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.common.ResourceStorageService;
 import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.intermediary.PractitionerRoleESRApproximate;
 import org.slf4j.Logger;
@@ -138,7 +141,7 @@ public class PractitionerRoleCreator extends ResourceStorageService {
 
     private String getLocationID(String providedName){
         try {
-            ESRMethodOutcome outcome = locationBroker.searchForESRsUsingAttribute("leafValue", providedName, null, null, null, null);
+            ESRMethodOutcome outcome = locationBroker.searchForESRsUsingAttribute(new SearchCriteria("leafValue",providedName), new Sort(), new Pagination());
             if(outcome.isSearchSuccessful()) {
                 ExtremelySimplifiedResource esr = outcome.getSearchResult().get(0);
                 String identifierValue = esr.getSimplifiedID();
@@ -152,7 +155,7 @@ public class PractitionerRoleCreator extends ResourceStorageService {
 
     private String getOrganizationID(String providedName){
         try {
-            ESRMethodOutcome outcome = organizationBroker.searchForESRsUsingAttribute("leafValue", providedName, null, null, null, null);
+            ESRMethodOutcome outcome = organizationBroker.searchForESRsUsingAttribute(new SearchCriteria("leafValue",providedName), new Sort(), new Pagination());
             if(outcome.isSearchSuccessful()) {
                 ExtremelySimplifiedResource esr = outcome.getSearchResult().get(0);
                 String identifierValue = esr.getSimplifiedID();
