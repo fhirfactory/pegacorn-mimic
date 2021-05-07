@@ -128,13 +128,7 @@
             <scope>compile</scope>
             <type>jar</type>
         </dependency>
-        <dependency>
-            <groupId>net.fhirfactory.pegacorn</groupId>
-            <artifactId>pegacorn-buildingblocks-datamodels-esr</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-            <scope>compile</scope>
-            <type>jar</type>
-        </dependency>
+
         <dependency>
             <groupId>net.fhirfactory.pegacorn</groupId>
             <artifactId>pegacorn-buildingblocks-directoryservices</artifactId>

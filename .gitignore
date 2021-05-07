@@ -40,3 +40,6 @@ pegacorn-mimic-cli/pegacorn-mimic-cli-general/._CHS-PractitionerRoles-shortlist.
 pegacorn-mimic-cli/pegacorn-mimic-cli-general/target/maven-archiver/
 
 pegacorn-mimic-server/pegacorn-mimic-server-standalone/.project
+pegacorn-mimic-server/pegacorn-mimic-server-subsystem/bin/src/main/resources/META-INF/beans.xml
+pegacorn-mimic-server/pegacorn-mimic-server-subsystem/bin/pom.xml
+pegacorn-mimic-server/pegacorn-mimic-server-subsystem/bin/.project

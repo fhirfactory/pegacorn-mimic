@@ -1,20 +1,22 @@
 package net.fhirfactory.pegacorn.mimic.fhir.resourceservices.practitioner.api;
 
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import net.fhirfactory.pegacorn.internals.esr.resources.PractitionerESR;
-import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.IdentifierESDTUseEnum;
-import net.fhirfactory.pegacorn.internals.esr.transactions.ESRMethodOutcome;
-import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.practitioner.tasks.PractitionerCreator;
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
 import org.apache.camel.CamelContext;
 import org.jgroups.JChannel;
 import org.jgroups.blocks.RpcDispatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import net.fhirfactory.buildingblocks.esr.models.resources.PractitionerESR;
+import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.IdentifierESDTUseEnum;
+import net.fhirfactory.buildingblocks.esr.models.transaction.ESRMethodOutcome;
+import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.practitioner.tasks.PractitionerCreator;
 
 @ApplicationScoped
 public class PractitionerCLIRPCServer {

@@ -21,17 +21,19 @@
  */
 package net.fhirfactory.pegacorn.mimic.fhir.resourceservices.practitionerrole.tasks;
 
-import net.fhirfactory.pegacorn.internals.esr.brokers.RoleCategoryESRBroker;
-import net.fhirfactory.pegacorn.internals.esr.transactions.ESRMethodOutcome;
-import net.fhirfactory.pegacorn.internals.esr.transactions.ESRMethodOutcomeEnum;
-import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.common.ResourceStorageService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import net.fhirfactory.buildingblocks.esr.models.transaction.ESRMethodOutcome;
+import net.fhirfactory.buildingblocks.esr.models.transaction.ESRMethodOutcomeEnum;
+import net.fhirfactory.pegacorn.internals.esr.brokers.RoleCategoryESRBroker;
+import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.common.ResourceStorageService;
 
 @ApplicationScoped
 public class RoleCategoryCreator extends ResourceStorageService {

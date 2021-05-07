@@ -73,6 +73,12 @@
             <scope>compile</scope>
             <type>jar</type>
         </dependency>
+        
+        <dependency>
+            <groupId>net.fhirfactory.pegacorn</groupId>
+            <artifactId>pegacorn-buildingblocks-esr-models</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
 
 
         <!-- Pegacorn Mimic Datasets -->

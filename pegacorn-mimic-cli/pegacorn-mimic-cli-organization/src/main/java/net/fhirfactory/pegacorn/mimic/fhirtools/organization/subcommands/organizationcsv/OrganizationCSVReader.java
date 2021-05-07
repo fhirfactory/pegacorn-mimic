@@ -21,28 +21,27 @@
  */
 package net.fhirfactory.pegacorn.mimic.fhirtools.organization.subcommands.organizationcsv;
 
-import com.opencsv.bean.ColumnPositionMappingStrategy;
-import com.opencsv.bean.CsvToBean;
-import com.opencsv.bean.CsvToBeanBuilder;
-import net.fhirfactory.pegacorn.internals.esr.helpers.ContextualisedIdentifierValueFactory;
-import net.fhirfactory.pegacorn.internals.esr.resources.OrganizationESR;
-import net.fhirfactory.pegacorn.internals.esr.resources.common.CommonIdentifierESDTTypes;
-import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.IdentifierESDT;
-import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.IdentifierESDTUseEnum;
-import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.TypeESDT;
-import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.cvsentries.OrganizationCSVEntry;
-import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.intermediary.ContextualisedIdentifierValueHelper;
-import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.intermediary.IdentifierESDTTypesUsedInCLI;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.inject.Inject;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.opencsv.bean.ColumnPositionMappingStrategy;
+import com.opencsv.bean.CsvToBean;
+import com.opencsv.bean.CsvToBeanBuilder;
+
+import net.fhirfactory.buildingblocks.esr.models.helpers.ContextualisedIdentifierValueFactory;
+import net.fhirfactory.buildingblocks.esr.models.resources.CommonIdentifierESDTTypes;
+import net.fhirfactory.buildingblocks.esr.models.resources.OrganizationESR;
+import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.IdentifierESDT;
+import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.IdentifierESDTUseEnum;
+import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.TypeESDT;
+import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.cvsentries.OrganizationCSVEntry;
 
 public class OrganizationCSVReader {
     private static final Logger LOG = LoggerFactory.getLogger(OrganizationCSVReader.class);

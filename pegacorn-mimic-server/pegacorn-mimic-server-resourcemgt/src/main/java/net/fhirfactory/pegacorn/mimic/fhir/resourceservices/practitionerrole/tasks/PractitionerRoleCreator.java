@@ -21,27 +21,29 @@
  */
 package net.fhirfactory.pegacorn.mimic.fhir.resourceservices.practitionerrole.tasks;
 
-import net.fhirfactory.pegacorn.internals.esr.brokers.LocationESRBroker;
-import net.fhirfactory.pegacorn.internals.esr.brokers.OrganizationESRBroker;
-import net.fhirfactory.pegacorn.internals.esr.brokers.PractitionerRoleESRBroker;
-import net.fhirfactory.pegacorn.internals.esr.resources.PractitionerRoleESR;
-import net.fhirfactory.pegacorn.internals.esr.resources.common.ExtremelySimplifiedResource;
-import net.fhirfactory.pegacorn.internals.esr.transactions.ESRMethodOutcome;
-import net.fhirfactory.pegacorn.internals.esr.transactions.ESRMethodOutcomeEnum;
-import net.fhirfactory.pegacorn.internals.esr.resources.common.CommonIdentifierESDTTypes;
-import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.IdentifierESDT;
-import net.fhirfactory.pegacorn.internals.esr.resources.search.common.Pagination;
-import net.fhirfactory.pegacorn.internals.esr.resources.search.common.SearchCriteria;
-import net.fhirfactory.pegacorn.internals.esr.resources.search.common.Sort;
-import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.common.ResourceStorageService;
-import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.intermediary.PractitionerRoleESRApproximate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import net.fhirfactory.buildingblocks.esr.models.resources.CommonIdentifierESDTTypes;
+import net.fhirfactory.buildingblocks.esr.models.resources.ExtremelySimplifiedResource;
+import net.fhirfactory.buildingblocks.esr.models.resources.PractitionerRoleESR;
+import net.fhirfactory.buildingblocks.esr.models.transaction.ESRMethodOutcome;
+import net.fhirfactory.buildingblocks.esr.models.transaction.ESRMethodOutcomeEnum;
+import net.fhirfactory.pegacorn.internals.esr.brokers.LocationESRBroker;
+import net.fhirfactory.pegacorn.internals.esr.brokers.OrganizationESRBroker;
+import net.fhirfactory.pegacorn.internals.esr.brokers.PractitionerRoleESRBroker;
+import net.fhirfactory.pegacorn.internals.esr.search.Pagination;
+import net.fhirfactory.pegacorn.internals.esr.search.SearchCriteria;
+import net.fhirfactory.pegacorn.internals.esr.search.Sort;
+import net.fhirfactory.pegacorn.internals.esr.search.filter.BaseFilter;
+import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.common.ResourceStorageService;
+import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.intermediary.PractitionerRoleESRApproximate;
 
 @ApplicationScoped
 public class PractitionerRoleCreator extends ResourceStorageService {
@@ -141,7 +143,7 @@ public class PractitionerRoleCreator extends ResourceStorageService {
 
     private String getLocationID(String providedName){
         try {
-            ESRMethodOutcome outcome = locationBroker.searchForESRsUsingAttribute(new SearchCriteria("leafValue",providedName), new Sort(), new Pagination());
+            ESRMethodOutcome outcome = locationBroker.searchForESRsUsingAttribute(new SearchCriteria("leafValue",providedName), new ArrayList<BaseFilter>(), new Sort(), new Pagination());
             if(outcome.isSearchSuccessful()) {
                 ExtremelySimplifiedResource esr = outcome.getSearchResult().get(0);
                 String identifierValue = esr.getSimplifiedID();
@@ -155,7 +157,7 @@ public class PractitionerRoleCreator extends ResourceStorageService {
 
     private String getOrganizationID(String providedName){
         try {
-            ESRMethodOutcome outcome = organizationBroker.searchForESRsUsingAttribute(new SearchCriteria("leafValue",providedName), new Sort(), new Pagination());
+            ESRMethodOutcome outcome = organizationBroker.searchForESRsUsingAttribute(new SearchCriteria("leafValue",providedName),new ArrayList<BaseFilter>(), new Sort(), new Pagination());
             if(outcome.isSearchSuccessful()) {
                 ExtremelySimplifiedResource esr = outcome.getSearchResult().get(0);
                 String identifierValue = esr.getSimplifiedID();

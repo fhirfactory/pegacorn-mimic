@@ -21,9 +21,10 @@
  */
 package net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.intermediary;
 
-import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.IdentifierESDT;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.IdentifierESDT;
 
 public class ContextualisedIdentifierValueHelper {
     private static final Logger LOG = LoggerFactory.getLogger(ContextualisedIdentifierValueHelper.class);
