@@ -1,0 +1,3 @@
+[submodule "pegacorn-mimic-cli/pegacorn-mimic-cli-careteam"]
+	path = pegacorn-mimic-cli/pegacorn-mimic-cli-careteam
+	url = https://github.com/fhirfactory/pegacorn-mimic.git
