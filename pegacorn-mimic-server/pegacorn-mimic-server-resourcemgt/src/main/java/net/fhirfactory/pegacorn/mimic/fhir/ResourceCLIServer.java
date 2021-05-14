@@ -1,5 +1,6 @@
 package net.fhirfactory.pegacorn.mimic.fhir;
 
+import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.careteam.api.CareTeamCLIRPCServer;
 import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.location.api.LocationCLIRPCServer;
 import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.organization.api.OrganizationCLIRPCServer;
 import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.practitioner.api.PractitionerCLIRPCServer;
@@ -31,6 +32,9 @@ public class ResourceCLIServer extends RouteBuilder {
 
     @Inject
     private LocationCLIRPCServer locationCLIRPCServer;
+    
+    @Inject
+    private CareTeamCLIRPCServer careTeamCLIRPCServer;
 
     @PostConstruct
     public void initialise(){
@@ -39,6 +43,7 @@ public class ResourceCLIServer extends RouteBuilder {
         practitionerRoleCLIRPCServer.doInitialisation();
         practitionerCLIRPCServer.doInitialisation();
         locationCLIRPCServer.doInitialisation();
+        careTeamCLIRPCServer.doInitialisation();
     }
 
     @Override

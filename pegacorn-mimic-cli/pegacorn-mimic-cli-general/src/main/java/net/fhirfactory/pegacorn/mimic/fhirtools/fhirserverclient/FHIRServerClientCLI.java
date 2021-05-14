@@ -21,6 +21,7 @@
  */
 package net.fhirfactory.pegacorn.mimic.fhirtools.fhirserverclient;
 
+import net.fhirfactory.pegacorn.mimic.fhirtools.careteam.CareTeamCLI;
 import net.fhirfactory.pegacorn.mimic.fhirtools.location.LocationCLI;
 import net.fhirfactory.pegacorn.mimic.fhirtools.organization.OrganizationCLI;
 import net.fhirfactory.pegacorn.mimic.fhirtools.practitioner.PractitionerCLI;
@@ -41,7 +42,7 @@ import java.util.List;
         name="FHIRClientCLI",
         description="FHIR Server Client CLI",
         subcommands = {
-            OrganizationCLI.class, PractitionerRoleCLI.class, PractitionerCLI.class, LocationCLI.class
+            OrganizationCLI.class, PractitionerRoleCLI.class, PractitionerCLI.class, LocationCLI.class, CareTeamCLI.class
         }
 )
 public class FHIRServerClientCLI implements Runnable{
