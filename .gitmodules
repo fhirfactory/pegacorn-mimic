@@ -4,6 +4,3 @@
 [submodule "pegacorn-mimic-cli/pegacorn-mimic-cli-careteam/pegacorn-mimic-cli/pegacorn-mimic-cli-careteam"]
 	path = pegacorn-mimic-cli/pegacorn-mimic-cli-careteam/pegacorn-mimic-cli/pegacorn-mimic-cli-careteam
 	url = https://github.com/fhirfactory/pegacorn-mimic.git
-[submodule "pegacorn-mimic-cli-careteam"]
-	path = pegacorn-mimic-cli-careteam
-	url = e:/scratchpad/code/pegacorn-mimic/pegacorn-mimic-cli/pegacorn-mimic-cli-careteam/pegacorn-mimic-cli-careteam/.git
