@@ -106,16 +106,41 @@ public class PractitionerRoleCSVReader {
             practitionerRoleESRApproximate.setPrimaryRoleCategoryIDContextual(true);
             practitionerRoleESRApproximate.setPrimaryRoleID(currentEntry.getRoleShortName());
             practitionerRoleESRApproximate.setPrimaryRoleIDContextual(true);
+            
+            Integer rank = 1;
             // Add Telephone ContactPoints
-            List<ContactPointESDT> fixedLineNumbers = getFixedLineNumbers(currentEntry.getContactExtensions());
+            List<ContactPointESDT> fixedLineNumbers = getFixedLineNumbers(currentEntry.getContactExtensions(), rank);
             practitionerRoleESRApproximate.getContactPoints().addAll(fixedLineNumbers);
+           
+            
+            // Add fax number
+            String faxNumber = currentEntry.getPager();
+            ContactPointESDT facsimileContactChannel = new ContactPointESDT();
+            facsimileContactChannel.setName("Facsimile");
+            facsimileContactChannel.setValue(faxNumber);
+            facsimileContactChannel.setType(ContactPointESDTTypeEnum.FACSIMILE);
+            facsimileContactChannel.setUse(ContactPointESDTUseEnum.WORK);
+            facsimileContactChannel.setRank(rank++);
+            practitionerRoleESRApproximate.getContactPoints().add(facsimileContactChannel);  
+            
+            // Add pager
+            String pagerNumber = currentEntry.getPager();
+            ContactPointESDT pagerContactChannel = new ContactPointESDT();
+            pagerContactChannel.setName("Pager");
+            pagerContactChannel.setValue(pagerNumber);
+            pagerContactChannel.setType(ContactPointESDTTypeEnum.PAGER);
+            pagerContactChannel.setUse(ContactPointESDTUseEnum.WORK);
+            pagerContactChannel.setRank(rank++);
+            practitionerRoleESRApproximate.getContactPoints().add(pagerContactChannel);             
+            
+            
             // Add Location (TODO Need to add better location primaryKey establishment)
             practitionerRoleESRApproximate.setPrimaryLocationID(currentEntry.getLocationTag());
             practitionerRoleESRApproximate.setPrimaryLocationIDContextual(true);
             // Add Active Directory Group
             practitionerRoleESRApproximate.setPractitionerRoleADGroup(currentEntry.getActiveDirectoryGroup());
             // Add Mobile Phone ContactPoints
-            List<ContactPointESDT> mobilePhoneNumbers = getMobilePhoneNumbers(currentEntry.getContactMobile());
+            List<ContactPointESDT> mobilePhoneNumbers = getMobilePhoneNumbers(currentEntry.getContactMobile(), rank);
             practitionerRoleESRApproximate.getContactPoints().addAll(mobilePhoneNumbers);
             // Assign SimplifiedID
             practitionerRoleESRApproximate.assignSimplifiedID(true, identifierTypes.getShortName(), IdentifierESDTUseEnum.USUAL);
@@ -126,7 +151,7 @@ public class PractitionerRoleCSVReader {
         return(workingList);
     }
 
-    private List<ContactPointESDT> getFixedLineNumbers(String entry){
+    private List<ContactPointESDT> getFixedLineNumbers(String entry, int rank){
         if(entry == null || entry.length() < 5){
             return(new ArrayList<>());
         }
@@ -152,12 +177,13 @@ public class PractitionerRoleCSVReader {
             commChannel.setType(channelType);
             commChannel.setUse(ContactPointESDTUseEnum.WORK);
             commChannel.setValue(completeNumber);
+            commChannel.setRank(rank++);
             phoneList.add(commChannel);
         }
         return(phoneList);
     }
 
-    private List<ContactPointESDT> getMobilePhoneNumbers(String entry){
+    private List<ContactPointESDT> getMobilePhoneNumbers(String entry, int rank){
         if(entry == null || entry.length() < 8){
             return(new ArrayList<>());
         }
@@ -174,6 +200,8 @@ public class PractitionerRoleCSVReader {
             ContactPointESDT commChannel = new ContactPointESDT();
             commChannel.setValue(strippedString);
             commChannel.setType(ContactPointESDTTypeEnum.MOBILE);
+            commChannel.setName("Mobile");
+            commChannel.setRank(rank++);
             phoneList.add(commChannel);
         }
         return(phoneList);

@@ -42,7 +42,12 @@ public class PractitionerRoleCSVEntry {
     private String contactExtensions;
     @CsvBindByPosition(position = 8)
     private String contactMobile;
-
+    @CsvBindByPosition(position=13)
+    private String facsimile;
+    @CsvBindByPosition(position=14)
+    private String pager;
+    
+    
     public String getOrganisationUnitShortName() {
         return organisationUnitShortName;
     }
@@ -114,4 +119,20 @@ public class PractitionerRoleCSVEntry {
     public void setContactMobile(String contactMobile) {
         this.contactMobile = contactMobile;
     }
+
+	public String getFacsimile() {
+		return facsimile;
+	}
+
+	public void setFacsimile(String facsimile) {
+		this.facsimile = facsimile;
+	}
+
+	public String getPager() {
+		return pager;
+	}
+
+	public void setPager(String pager) {
+		this.pager = pager;
+	}
 }
