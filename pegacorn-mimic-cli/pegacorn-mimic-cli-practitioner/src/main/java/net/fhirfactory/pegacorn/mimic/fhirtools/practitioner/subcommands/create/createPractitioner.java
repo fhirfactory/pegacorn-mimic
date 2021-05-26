@@ -69,6 +69,9 @@ public class createPractitioner implements Runnable{
     
     @CommandLine.Option(names = {"-f", "--fax"})
     private String facsimileNumber;
+    
+    @CommandLine.Option(names = {"-p", "--personal"})
+    private String personalNumber;
 
     @Override
     public void run() {
@@ -120,8 +123,16 @@ public class createPractitioner implements Runnable{
         facsimile.setType(ContactPointESDTTypeEnum.FACSIMILE);
         facsimile.setUse(ContactPointESDTUseEnum.WORK);
         facsimile.setRank(3);
-        practitioner.getContactPoints().add(facsimile);        
+        practitioner.getContactPoints().add(facsimile);  
         
+        // Personal phone
+        ContactPointESDT personalPhone = new ContactPointESDT();
+        personalPhone.setName("Personal");
+        personalPhone.setValue(personalNumber);
+        personalPhone.setType(ContactPointESDTTypeEnum.PERSONAL_PHONE);
+        personalPhone.setUse(ContactPointESDTUseEnum.PERSONAL);
+        personalPhone.setRank(4);
+        practitioner.getContactPoints().add(personalPhone);          
         
         String practitionerAsString = entryAsJSONObject(practitioner);
         String result;
