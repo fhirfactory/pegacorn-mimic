@@ -34,6 +34,12 @@ public class OrganizationCSVEntry {
     private String organizationTypeShortName;
     @CsvBindByPosition(position = 4)
     private String organizationTypeLongName;
+    @CsvBindByPosition(position = 5)
+    private String emailAddress;;
+    @CsvBindByPosition(position = 6)
+    private String telephoneNumber;
+    @CsvBindByPosition(position = 7)
+    private String facsimile;
 
     public String getOrganisationParentShortName() {
         return organisationParentShortName;
@@ -74,4 +80,28 @@ public class OrganizationCSVEntry {
     public void setOrganizationTypeLongName(String organizationTypeLongName) {
         this.organizationTypeLongName = organizationTypeLongName;
     }
+
+	public String getEmailAddress() {
+		return emailAddress;
+	}
+
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
+	}
+
+	public String getTelephoneNumber() {
+		return telephoneNumber;
+	}
+
+	public void setTelephoneNumber(String telephoneNumber) {
+		this.telephoneNumber = telephoneNumber;
+	}
+
+	public String getFacsimile() {
+		return facsimile;
+	}
+
+	public void setFacsimile(String facsimile) {
+		this.facsimile = facsimile;
+	}
 }

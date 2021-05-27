@@ -38,6 +38,9 @@ import com.opencsv.bean.CsvToBeanBuilder;
 import net.fhirfactory.buildingblocks.esr.models.helpers.ContextualisedIdentifierValueFactory;
 import net.fhirfactory.buildingblocks.esr.models.resources.CommonIdentifierESDTTypes;
 import net.fhirfactory.buildingblocks.esr.models.resources.OrganizationESR;
+import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.ContactPointESDT;
+import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.ContactPointESDTTypeEnum;
+import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.ContactPointESDTUseEnum;
 import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.IdentifierESDT;
 import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.IdentifierESDTUseEnum;
 import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.TypeESDT;
@@ -94,6 +97,8 @@ public class OrganizationCSVReader {
                 LOG.info(".organiseOrganizationHierarchy(): Is not a root Node");
                 nonRootWorkingList.add(currentEntry);
             }
+            
+            
         }
         LOG.info(".organiseOrganizationHierarchy(): Now sorting non-root nodes!");
         Integer depthCount = 15;
@@ -181,6 +186,38 @@ public class OrganizationCSVReader {
         orgType.setTypeValue(entry.getOrganizationTypeShortName());
         orgType.setTypeDisplayValue(entry.getOrganizationTypeLongName());
         organization.setOrganizationType(orgType);
+        
+        // Add email address contact point
+        String emailAddress = entry.getEmailAddress();
+        ContactPointESDT emailContactChannel = new ContactPointESDT();
+        emailContactChannel.setName("Email");
+        emailContactChannel.setValue(emailAddress);
+        emailContactChannel.setType(ContactPointESDTTypeEnum.EMAIL);
+        emailContactChannel.setUse(ContactPointESDTUseEnum.WORK);
+        emailContactChannel.setRank(1);
+        organization.addContactPoint(emailContactChannel); 
+        
+        // Add fax contact point
+        String faxNumber = entry.getFacsimile();
+        ContactPointESDT faxContactChannel = new ContactPointESDT();
+        faxContactChannel.setName("Facsimile");
+        faxContactChannel.setValue(faxNumber);
+        faxContactChannel.setType(ContactPointESDTTypeEnum.FACSIMILE);
+        faxContactChannel.setUse(ContactPointESDTUseEnum.WORK);
+        faxContactChannel.setRank(2);
+        organization.addContactPoint(faxContactChannel); 
+        
+        // Add telephone contact point
+        String telephoneNumber = entry.getTelephoneNumber();
+        ContactPointESDT telephoneNumberContactChannel = new ContactPointESDT();
+        telephoneNumberContactChannel.setName("Landline");
+        telephoneNumberContactChannel.setValue(telephoneNumber);
+        telephoneNumberContactChannel.setType(ContactPointESDTTypeEnum.LANDLINE);
+        telephoneNumberContactChannel.setUse(ContactPointESDTUseEnum.WORK);
+        telephoneNumberContactChannel.setRank(3);
+        organization.addContactPoint(telephoneNumberContactChannel); 
+        
+        
         LOG.debug(".buildOrganization(): Exit, OrganizationESR built");
         return (organization);
     }
