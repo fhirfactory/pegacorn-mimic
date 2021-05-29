@@ -27,6 +27,7 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.fhirfactory.buildingblocks.esr.models.exceptions.ResourceInvalidSearchException;
 import net.fhirfactory.buildingblocks.esr.models.resources.CareTeamESR;
 import net.fhirfactory.buildingblocks.esr.models.resources.LocationESR;
 import net.fhirfactory.buildingblocks.esr.models.transaction.ESRMethodOutcome;
@@ -42,7 +43,7 @@ public class CareTeamCreator extends ResourceStorageService {
     @Inject
     private CareTeamESRBroker esrBroker;
 
-    public ESRMethodOutcome createCareTeam(CareTeamESR careTeam){
+    public ESRMethodOutcome createCareTeam(CareTeamESR careTeam) throws ResourceInvalidSearchException{
         LOG.info(".createCareTeam(): Entry, careTeam --> {}", careTeam);
         if(careTeam == null){
             LOG.info(".createCareTeam(): care team is null, return a failed MethodOutcome");
