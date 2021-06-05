@@ -42,7 +42,12 @@ public class CareTeamCSVEntry {
 	private String codePurpleResponder;
 	@CsvBindByPosition(position = 8)
 	private String codePurpleNotifier;
+	@CsvBindByPosition(position = 9)
+	private String codeBlackResponder;
+	@CsvBindByPosition(position = 10)
+	private String codeBlackNotifier;
 
+	
 	public String getRoleName() {
 		return roleName;
 	}
@@ -113,5 +118,21 @@ public class CareTeamCSVEntry {
 
 	public void setCodePurpleNotifier(String codePurpleNotifier) {
 		this.codePurpleNotifier = codePurpleNotifier;
+	}
+
+	public String getCodeBlackResponder() {
+		return codeBlackResponder;
+	}
+
+	public void setCodeBlackResponder(String codeBlackResponder) {
+		this.codeBlackResponder = codeBlackResponder;
+	}
+
+	public String getCodeBlackNotifier() {
+		return codeBlackNotifier;
+	}
+
+	public void setCodeBlackNotifier(String codeBlackNotifier) {
+		this.codeBlackNotifier = codeBlackNotifier;
 	}
 }

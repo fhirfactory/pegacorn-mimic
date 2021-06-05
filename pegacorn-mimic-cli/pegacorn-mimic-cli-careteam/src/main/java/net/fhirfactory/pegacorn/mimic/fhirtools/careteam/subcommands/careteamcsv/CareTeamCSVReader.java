@@ -138,6 +138,19 @@ public class CareTeamCSVReader {
         		List<ParticipantESDT> participants = careTeamsMap.get("Code Purple");
         		participants.add(new ParticipantESDT(practitionerRoleName, ParticipantTypeEnum.RESPONDER));
         	}
+        	
+        	if (currentEntry.getCodeBlackNotifier().equals("Y")) {
+        		// Add the practitioner role as a notifier   
+        		List<ParticipantESDT> participants = careTeamsMap.get("Code Black");
+        		participants.add(new ParticipantESDT(practitionerRoleName, ParticipantTypeEnum.NOTIFIER));
+        	}
+        	
+        	
+        	if (currentEntry.getCodeBlackResponder().equals("Y")) {
+        		// Add the practitioner role as a responder      	
+        		List<ParticipantESDT> participants = careTeamsMap.get("Code Black");
+        		participants.add(new ParticipantESDT(practitionerRoleName, ParticipantTypeEnum.RESPONDER));
+        	}
         }
         
         // Now we have all the data in the map we can convert this to care teams.
@@ -150,15 +163,15 @@ public class CareTeamCSVReader {
         	
         	newCareTeam.setParticipants(entry.getValue());
         	
-        	 IdentifierESDT shortnameBasedIdentifier = new IdentifierESDT();
-             shortnameBasedIdentifier.setType(identifierTypes.getShortName());
-             shortnameBasedIdentifier.setUse(IdentifierESDTUseEnum.USUAL);
-             shortnameBasedIdentifier.setValue(entry.getKey());
-             shortnameBasedIdentifier.setLeafValue(entry.getKey());
+        	IdentifierESDT shortnameBasedIdentifier = new IdentifierESDT();
+            shortnameBasedIdentifier.setType(identifierTypes.getShortName());
+            shortnameBasedIdentifier.setUse(IdentifierESDTUseEnum.USUAL);
+            shortnameBasedIdentifier.setValue(entry.getKey());
+            shortnameBasedIdentifier.setLeafValue(entry.getKey());
+            
+            newCareTeam.getIdentifiers().add(shortnameBasedIdentifier);
              
-             newCareTeam.getIdentifiers().add(shortnameBasedIdentifier);
-             
-             newCareTeam.assignSimplifiedID(true, identifierTypes.getShortName(), IdentifierESDTUseEnum.OFFICIAL);
+            newCareTeam.assignSimplifiedID(true, identifierTypes.getShortName(), IdentifierESDTUseEnum.OFFICIAL);
         	
         	careTeams.add(newCareTeam);
         }
@@ -180,8 +193,8 @@ public class CareTeamCSVReader {
     	careTeams.put("Code Orange", new ArrayList<ParticipantESDT>());
     	careTeams.put("Code Brown", new ArrayList<ParticipantESDT>());
     	careTeams.put("Code Purple", new ArrayList<ParticipantESDT>());
+    	careTeams.put("Code Black", new ArrayList<ParticipantESDT>());
 
-    	
     	return careTeams;
     }  
 }
