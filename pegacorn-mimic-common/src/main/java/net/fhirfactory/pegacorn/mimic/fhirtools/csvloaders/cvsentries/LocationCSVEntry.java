@@ -40,7 +40,7 @@ public class LocationCSVEntry {
     }
 
     public String getLocationShortName() {
-        return locationShortName;
+        return locationShortName.trim();
     }
 
     public void setLocationShortName(String locationShortName) {

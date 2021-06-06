@@ -49,7 +49,7 @@ public class PractitionerRoleCSVEntry {
     
     
     public String getOrganisationUnitShortName() {
-        return organisationUnitShortName;
+        return organisationUnitShortName.trim();
     }
 
     public void setOrganisationUnitShortName(String organisationUnitShortName) {
@@ -57,7 +57,7 @@ public class PractitionerRoleCSVEntry {
     }
 
     public String getLocationTag() {
-        return locationTag;
+        return locationTag.trim();
     }
 
     public void setLocationTag(String locationTag) {
@@ -65,7 +65,7 @@ public class PractitionerRoleCSVEntry {
     }
 
     public String getRoleCategory() {
-        return roleCategory;
+        return roleCategory.trim();
     }
 
     public void setRoleCategory(String roleCategory) {
@@ -73,7 +73,7 @@ public class PractitionerRoleCSVEntry {
     }
 
     public String getRoleShortName() {
-        return roleShortName;
+        return roleShortName.trim();
     }
 
     public void setRoleShortName(String roleShortName) {
@@ -81,7 +81,7 @@ public class PractitionerRoleCSVEntry {
     }
 
     public String getActiveDirectoryGroup() {
-        return activeDirectoryGroup;
+        return activeDirectoryGroup.trim();
     }
 
     public void setActiveDirectoryGroup(String activeDirectoryGroup) {
@@ -89,7 +89,7 @@ public class PractitionerRoleCSVEntry {
     }
 
     public String getPractitionerRoleShortName() {
-        return practitionerRoleShortName;
+        return practitionerRoleShortName.trim();
     }
 
     public void setPractitionerRoleShortName(String practitionerRoleShortName) {
@@ -97,7 +97,7 @@ public class PractitionerRoleCSVEntry {
     }
 
     public String getPractitionerRoleLongName() {
-        return practitionerRoleLongName;
+        return practitionerRoleLongName.trim();
     }
 
     public void setPractitionerRoleLongName(String practitionerRoleLongName) {
@@ -105,7 +105,7 @@ public class PractitionerRoleCSVEntry {
     }
 
     public String getContactExtensions() {
-        return contactExtensions;
+        return contactExtensions.trim();
     }
 
     public void setContactExtensions(String contactExtensions) {
@@ -113,7 +113,7 @@ public class PractitionerRoleCSVEntry {
     }
 
     public String getContactMobile() {
-        return contactMobile;
+        return contactMobile.trim();
     }
 
     public void setContactMobile(String contactMobile) {
@@ -121,7 +121,7 @@ public class PractitionerRoleCSVEntry {
     }
 
 	public String getFacsimile() {
-		return facsimile;
+		return facsimile.trim();
 	}
 
 	public void setFacsimile(String facsimile) {
@@ -129,7 +129,7 @@ public class PractitionerRoleCSVEntry {
 	}
 
 	public String getPager() {
-		return pager;
+		return pager.trim();
 	}
 
 	public void setPager(String pager) {

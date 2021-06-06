@@ -57,7 +57,7 @@ public class CareTeamCSVEntry {
 	}
 
 	public String getCodeYellowResponder() {
-		return codeYellowResponder;
+		return codeYellowResponder.trim();
 	}
 
 	public void setCodeYellowResponder(String codeYellowResponder) {
@@ -65,7 +65,7 @@ public class CareTeamCSVEntry {
 	}
 
 	public String getCodeYellowNotifier() {
-		return codeYellowNotifier;
+		return codeYellowNotifier.trim();
 	}
 
 	public void setCodeYellowNotifier(String codeYellowNotifier) {
@@ -73,7 +73,7 @@ public class CareTeamCSVEntry {
 	}
 
 	public String getCodeOrangeResponder() {
-		return codeOrangeResponder;
+		return codeOrangeResponder.trim();
 	}
 
 	public void setCodeOrangeResponder(String codeOrangeResponder) {
@@ -81,7 +81,7 @@ public class CareTeamCSVEntry {
 	}
 
 	public String getCodeOrangeNotifier() {
-		return codeOrangeNotifier;
+		return codeOrangeNotifier.trim();
 	}
 
 	public void setCodeOrangeNotifier(String codeOrangeNotifier) {
@@ -89,7 +89,7 @@ public class CareTeamCSVEntry {
 	}
 
 	public String getCodeBrownResponder() {
-		return codeBrownResponder;
+		return codeBrownResponder.trim();
 	}
 
 	public void setCodeBrownResponder(String codeBrownResponder) {
@@ -97,7 +97,7 @@ public class CareTeamCSVEntry {
 	}
 
 	public String getCodeBrownNotifier() {
-		return codeBrownNotifier;
+		return codeBrownNotifier.trim();
 	}
 
 	public void setCodeBrownNotifier(String codeBrownNotifier) {
@@ -105,7 +105,7 @@ public class CareTeamCSVEntry {
 	}
 
 	public String getCodePurpleResponder() {
-		return codePurpleResponder;
+		return codePurpleResponder.trim();
 	}
 
 	public void setCodePurpleResponder(String codePurpleResponder) {
@@ -113,7 +113,7 @@ public class CareTeamCSVEntry {
 	}
 
 	public String getCodePurpleNotifier() {
-		return codePurpleNotifier;
+		return codePurpleNotifier.trim();
 	}
 
 	public void setCodePurpleNotifier(String codePurpleNotifier) {
@@ -121,7 +121,7 @@ public class CareTeamCSVEntry {
 	}
 
 	public String getCodeBlackResponder() {
-		return codeBlackResponder;
+		return codeBlackResponder.trim();
 	}
 
 	public void setCodeBlackResponder(String codeBlackResponder) {
@@ -129,7 +129,7 @@ public class CareTeamCSVEntry {
 	}
 
 	public String getCodeBlackNotifier() {
-		return codeBlackNotifier;
+		return codeBlackNotifier.trim();
 	}
 
 	public void setCodeBlackNotifier(String codeBlackNotifier) {

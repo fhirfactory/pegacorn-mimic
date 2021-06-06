@@ -42,7 +42,7 @@ public class OrganizationCSVEntry {
     private String facsimile;
 
     public String getOrganisationParentShortName() {
-        return organisationParentShortName;
+        return organisationParentShortName.trim();
     }
 
     public void setOrganisationParentShortName(String organisationParentShortName) {
@@ -50,7 +50,7 @@ public class OrganizationCSVEntry {
     }
 
     public String getOrganisationShortName() {
-        return organisationShortName;
+        return organisationShortName.trim();
     }
 
     public void setOrganisationShortName(String organisationShortName) {
@@ -58,7 +58,7 @@ public class OrganizationCSVEntry {
     }
 
     public String getOrganisationLongName() {
-        return organisationLongName;
+        return organisationLongName.trim();
     }
 
     public void setOrganisationLongName(String organisationLongName) {
@@ -66,7 +66,7 @@ public class OrganizationCSVEntry {
     }
 
     public String getOrganizationTypeShortName() {
-        return organizationTypeShortName;
+        return organizationTypeShortName.trim();
     }
 
     public void setOrganizationTypeShortName(String organizationTypeShortName) {
@@ -74,7 +74,7 @@ public class OrganizationCSVEntry {
     }
 
     public String getOrganizationTypeLongName() {
-        return organizationTypeLongName;
+        return organizationTypeLongName.trim();
     }
 
     public void setOrganizationTypeLongName(String organizationTypeLongName) {
@@ -82,7 +82,7 @@ public class OrganizationCSVEntry {
     }
 
 	public String getEmailAddress() {
-		return emailAddress;
+		return emailAddress.trim();
 	}
 
 	public void setEmailAddress(String emailAddress) {
@@ -90,7 +90,7 @@ public class OrganizationCSVEntry {
 	}
 
 	public String getTelephoneNumber() {
-		return telephoneNumber;
+		return telephoneNumber.trim();
 	}
 
 	public void setTelephoneNumber(String telephoneNumber) {
@@ -98,7 +98,7 @@ public class OrganizationCSVEntry {
 	}
 
 	public String getFacsimile() {
-		return facsimile;
+		return facsimile.trim();
 	}
 
 	public void setFacsimile(String facsimile) {
