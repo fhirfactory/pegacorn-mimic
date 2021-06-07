@@ -72,6 +72,9 @@ public class createPractitioner implements Runnable{
     
     @CommandLine.Option(names = {"-p", "--personal"})
     private String personalNumber;
+    
+    @CommandLine.Option(names = {"-j", "--mainJobtitle"})
+    private String mainJobTitle;
 
     @Override
     public void run() {
@@ -86,6 +89,8 @@ public class createPractitioner implements Runnable{
         PractitionerESR practitioner = new PractitionerESR();
         practitioner.setEmailAddress(getPractitionerEmail());
         practitioner.setDisplayName(getPractitionerName());
+        practitioner.setMainJobTitle(mainJobTitle);
+        
         // Name
         HumanNameESDT practitionerName = new HumanNameESDT();
         practitionerName.setDisplayName(getPractitionerName());
