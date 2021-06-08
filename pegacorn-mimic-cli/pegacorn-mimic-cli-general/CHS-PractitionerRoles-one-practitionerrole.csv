@@ -1,0 +1,14 @@
+Organisation Unit Short Name,Location Short Name,Role Category,Role Short Name,AD Group,Practitioner Role Short Name,Practitioner Role Long Name,"WORK ALLOCATED Phone extensions
+if applicable phone extensions per role, ie deskphone, i62, DECT, ","WORK ALLOCATED
+Mobile phone numbers
+if applicable, all applicable mobile phone numbers","call out number
+If multiple extensions exist which number is to be displayed when making a call from the app. 
+
+Note: If using the inbuilt mobile phone number and dialler this will not be reflected.",Roles validated by WHOM,Current Device,"Proposed Device:
+BYOD
+WSMP
+CWD 4G Baton
+CWD 4G Allocated
+CWD Wifi Baton
+CWD Wifi Allocated",Number of CWDs Allocated,Column9
+Acute Allied Health Services,CH,Allied Health,DAH,Clinician,Dir Acute Allied Health Services,Director of Acute Allied Health Services,45135,,,,,,,625155555,62518888
