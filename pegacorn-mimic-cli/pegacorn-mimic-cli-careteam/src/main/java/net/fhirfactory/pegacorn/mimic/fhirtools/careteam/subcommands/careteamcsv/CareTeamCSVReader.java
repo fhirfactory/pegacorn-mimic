@@ -41,7 +41,6 @@ import net.fhirfactory.buildingblocks.esr.models.resources.CommonIdentifierESDTT
 import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.IdentifierESDT;
 import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.IdentifierESDTUseEnum;
 import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.ParticipantESDT;
-import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.ParticipantTypeEnum;
 import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.cvsentries.CareTeamCSVEntry;
 
 public class CareTeamCSVReader {
@@ -77,80 +76,21 @@ public class CareTeamCSVReader {
         LOG.debug(".convertCSVEntry2CareTeams(): Entry");
         LOG.trace(".convertCSVEntry2CareTeams(): Iterate through CSV Entries and Converting to CareTeam");
      
-        Map<String, List<ParticipantESDT>>careTeamsMap = initialiseCareTeams();
+        Map<String, List<ParticipantESDT>>careTeamsMap = new HashMap<>();
         
         
         for(CareTeamCSVEntry currentEntry: careTeamCSVEntries) {
-        	String practitionerRoleName = currentEntry.getRoleName();
+        	String careTeamShortName = currentEntry.getCareTeamShortName();
+        	String careTeamLongName = currentEntry.getCareTeamShortName();
         	
         	
-        	if (currentEntry.getCodeBrownNotifier().equals("Y")) {
-        		// Add the practitioner role as a notifier
-        		List<ParticipantESDT> participants = careTeamsMap.get("Code Brown");
-        		participants.add(new ParticipantESDT(practitionerRoleName, ParticipantTypeEnum.NOTIFIER));
+        	List<ParticipantESDT> participants = careTeamsMap.get(careTeamShortName);
+        	if (participants == null) {
+        		participants = new ArrayList<>();
+        		careTeamsMap.putIfAbsent(careTeamLongName, participants);
         	}
         	
-        	
-        	if (currentEntry.getCodeBrownResponder().equals("Y")) {
-        		// Add the practitioner role as a responder
-        		List<ParticipantESDT> participants = careTeamsMap.get("Code Brown");
-        		participants.add(new ParticipantESDT(practitionerRoleName, ParticipantTypeEnum.RESPONDER));
-        	}
-        	
-        	
-        	if (currentEntry.getCodeOrangeNotifier().equals("Y")) {
-        		// Add the practitioner role as a notifier
-        		List<ParticipantESDT> participants = careTeamsMap.get("Code Orange");
-        		participants.add(new ParticipantESDT(practitionerRoleName, ParticipantTypeEnum.NOTIFIER));
-        	}
-        	
-        	
-        	if (currentEntry.getCodeOrangeResponder().equals("Y")) {
-        		// Add the practitioner role as a responder
-        		List<ParticipantESDT> participants = careTeamsMap.get("Code Orange");
-        		participants.add(new ParticipantESDT(practitionerRoleName, ParticipantTypeEnum.RESPONDER));
-        	}
-        	
-        	
-        	if (currentEntry.getCodeYellowNotifier().equals("Y")) {
-        		// Add the practitioner role as a notifier
-        		List<ParticipantESDT> participants = careTeamsMap.get("Code Yellow");
-        		participants.add(new ParticipantESDT(practitionerRoleName, ParticipantTypeEnum.NOTIFIER));
-        	}
-
-        	
-        	if (currentEntry.getCodeYellowResponder().equals("Y")) {
-        		// Add the practitioner role as a responder     
-        		List<ParticipantESDT> participants = careTeamsMap.get("Code Yellow");
-        		participants.add(new ParticipantESDT(practitionerRoleName, ParticipantTypeEnum.RESPONDER));
-        	}
-        	
-        	
-        	if (currentEntry.getCodePurpleNotifier().equals("Y")) {
-        		// Add the practitioner role as a notifier   
-        		List<ParticipantESDT> participants = careTeamsMap.get("Code Purple");
-        		participants.add(new ParticipantESDT(practitionerRoleName, ParticipantTypeEnum.NOTIFIER));
-        	}
-        	
-        	
-        	if (currentEntry.getCodePurpleResponder().equals("Y")) {
-        		// Add the practitioner role as a responder      	
-        		List<ParticipantESDT> participants = careTeamsMap.get("Code Purple");
-        		participants.add(new ParticipantESDT(practitionerRoleName, ParticipantTypeEnum.RESPONDER));
-        	}
-        	
-        	if (currentEntry.getCodeBlackNotifier().equals("Y")) {
-        		// Add the practitioner role as a notifier   
-        		List<ParticipantESDT> participants = careTeamsMap.get("Code Black");
-        		participants.add(new ParticipantESDT(practitionerRoleName, ParticipantTypeEnum.NOTIFIER));
-        	}
-        	
-        	
-        	if (currentEntry.getCodeBlackResponder().equals("Y")) {
-        		// Add the practitioner role as a responder      	
-        		List<ParticipantESDT> participants = careTeamsMap.get("Code Black");
-        		participants.add(new ParticipantESDT(practitionerRoleName, ParticipantTypeEnum.RESPONDER));
-        	}
+        	participants.add(new ParticipantESDT(currentEntry.getPractitionerRoleShortName()));
         }
         
         // Now we have all the data in the map we can convert this to care teams.
@@ -163,38 +103,24 @@ public class CareTeamCSVReader {
         	
         	newCareTeam.setParticipants(entry.getValue());
         	
-        	IdentifierESDT shortnameBasedIdentifier = new IdentifierESDT();
-            shortnameBasedIdentifier.setType(identifierTypes.getShortName());
-            shortnameBasedIdentifier.setUse(IdentifierESDTUseEnum.USUAL);
-            shortnameBasedIdentifier.setValue(entry.getKey());
-            shortnameBasedIdentifier.setLeafValue(entry.getKey());
-            
-            newCareTeam.getIdentifiers().add(shortnameBasedIdentifier);
-             
-            newCareTeam.assignSimplifiedID(true, identifierTypes.getShortName(), IdentifierESDTUseEnum.OFFICIAL);
+        	IdentifierESDT shortNameBasedIdentifier = new IdentifierESDT();
+            shortNameBasedIdentifier.setType(identifierTypes.getShortName());
+            shortNameBasedIdentifier.setUse(IdentifierESDTUseEnum.USUAL);
+            shortNameBasedIdentifier.setValue(entry.getKey());
+            shortNameBasedIdentifier.setLeafValue(entry.getKey());
+            newCareTeam.getIdentifiers().add(shortNameBasedIdentifier);
+            newCareTeam.assignSimplifiedID(true, identifierTypes.getShortName(), IdentifierESDTUseEnum.USUAL);
+
+            IdentifierESDT longNameBasedIdentifier = new IdentifierESDT();
+        	longNameBasedIdentifier.setType(identifierTypes.getLongName());
+        	longNameBasedIdentifier.setUse(IdentifierESDTUseEnum.USUAL);
+        	longNameBasedIdentifier.setValue(entry.getKey());
+        	longNameBasedIdentifier.setLeafValue(entry.getKey());
+            newCareTeam.getIdentifiers().add(longNameBasedIdentifier);
         	
         	careTeams.add(newCareTeam);
         }
         
         return(careTeams);
     }
-    
-    
-    
-    /**
-     * Add an entry to the map for each care team.  The participant list is empty at this stage.
-     * 
-     * @return
-     */
-    private Map<String, List<ParticipantESDT>> initialiseCareTeams() {
-    	Map<String, List<ParticipantESDT>>careTeams = new HashMap<>();
-    	
-    	careTeams.put("Code Yellow", new ArrayList<ParticipantESDT>());
-    	careTeams.put("Code Orange", new ArrayList<ParticipantESDT>());
-    	careTeams.put("Code Brown", new ArrayList<ParticipantESDT>());
-    	careTeams.put("Code Purple", new ArrayList<ParticipantESDT>());
-    	careTeams.put("Code Black", new ArrayList<ParticipantESDT>());
-
-    	return careTeams;
-    }  
 }

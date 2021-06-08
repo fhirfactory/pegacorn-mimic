@@ -25,114 +25,41 @@ import com.opencsv.bean.CsvBindByPosition;
 
 public class CareTeamCSVEntry {
 	@CsvBindByPosition(position = 0)
-	private String roleName;
-	@CsvBindByPosition(position = 1)
-	private String codeYellowResponder;
-	@CsvBindByPosition(position = 2)
-	private String codeYellowNotifier;
-	@CsvBindByPosition(position = 3)
-	private String codeOrangeResponder;
-	@CsvBindByPosition(position = 4)
-	private String codeOrangeNotifier;
-	@CsvBindByPosition(position = 5)
-	private String codeBrownResponder;
-	@CsvBindByPosition(position = 6)
-	private String codeBrownNotifier;
-	@CsvBindByPosition(position = 7)
-	private String codePurpleResponder;
-	@CsvBindByPosition(position = 8)
-	private String codePurpleNotifier;
-	@CsvBindByPosition(position = 9)
-	private String codeBlackResponder;
-	@CsvBindByPosition(position = 10)
-	private String codeBlackNotifier;
-
+	private String careTeamShortName;
 	
-	public String getRoleName() {
-		return roleName;
+	@CsvBindByPosition(position = 1)
+	private String careTeamLongName;
+	
+	@CsvBindByPosition(position = 2)
+	private String practitionerRoleShortName;
+	
+	
+	public String getCareTeamShortName() {
+		return careTeamShortName;
 	}
-
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
+	
+	
+	public void setCareTeamShortName(String careTeamShortName) {
+		this.careTeamShortName = careTeamShortName;
 	}
-
-	public String getCodeYellowResponder() {
-		return codeYellowResponder.trim();
+	
+	
+	public String getCareTeamLongName() {
+		return careTeamLongName;
 	}
-
-	public void setCodeYellowResponder(String codeYellowResponder) {
-		this.codeYellowResponder = codeYellowResponder;
+	
+	
+	public void setCareTeamLongName(String careTeamLongName) {
+		this.careTeamLongName = careTeamLongName;
 	}
-
-	public String getCodeYellowNotifier() {
-		return codeYellowNotifier.trim();
+	
+	
+	public String getPractitionerRoleShortName() {
+		return practitionerRoleShortName;
 	}
-
-	public void setCodeYellowNotifier(String codeYellowNotifier) {
-		this.codeYellowNotifier = codeYellowNotifier;
-	}
-
-	public String getCodeOrangeResponder() {
-		return codeOrangeResponder.trim();
-	}
-
-	public void setCodeOrangeResponder(String codeOrangeResponder) {
-		this.codeOrangeResponder = codeOrangeResponder;
-	}
-
-	public String getCodeOrangeNotifier() {
-		return codeOrangeNotifier.trim();
-	}
-
-	public void setCodeOrangeNotifier(String codeOrangeNotifier) {
-		this.codeOrangeNotifier = codeOrangeNotifier;
-	}
-
-	public String getCodeBrownResponder() {
-		return codeBrownResponder.trim();
-	}
-
-	public void setCodeBrownResponder(String codeBrownResponder) {
-		this.codeBrownResponder = codeBrownResponder;
-	}
-
-	public String getCodeBrownNotifier() {
-		return codeBrownNotifier.trim();
-	}
-
-	public void setCodeBrownNotifier(String codeBrownNotifier) {
-		this.codeBrownNotifier = codeBrownNotifier;
-	}
-
-	public String getCodePurpleResponder() {
-		return codePurpleResponder.trim();
-	}
-
-	public void setCodePurpleResponder(String codePurpleResponder) {
-		this.codePurpleResponder = codePurpleResponder;
-	}
-
-	public String getCodePurpleNotifier() {
-		return codePurpleNotifier.trim();
-	}
-
-	public void setCodePurpleNotifier(String codePurpleNotifier) {
-		this.codePurpleNotifier = codePurpleNotifier;
-	}
-
-	public String getCodeBlackResponder() {
-		return codeBlackResponder.trim();
-	}
-
-	public void setCodeBlackResponder(String codeBlackResponder) {
-		this.codeBlackResponder = codeBlackResponder;
-	}
-
-	public String getCodeBlackNotifier() {
-		return codeBlackNotifier.trim();
-	}
-
-	public void setCodeBlackNotifier(String codeBlackNotifier) {
-		this.codeBlackNotifier = codeBlackNotifier;
+	
+	
+	public void setPractitionerRoleShortName(String practitionerRoleShortName) {
+		this.practitionerRoleShortName = practitionerRoleShortName;
 	}
 }
