@@ -25,6 +25,7 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jgroups.Address;
 import org.jgroups.JChannel;
 import org.jgroups.View;
@@ -43,6 +44,8 @@ import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.ContactPoin
 import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.EffectivePeriod;
 import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.HumanNameESDT;
 import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.HumanNameESDTUseEnum;
+import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.OrganisationStructure;
+import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.OrganisationStructureElementType;
 import picocli.CommandLine;
 
 @CommandLine.Command(
@@ -75,6 +78,22 @@ public class createPractitioner implements Runnable{
     
     @CommandLine.Option(names = {"-j", "--mainJobtitle"})
     private String mainJobTitle;
+    
+    @CommandLine.Option(names = {"-div", "--division"})
+    private String division;
+    
+    @CommandLine.Option(names = {"-br", "--branch"})
+    private String branch;
+    
+    @CommandLine.Option(names = {"-sec", "--section"})
+    private String section;
+    
+    @CommandLine.Option(names = {"-ssec", "--subsection"})
+    private String subSection;
+    
+    @CommandLine.Option(names = {"-unt", "--unit"})
+    private String businessUnit;
+    
 
     @Override
     public void run() {
@@ -100,44 +119,62 @@ public class createPractitioner implements Runnable{
             practitionerName.setFamilyName(nameSplit[1]);
             practitionerName.setNameUse(HumanNameESDTUseEnum.OFFICIAL);
         }
+        
         EffectivePeriod period = new EffectivePeriod();
         period.setStartDate(Date.from(Instant.now()));
         practitionerName.setPeriod(period);
         practitioner.setOfficialName(practitionerName);
+      
+        
         // Extension
-        ContactPointESDT primaryPhone = new ContactPointESDT();
-        primaryPhone.setName("Extension");
-        primaryPhone.setValue(extensionNumber);
-        primaryPhone.setType(ContactPointESDTTypeEnum.PABX_EXTENSION);
-        primaryPhone.setUse(ContactPointESDTUseEnum.WORK);
-        primaryPhone.setRank(1);
-        practitioner.getContactPoints().add(primaryPhone);
+        if (extensionNumber != null) {
+	        ContactPointESDT primaryPhone = new ContactPointESDT();
+	        primaryPhone.setName("Extension");
+	        primaryPhone.setValue(extensionNumber);
+	        primaryPhone.setType(ContactPointESDTTypeEnum.PABX_EXTENSION);
+	        primaryPhone.setUse(ContactPointESDTUseEnum.WORK);
+	        primaryPhone.setRank(1);
+	        practitioner.getContactPoints().add(primaryPhone);
+        }
+      
+        
         // Mobile
-        ContactPointESDT mobilePhone = new ContactPointESDT();
-        mobilePhone.setName("Mobile");
-        mobilePhone.setValue(mobileNumber);
-        mobilePhone.setType(ContactPointESDTTypeEnum.MOBILE);
-        mobilePhone.setUse(ContactPointESDTUseEnum.WORK);
-        mobilePhone.setRank(2);
-        practitioner.getContactPoints().add(mobilePhone);
+        if (mobileNumber != null) {
+	        ContactPointESDT mobilePhone = new ContactPointESDT();
+	        mobilePhone.setName("Mobile");
+	        mobilePhone.setValue(mobileNumber);
+	        mobilePhone.setType(ContactPointESDTTypeEnum.MOBILE);
+	        mobilePhone.setUse(ContactPointESDTUseEnum.WORK);
+	        mobilePhone.setRank(2);
+	        practitioner.getContactPoints().add(mobilePhone);
+        }
         
         // Fax
-        ContactPointESDT facsimile = new ContactPointESDT();
-        facsimile.setName("Facsimile");
-        facsimile.setValue(facsimileNumber);
-        facsimile.setType(ContactPointESDTTypeEnum.FACSIMILE);
-        facsimile.setUse(ContactPointESDTUseEnum.WORK);
-        facsimile.setRank(3);
-        practitioner.getContactPoints().add(facsimile);  
+        if (facsimileNumber != null) {
+	        ContactPointESDT facsimile = new ContactPointESDT();
+	        facsimile.setName("Facsimile");
+	        facsimile.setValue(facsimileNumber);
+	        facsimile.setType(ContactPointESDTTypeEnum.FACSIMILE);
+	        facsimile.setUse(ContactPointESDTUseEnum.WORK);
+	        facsimile.setRank(3);
+	        practitioner.getContactPoints().add(facsimile);  
+        }
         
         // Personal phone
-        ContactPointESDT personalPhone = new ContactPointESDT();
-        personalPhone.setName("Personal");
-        personalPhone.setValue(personalNumber);
-        personalPhone.setType(ContactPointESDTTypeEnum.PERSONAL_PHONE);
-        personalPhone.setUse(ContactPointESDTUseEnum.PERSONAL);
-        personalPhone.setRank(4);
-        practitioner.getContactPoints().add(personalPhone);          
+        if (personalNumber != null) {
+	        ContactPointESDT personalPhone = new ContactPointESDT();
+	        personalPhone.setName("Personal");
+	        personalPhone.setValue(personalNumber);
+	        personalPhone.setType(ContactPointESDTTypeEnum.PERSONAL_PHONE);
+	        personalPhone.setUse(ContactPointESDTUseEnum.PERSONAL);
+	        personalPhone.setRank(4);
+	        practitioner.getContactPoints().add(personalPhone);    
+        }
+        
+        
+        
+        addOrganisationStructure(practitioner);
+        
         
         String practitionerAsString = entryAsJSONObject(practitioner);
         String result;
@@ -149,6 +186,72 @@ public class createPractitioner implements Runnable{
         LOG.info(".doCreate(): Result --> {}", result);
         LOG.debug(".doCreate(): Exit");
     }
+    
+    
+    /**
+     * Add the organisation structure.
+     * 
+     * @param practitioner
+     */
+    public void addOrganisationStructure(PractitionerESR practitioner) {
+    	
+    	int order = 1;
+    	
+    	LOG.info("Division: {}", division);
+    	LOG.info("Branch: {}", branch);
+    	LOG.info("Section: {}", section);
+    	LOG.info("Sub-section: {}", subSection);
+    	LOG.info("Business Unit: {}", businessUnit);
+    	
+    	for (OrganisationStructureElementType structureType : OrganisationStructureElementType.values()) {
+        	boolean added = false;
+    		
+    		OrganisationStructure orgStructure = new OrganisationStructure();
+    		
+    		if (structureType == OrganisationStructureElementType.DIVISION) {
+    			if (StringUtils.isNotBlank(division)) {
+    				added = true;
+    				orgStructure.setValue(division);
+    				
+    			}
+    			
+    		} else if (structureType == OrganisationStructureElementType.BRANCH) {
+    			if (StringUtils.isNotBlank(branch)) {
+    				added = true;
+    				orgStructure.setValue(branch);
+    				
+    			}
+    			
+    		} else if (structureType == OrganisationStructureElementType.SECTION) {
+    			if (StringUtils.isNotBlank(section)) {
+    				added = true;
+    				orgStructure.setValue(section);
+    				
+    			}
+    			
+    		} else if (structureType == OrganisationStructureElementType.SUB_SECTION) {
+    			if (StringUtils.isNotBlank(subSection)) {
+    				added = true;
+    				orgStructure.setValue(subSection);
+    				
+    			}
+    			
+    		} else if (structureType == OrganisationStructureElementType.BUSINESS_UNIT) {
+    			if (StringUtils.isNotBlank(businessUnit)) {
+    				added = true;
+    				orgStructure.setValue(businessUnit);
+    			}
+    		}
+    		
+    		if (added) {
+    			orgStructure.setIndex(order);
+        		orgStructure.setType(structureType);
+    			practitioner.getOrganisationStructure().add(orgStructure);
+    			order++;
+    		}
+    	}
+    }
+    
 
     public String performQuery(String practitioner){
         LOG.debug(".performQuery(): Entry");
