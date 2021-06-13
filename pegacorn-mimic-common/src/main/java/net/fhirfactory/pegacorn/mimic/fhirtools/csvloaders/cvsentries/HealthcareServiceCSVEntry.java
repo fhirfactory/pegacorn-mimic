@@ -21,5 +21,50 @@
  */
 package net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.cvsentries;
 
+import com.opencsv.bean.CsvBindByPosition;
+
 public class HealthcareServiceCSVEntry {
+    @CsvBindByPosition(position = 0)
+    private String healthCareServiceLongName;
+
+    @CsvBindByPosition(position = 1)
+    private String healthCareServiceShortName;
+    
+    @CsvBindByPosition(position = 2)
+    private String organisationalUnit;
+    
+    @CsvBindByPosition(position = 3)
+    private String telephoneNumber;
+
+    public String getHealthCareServiceLongName() {
+        return healthCareServiceLongName;
+    }
+
+    public void setHealthCareServiceLongName(String healthCareServiceLongName) {
+        this.healthCareServiceLongName = healthCareServiceLongName;
+    }
+
+    public String getHealthCareServiceShortName() {
+        return healthCareServiceShortName;
+    }
+
+    public void setHealthCareServiceShortName(String healthCareServiceShortName) {
+        this.healthCareServiceShortName = healthCareServiceShortName;
+    }
+
+    public String getOrganisationalUnit() {
+        return organisationalUnit;
+    }
+
+    public void setOrganisationalUnit(String organisationalUnit) {
+        this.organisationalUnit = organisationalUnit;
+    }
+
+    public String getTelephoneNumber() {
+        return telephoneNumber;
+    }
+
+    public void setTelephoneNumber(String telephoneNumber) {
+        this.telephoneNumber = telephoneNumber;
+    }
 }

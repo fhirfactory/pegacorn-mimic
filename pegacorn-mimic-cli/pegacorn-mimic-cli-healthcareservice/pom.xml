@@ -42,18 +42,14 @@
         <JBOSS_HOME>${project.basedir}/target/wildfly-${version-org.wildfly}</JBOSS_HOME>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>javax.enterprise</groupId>
-            <artifactId>cdi-api</artifactId>
-            <version>${version-javax.enterprise-cdi-api}</version>
-            <scope>provided</scope>
-        </dependency>
+     <dependencies>
 
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>${version-org.apache.commons-lang3}</version>
+            <scope>compile</scope>
+            <type>jar</type>
         </dependency>
 
         <dependency>
@@ -67,40 +63,39 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
             <version>${version-com.fasterxml.jackson.core-jackson-core}</version>
+            <scope>compile</scope>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${version-com.fasterxml.jackson.core-jackson-core}</version>
+            <scope>compile</scope>
+            <type>jar</type>
+        </dependency>
+        
+        <dependency>
+            <groupId>net.fhirfactory.pegacorn</groupId>
+            <artifactId>pegacorn-buildingblocks-esr-models</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
 
 
-        <!-- Pegacorn Deployment Datasets -->
+        <!-- Pegacorn Mimic Datasets -->
         <dependency>
             <groupId>net.fhirfactory.pegacorn</groupId>
-            <artifactId>pegacorn-deployment-datasets</artifactId>
-            <version>${project.version}</version>
+            <artifactId>pegacorn-mimic-common</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
             <scope>compile</scope>
+            <type>jar</type>
         </dependency>
 
         <dependency>
             <groupId>com.opencsv</groupId>
             <artifactId>opencsv</artifactId>
             <version>4.1</version>
-        </dependency>
-
-        <!-- This dependency includes the core HAPI-FHIR classes -->
-        <dependency>
-            <groupId>ca.uhn.hapi.fhir</groupId>
-            <artifactId>hapi-fhir-base</artifactId>
-            <version>${version-ca.uhn.hapi.fhir}</version>
-        </dependency>
-        <!-- At least one "structures" JAR must also be included -->
-        <dependency>
-            <groupId>ca.uhn.hapi.fhir</groupId>
-            <artifactId>hapi-fhir-structures-r4</artifactId>
-            <version>${version-ca.uhn.hapi.fhir}</version>
-        </dependency>
-        <!-- Used for validation -->
-        <dependency>
-            <groupId>ca.uhn.hapi.fhir</groupId>
-            <artifactId>hapi-fhir-validation-resources-r4</artifactId>
-            <version>${version-ca.uhn.hapi.fhir}</version>
+            <scope>compile</scope>
+            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>info.picocli</groupId>
@@ -109,8 +104,8 @@
             <scope>compile</scope>
         </dependency>
 
-    </dependencies>
 
+    </dependencies>
     <build>
         <plugins>
             <plugin>

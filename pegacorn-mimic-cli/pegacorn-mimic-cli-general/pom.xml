@@ -125,6 +125,12 @@
         </dependency>
         <dependency>
             <groupId>net.fhirfactory.pegacorn</groupId>
+            <artifactId>pegacorn-mimic-cli-healthcareservice</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.fhirfactory.pegacorn</groupId>
             <artifactId>pegacorn-buildingblocks-datamodels-components</artifactId>
             <version>1.0.0-SNAPSHOT</version>
             <scope>compile</scope>

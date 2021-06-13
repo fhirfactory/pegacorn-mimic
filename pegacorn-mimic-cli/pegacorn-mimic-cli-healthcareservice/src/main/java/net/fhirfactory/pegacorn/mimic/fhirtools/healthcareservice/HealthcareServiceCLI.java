@@ -21,5 +21,24 @@
  */
 package net.fhirfactory.pegacorn.mimic.fhirtools.healthcareservice;
 
-public class HealthcareServiceCLI {
+import net.fhirfactory.pegacorn.mimic.fhirtools.healthcareservice.subcommands.healthcareservicecsv.LoadFromCSVCLI;
+import picocli.CommandLine;
+
+    
+@CommandLine.Command(
+        name="HealthCareService",
+        description="HealthCareService CLI",
+        subcommands = {
+                LoadFromCSVCLI.class
+        }
+)
+public class HealthcareServiceCLI implements Runnable{
+    public static void main(String[] args) {
+        CommandLine.run(new HealthcareServiceCLI(), args);
+    }
+
+    @Override
+    public void run() {
+        System.out.println("The HealthCareServiceCLI command");
+    }
 }

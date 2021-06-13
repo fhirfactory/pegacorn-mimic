@@ -1,18 +1,20 @@
 package net.fhirfactory.pegacorn.mimic.fhir;
 
-import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.careteam.api.CareTeamCLIRPCServer;
-import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.location.api.LocationCLIRPCServer;
-import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.organization.api.OrganizationCLIRPCServer;
-import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.practitioner.api.PractitionerCLIRPCServer;
-import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.practitionerrole.api.PractitionerRoleCLIRPCServer;
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.careteam.api.CareTeamCLIRPCServer;
+import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.healthcareservice.api.HealthCareServiceCLIRPCServer;
+import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.location.api.LocationCLIRPCServer;
+import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.organization.api.OrganizationCLIRPCServer;
+import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.practitioner.api.PractitionerCLIRPCServer;
+import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.practitionerrole.api.PractitionerRoleCLIRPCServer;
 
 @ApplicationScoped
 public class ResourceCLIServer extends RouteBuilder {
@@ -35,6 +37,9 @@ public class ResourceCLIServer extends RouteBuilder {
     
     @Inject
     private CareTeamCLIRPCServer careTeamCLIRPCServer;
+    
+    @Inject
+    HealthCareServiceCLIRPCServer healthCareServiceCLIRPCServer;
 
     @PostConstruct
     public void initialise(){
@@ -44,6 +49,7 @@ public class ResourceCLIServer extends RouteBuilder {
         practitionerCLIRPCServer.doInitialisation();
         locationCLIRPCServer.doInitialisation();
         careTeamCLIRPCServer.doInitialisation();
+        healthCareServiceCLIRPCServer.doInitialisation();
     }
 
     @Override

@@ -21,11 +21,8 @@
  */
 package net.fhirfactory.pegacorn.mimic.fhirtools.fhirserverclient;
 
-import net.fhirfactory.pegacorn.mimic.fhirtools.careteam.CareTeamCLI;
-import net.fhirfactory.pegacorn.mimic.fhirtools.location.LocationCLI;
-import net.fhirfactory.pegacorn.mimic.fhirtools.organization.OrganizationCLI;
-import net.fhirfactory.pegacorn.mimic.fhirtools.practitioner.PractitionerCLI;
-import net.fhirfactory.pegacorn.mimic.fhirtools.practitionerrole.PractitionerRoleCLI;
+import java.util.List;
+
 import org.jgroups.Address;
 import org.jgroups.JChannel;
 import org.jgroups.View;
@@ -34,15 +31,20 @@ import org.jgroups.blocks.ResponseMode;
 import org.jgroups.blocks.RpcDispatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import picocli.CommandLine;
 
-import java.util.List;
+import net.fhirfactory.pegacorn.mimic.fhirtools.careteam.CareTeamCLI;
+import net.fhirfactory.pegacorn.mimic.fhirtools.healthcareservice.HealthcareServiceCLI;
+import net.fhirfactory.pegacorn.mimic.fhirtools.location.LocationCLI;
+import net.fhirfactory.pegacorn.mimic.fhirtools.organization.OrganizationCLI;
+import net.fhirfactory.pegacorn.mimic.fhirtools.practitioner.PractitionerCLI;
+import net.fhirfactory.pegacorn.mimic.fhirtools.practitionerrole.PractitionerRoleCLI;
+import picocli.CommandLine;
 
 @CommandLine.Command(
         name="FHIRClientCLI",
         description="FHIR Server Client CLI",
         subcommands = {
-            OrganizationCLI.class, PractitionerRoleCLI.class, PractitionerCLI.class, LocationCLI.class, CareTeamCLI.class
+            OrganizationCLI.class, PractitionerRoleCLI.class, PractitionerCLI.class, LocationCLI.class, CareTeamCLI.class, HealthcareServiceCLI.class
         }
 )
 public class FHIRServerClientCLI implements Runnable{
