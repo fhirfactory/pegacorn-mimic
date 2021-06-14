@@ -24,7 +24,7 @@ package net.fhirfactory.pegacorn.mimic.fhirtools.practitionerrole.subcommands.pr
 import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
-import net.fhirfactory.pegacorn.internals.esr.resources.common.CommonIdentifierESDTTypes;
+import net.fhirfactory.pegacorn.internals.esr.resources.valuesets.IdentifierESDTTypesEnum;
 import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.*;
 import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.cvsentries.PractitionerRoleCSVEntry;
 import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.intermediary.PractitionerRoleESRApproximate;
@@ -70,7 +70,6 @@ public class PractitionerRoleCSVReader {
 
     public List<PractitionerRoleESRApproximate> convertCSVEntry2PractitionerRoleLite(List<PractitionerRoleCSVEntry> prSet){
         LOG.debug(".convertCSVEntry2PractitionerRoleLite(): Entry");
-        CommonIdentifierESDTTypes identifierTypes = new CommonIdentifierESDTTypes();
         ArrayList<PractitionerRoleESRApproximate> workingList = new ArrayList<>();
         LOG.trace(".convertCSVEntry2PractitionerRoleLite(): Iterate through CSV Entries and Converting to PractitionerRoleLite");
         for(PractitionerRoleCSVEntry currentEntry: prSet) {
@@ -112,7 +111,7 @@ public class PractitionerRoleCSVReader {
             List<ContactPointESDT> mobilePhoneNumbers = getMobilePhoneNumbers(currentEntry.getContactMobile());
             practitionerRoleESRApproximate.getContactPoints().addAll(mobilePhoneNumbers);
             // Assign SimplifiedID
-            practitionerRoleESRApproximate.assignSimplifiedID(true, identifierTypes.getShortName(), IdentifierESDTUseEnum.USUAL);
+            practitionerRoleESRApproximate.assignSimplifiedID(true, IdentifierESDTTypesEnum.ESR_IDENTIFIER_TYPE_SHORT_NAME.getIdentifierType(), IdentifierESDTUseEnum.USUAL);
             // All done!
             workingList.add(practitionerRoleESRApproximate);
         }

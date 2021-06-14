@@ -22,6 +22,7 @@
 package net.fhirfactory.pegacorn.mimic.fhirtools.practitioner.subcommands.create;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.fhirfactory.pegacorn.common.model.dates.EffectivePeriod;
 import net.fhirfactory.pegacorn.internals.esr.resources.PractitionerESR;
 import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.*;
 import org.jgroups.Address;
@@ -81,7 +82,7 @@ public class createPractitioner implements Runnable{
             practitionerName.setNameUse(HumanNameESDTUseEnum.OFFICIAL);
         }
         EffectivePeriod period = new EffectivePeriod();
-        period.setStartDate(Date.from(Instant.now()));
+        period.setEffectiveStartDate(Date.from(Instant.now()));
         practitionerName.setPeriod(period);
         practitioner.setOfficialName(practitionerName);
         // Extension

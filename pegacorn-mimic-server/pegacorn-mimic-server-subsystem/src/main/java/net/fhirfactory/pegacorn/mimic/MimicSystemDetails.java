@@ -4,14 +4,12 @@ import net.fhirfactory.pegacorn.common.model.componentid.TopologyNodeTypeEnum;
 import net.fhirfactory.pegacorn.common.model.generalid.FDN;
 import net.fhirfactory.pegacorn.common.model.generalid.FDNToken;
 import net.fhirfactory.pegacorn.common.model.generalid.RDN;
-import net.fhirfactory.pegacorn.deployment.topology.model.common.SystemIdentificationInterface;
-import net.fhirfactory.pegacorn.deployment.topology.model.mode.ConcurrencyModeEnum;
-import net.fhirfactory.pegacorn.deployment.topology.model.mode.ResilienceModeEnum;
+import net.fhirfactory.pegacorn.deployment.properties.codebased.DeploymentSystemIdentificationInterface;
 
 import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-public class MimicSystemDetails implements SystemIdentificationInterface {
+public class MimicSystemDetails implements DeploymentSystemIdentificationInterface {
     @Override
     public String getSystemName() {
         return "Mimic";
@@ -32,15 +30,5 @@ public class MimicSystemDetails implements SystemIdentificationInterface {
     @Override
     public String getSystemOwnerName() {
         return ("TBA");
-    }
-
-    @Override
-    public ConcurrencyModeEnum getDefaultSubsystemConcurrencyMode() {
-        return (ConcurrencyModeEnum.CONCURRENCY_MODE_STANDALONE);
-    }
-
-    @Override
-    public ResilienceModeEnum getDefaultSubsystemResilienceMode() {
-        return (ResilienceModeEnum.RESILIENCE_MODE_STANDALONE);
     }
 }

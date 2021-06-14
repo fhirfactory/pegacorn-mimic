@@ -26,17 +26,14 @@ import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import net.fhirfactory.pegacorn.internals.esr.helpers.ContextualisedIdentifierValueFactory;
 import net.fhirfactory.pegacorn.internals.esr.resources.OrganizationESR;
-import net.fhirfactory.pegacorn.internals.esr.resources.common.CommonIdentifierESDTTypes;
+import net.fhirfactory.pegacorn.internals.esr.resources.valuesets.IdentifierESDTTypesEnum;
 import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.IdentifierESDT;
 import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.IdentifierESDTUseEnum;
 import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.TypeESDT;
 import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.cvsentries.OrganizationCSVEntry;
-import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.intermediary.ContextualisedIdentifierValueHelper;
-import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.intermediary.IdentifierESDTTypesUsedInCLI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.inject.Inject;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -78,7 +75,6 @@ public class OrganizationCSVReader {
 
     public List<OrganizationESR> organiseOrganizationHierarchy(){
         LOG.debug(".organiseOrganizationHierarchy(): Entry");
-        CommonIdentifierESDTTypes identifierTypes = new CommonIdentifierESDTTypes();
         ArrayList<OrganizationCSVEntry> initialWorkingList = new ArrayList<>();
         ArrayList<OrganizationCSVEntry> nonRootWorkingList = new ArrayList<>();
         LOG.debug(".organiseOrganizationHierarchy(): Creating working list (initialWorkingList)");
@@ -90,7 +86,7 @@ public class OrganizationCSVReader {
             if(currentEntry.getOrganisationParentShortName() == null || currentEntry.getOrganisationParentShortName().isEmpty()){
                 LOG.info(".organiseOrganizationHierarchy(): Is root Node");
                 OrganizationESR organisation = buildOrganization(null, currentEntry);
-                processedEntries.put(organisation.getIdentifierWithType(identifierTypes.getShortName()).getLeafValue(), organisation);
+                processedEntries.put(organisation.getIdentifierWithType(IdentifierESDTTypesEnum.ESR_IDENTIFIER_TYPE_SHORT_NAME).getLeafValue(), organisation);
             } else {
                 LOG.info(".organiseOrganizationHierarchy(): Is not a root Node");
                 nonRootWorkingList.add(currentEntry);
@@ -106,7 +102,7 @@ public class OrganizationCSVReader {
                     OrganizationESR currentOrganizationParent = processedEntries.get(currentEntry.getOrganisationParentShortName());
                     OrganizationESR currentOrganization = buildOrganization(currentOrganizationParent, currentEntry);
                     processedList.add(currentEntry);
-                    processedEntries.put(currentOrganization.getIdentifierWithType(identifierTypes.getShortName()).getLeafValue(), currentOrganization);
+                    processedEntries.put(currentOrganization.getIdentifierWithType(IdentifierESDTTypesEnum.ESR_IDENTIFIER_TYPE_SHORT_NAME).getLeafValue(), currentOrganization);
                 }
             }
             nonRootWorkingList.removeAll(processedList);
@@ -140,7 +136,6 @@ public class OrganizationCSVReader {
         LOG.debug(".buildOrganization(): Entry, shortName->{}, longName->{}, parentShortName->{}",
                 entry.getOrganisationShortName(), entry.getOrganisationLongName(), entry.getOrganisationParentShortName());
         ContextualisedIdentifierValueFactory identifierValueFactory = new ContextualisedIdentifierValueFactory();
-        CommonIdentifierESDTTypes identifierTypes = new CommonIdentifierESDTTypes();
         OrganizationESR organization = new OrganizationESR();
         String newShortNameIdentifierValue = null;
         String newLongNameIdentifierValue = null;
@@ -150,30 +145,30 @@ public class OrganizationCSVReader {
             newLongNameIdentifierValue = identifierValueFactory.buildComprehensiveIdentifierValue(null, entry.getOrganisationLongName());
         } else {
             LOG.debug(".buildOrganization(): Is Business Unit, shortName->{}, parent->{}", entry.getOrganisationShortName(), entry.getOrganisationParentShortName());
-            IdentifierESDT shortNameIdentifier = parentOrganization.getIdentifierWithType(identifierTypes.getShortName());
+            IdentifierESDT shortNameIdentifier = parentOrganization.getIdentifierWithType(IdentifierESDTTypesEnum.ESR_IDENTIFIER_TYPE_SHORT_NAME);
             String parentShortName = shortNameIdentifier.getValue();
             LOG.debug(".buildOrganization(): parentShortNameIdentifierValue->{}", parentShortName);
             newShortNameIdentifierValue = identifierValueFactory.buildComprehensiveIdentifierValue(parentShortName, entry.getOrganisationShortName());
             LOG.debug(".buildOrganization(): newShortNameIdentifierValue->{}", newShortNameIdentifierValue);
             organization.setParentOrganization(parentOrganization.getSimplifiedID());
-            IdentifierESDT longNameIdentifier = parentOrganization.getIdentifierWithType(identifierTypes.getLongName());
+            IdentifierESDT longNameIdentifier = parentOrganization.getIdentifierWithType(IdentifierESDTTypesEnum.ESR_IDENTIFIER_TYPE_LONG_NAME);
             String parentLongName = longNameIdentifier.getValue();
             newLongNameIdentifierValue = identifierValueFactory.buildComprehensiveIdentifierValue(parentLongName, entry.getOrganisationLongName());
             parentOrganization.getContainedOrganizations().add(newShortNameIdentifierValue);
         }
         IdentifierESDT shortnameBasedIdentifier = new IdentifierESDT();
-        shortnameBasedIdentifier.setType(identifierTypes.getShortName());
+        shortnameBasedIdentifier.setType(IdentifierESDTTypesEnum.ESR_IDENTIFIER_TYPE_SHORT_NAME.getIdentifierType());
         shortnameBasedIdentifier.setUse(IdentifierESDTUseEnum.USUAL);
         shortnameBasedIdentifier.setValue(newShortNameIdentifierValue);
         shortnameBasedIdentifier.setLeafValue(entry.getOrganisationShortName());
         organization.getIdentifiers().add(shortnameBasedIdentifier);
         IdentifierESDT longNameBasedIdentifier = new IdentifierESDT();
-        longNameBasedIdentifier.setType(identifierTypes.getLongName());
+        longNameBasedIdentifier.setType(IdentifierESDTTypesEnum.ESR_IDENTIFIER_TYPE_LONG_NAME.getIdentifierType());
         longNameBasedIdentifier.setUse(IdentifierESDTUseEnum.USUAL);
         longNameBasedIdentifier.setValue(newLongNameIdentifierValue);
         longNameBasedIdentifier.setLeafValue(entry.getOrganisationLongName());
         organization.getIdentifiers().add(longNameBasedIdentifier);
-        organization.assignSimplifiedID(true, identifierTypes.getShortName(), IdentifierESDTUseEnum.USUAL);
+        organization.assignSimplifiedID(true, IdentifierESDTTypesEnum.ESR_IDENTIFIER_TYPE_SHORT_NAME.getIdentifierType(), IdentifierESDTUseEnum.USUAL);
         organization.setDisplayName(entry.getOrganisationShortName());
         organization.setDescription(entry.getOrganisationLongName());
         TypeESDT orgType = new TypeESDT();

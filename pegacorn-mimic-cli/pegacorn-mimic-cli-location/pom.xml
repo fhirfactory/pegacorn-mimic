@@ -81,19 +81,20 @@
         <dependency>
             <groupId>com.opencsv</groupId>
             <artifactId>opencsv</artifactId>
-            <version>4.1</version>
+            <version>${version-com.opencsv-csv}</version>
         </dependency>
 
         <dependency>
             <groupId>info.picocli</groupId>
             <artifactId>picocli</artifactId>
-            <version>3.9.6</version>
+            <version>${version-info.picocli-picocli}</version>
             <scope>compile</scope>
         </dependency>
+
         <dependency>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-assembly-plugin</artifactId>
-            <version>3.3.0</version>
+            <version>${version-org.apache.maven-assembly-plugin}</version>
             <scope>compile</scope>
         </dependency>
 

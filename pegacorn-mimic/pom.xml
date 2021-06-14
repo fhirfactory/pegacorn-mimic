@@ -25,5 +25,6 @@
         <module>../pegacorn-mimic-common</module>
         <module>../pegacorn-mimic-server/pegacorn-mimic-server</module>
         <module>../pegacorn-mimic-cli/pegacorn-mimic-cli</module>
+        <module>../pegacorn-mimic-synapsesink</module>
     </modules>
 </project>

@@ -28,8 +28,7 @@ import net.fhirfactory.pegacorn.internals.esr.resources.PractitionerRoleESR;
 import net.fhirfactory.pegacorn.internals.esr.resources.common.ExtremelySimplifiedResource;
 import net.fhirfactory.pegacorn.internals.esr.transactions.ESRMethodOutcome;
 import net.fhirfactory.pegacorn.internals.esr.transactions.ESRMethodOutcomeEnum;
-import net.fhirfactory.pegacorn.internals.esr.resources.common.CommonIdentifierESDTTypes;
-import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.IdentifierESDT;
+import net.fhirfactory.pegacorn.internals.esr.resources.valuesets.IdentifierESDTTypesEnum;
 import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.common.ResourceStorageService;
 import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.intermediary.PractitionerRoleESRApproximate;
 import org.slf4j.Logger;
@@ -48,7 +47,7 @@ public class PractitionerRoleCreator extends ResourceStorageService {
     private PractitionerRoleESRBroker practitionerRoleDirectoryResourceBroker;
 
     @Inject
-    private CommonIdentifierESDTTypes commonIdentifierESDTTypes;
+    private IdentifierESDTTypesEnum identifierESDTTypesEnum;
 
     @Inject
     private RoleCreator roleCreator;
