@@ -113,7 +113,7 @@ public class CareTeamCSVReader {
 
             IdentifierESDT longNameBasedIdentifier = new IdentifierESDT();
         	longNameBasedIdentifier.setType(identifierTypes.getLongName());
-        	longNameBasedIdentifier.setUse(IdentifierESDTUseEnum.USUAL);
+        	longNameBasedIdentifier.setUse(IdentifierESDTUseEnum.SECONDARY);
         	longNameBasedIdentifier.setValue(entry.getKey());
         	longNameBasedIdentifier.setLeafValue(entry.getKey());
             newCareTeam.getIdentifiers().add(longNameBasedIdentifier);
