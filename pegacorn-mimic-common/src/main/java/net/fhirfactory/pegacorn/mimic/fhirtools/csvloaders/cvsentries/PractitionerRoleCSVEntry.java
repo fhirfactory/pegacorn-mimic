@@ -42,10 +42,20 @@ public class PractitionerRoleCSVEntry {
     private String contactExtensions;
     @CsvBindByPosition(position = 8)
     private String contactMobile;
-    @CsvBindByPosition(position=13)
-    private String facsimile;
     @CsvBindByPosition(position=14)
+    private String facsimile;
+    @CsvBindByPosition(position=15)
     private String pager;
+    @CsvBindByPosition(position=16)
+    private String division;
+    @CsvBindByPosition(position=17)
+    private String branch;
+    @CsvBindByPosition(position=18)
+    private String section;
+    @CsvBindByPosition(position=19)
+    private String subSection;
+    @CsvBindByPosition(position=20)
+    private String businessUnit;
     
     
     public String getOrganisationUnitShortName() {
@@ -105,7 +115,11 @@ public class PractitionerRoleCSVEntry {
     }
 
     public String getContactExtensions() {
-        return contactExtensions.trim();
+        if (contactExtensions != null) {
+            return contactExtensions.trim();
+        }
+        
+        return contactExtensions;
     }
 
     public void setContactExtensions(String contactExtensions) {
@@ -113,7 +127,11 @@ public class PractitionerRoleCSVEntry {
     }
 
     public String getContactMobile() {
-        return contactMobile.trim();
+        if (contactMobile != null) {
+            return contactMobile.trim();
+        }
+        
+        return contactMobile;
     }
 
     public void setContactMobile(String contactMobile) {
@@ -121,7 +139,11 @@ public class PractitionerRoleCSVEntry {
     }
 
 	public String getFacsimile() {
-		return facsimile.trim();
+	    if (facsimile != null) {
+	        return facsimile.trim();
+	    }
+	    
+	    return facsimile;
 	}
 
 	public void setFacsimile(String facsimile) {
@@ -129,10 +151,54 @@ public class PractitionerRoleCSVEntry {
 	}
 
 	public String getPager() {
-		return pager.trim();
+	    if (pager != null) {
+	        return pager.trim();
+	    }
+	    
+	    return pager;
 	}
 
 	public void setPager(String pager) {
 		this.pager = pager;
 	}
+
+    public String getDivision() {
+        return division;
+    }
+
+    public void setDivision(String division) {
+        this.division = division;
+    }
+
+    public String getBranch() {
+        return branch;
+    }
+
+    public void setBranch(String branch) {
+        this.branch = branch;
+    }
+
+    public String getSection() {
+        return section;
+    }
+
+    public void setSection(String section) {
+        this.section = section;
+    }
+
+    public String getSubSection() {
+        return subSection;
+    }
+
+    public void setSubSection(String subSection) {
+        this.subSection = subSection;
+    }
+
+    public String getBusinessUnit() {
+        return businessUnit;
+    }
+
+    public void setBusinessUnit(String businessUnit) {
+        this.businessUnit = businessUnit;
+    }
 }
