@@ -96,7 +96,7 @@ public class HealthCareServiceCSVReader {
     
             IdentifierESDT longNameBasedIdentifier = new IdentifierESDT();
         	longNameBasedIdentifier.setType(identifierTypes.getLongName());
-        	longNameBasedIdentifier.setUse(IdentifierESDTUseEnum.USUAL);
+        	longNameBasedIdentifier.setUse(IdentifierESDTUseEnum.SECONDARY);
         	longNameBasedIdentifier.setValue(currentEntry.getHealthCareServiceLongName());
         	newHealthCareService.getIdentifiers().add(longNameBasedIdentifier);
         	
