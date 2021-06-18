@@ -30,6 +30,7 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.fhirfactory.buildingblocks.esr.models.exceptions.ResourceInvalidSearchException;
 import net.fhirfactory.buildingblocks.esr.models.resources.CommonIdentifierESDTTypes;
 import net.fhirfactory.buildingblocks.esr.models.resources.ExtremelySimplifiedResource;
 import net.fhirfactory.buildingblocks.esr.models.resources.PractitionerRoleESR;
@@ -73,7 +74,7 @@ public class PractitionerRoleCreator extends ResourceStorageService {
         return(LOG);
     }
 
-    public ESRMethodOutcome createPractitionerRole(PractitionerRoleESRApproximate practitionerRoleApprox){
+    public ESRMethodOutcome createPractitionerRole(PractitionerRoleESRApproximate practitionerRoleApprox) throws ResourceInvalidSearchException{
         LOG.info(".createPractitionerRole(): Entry, simplisticPR --> {}", practitionerRoleApprox);
         if(practitionerRoleApprox == null){
             LOG.info(".createPractitionerRole(): simplisticPR is null, return a failed MethodOutcome");

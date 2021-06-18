@@ -11,4 +11,9 @@ CWD 4G Baton
 CWD 4G Allocated
 CWD Wifi Baton
 CWD Wifi Allocated",Number of CWDs Allocated,Column9
-Acute Allied Health Services,CH,Allied Health,DAH,Clinician,Dir Acute Allied Health Services,Director of Acute Allied Health Services,45135,,,,,,,625155555,62518888,A division,A branch,A section,A subsection,A business unit
+Acute Allied Health Services,CH,Allied Health,DAH,Clinician,Dir Acute Allied Health Services,Director of Acute Allied Health Services,45135,,,,,,,625155555,62518888
+Surgical Wards,CH,Nursing and Midwifery,CDN,Nurse,10A CDN,"General Surgery, Ophthalmology, and Trauma Ward Clinical Development Nurse",#N/A,,,TANIA LAWRENCE 23/7,Ward desk phone,,,625155555,62518888
+Surgical Wards,CH,Nursing and Midwifery,CNC,Nurse,10A CNC,"General Surgery, Ophthalmology, and Trauma Ward Clinical Nurse Consultant",#N/A,,,TANIA LAWRENCE 23/7,DECT,,,625155555,62518888
+Patient Support Services,CH,General,Hospital Assistant,General,10A HA,"General Surgery, Ophthalmology, and Trauma Ward Hospital Assistant",#N/A,,,Sue Collins,pager,WIFI BATON,,625155555,62518888
+Surgical Wards,CH,Nursing and Midwifery,Nurse,Nurse,10A Nurse,"General Surgery, Ophthalmology, and Trauma Ward Nurse",#N/A,,,TANIA LAWRENCE 23/7,Ward desk phone,,,625155555,62518888
+Surgical Wards,CH,Student,Nursing Student,General,10A Nursing Student,"General Surgery, Ophthalmology, and Trauma Ward Nursing Student",#N/A,,,Nil,Ward desk phone,,,625155555,62518888

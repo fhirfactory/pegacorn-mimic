@@ -46,16 +46,6 @@ public class PractitionerRoleCSVEntry {
     private String facsimile;
     @CsvBindByPosition(position=15)
     private String pager;
-    @CsvBindByPosition(position=16)
-    private String division;
-    @CsvBindByPosition(position=17)
-    private String branch;
-    @CsvBindByPosition(position=18)
-    private String section;
-    @CsvBindByPosition(position=19)
-    private String subSection;
-    @CsvBindByPosition(position=20)
-    private String businessUnit;
     
     
     public String getOrganisationUnitShortName() {
@@ -161,44 +151,4 @@ public class PractitionerRoleCSVEntry {
 	public void setPager(String pager) {
 		this.pager = pager;
 	}
-
-    public String getDivision() {
-        return division;
-    }
-
-    public void setDivision(String division) {
-        this.division = division;
-    }
-
-    public String getBranch() {
-        return branch;
-    }
-
-    public void setBranch(String branch) {
-        this.branch = branch;
-    }
-
-    public String getSection() {
-        return section;
-    }
-
-    public void setSection(String section) {
-        this.section = section;
-    }
-
-    public String getSubSection() {
-        return subSection;
-    }
-
-    public void setSubSection(String subSection) {
-        this.subSection = subSection;
-    }
-
-    public String getBusinessUnit() {
-        return businessUnit;
-    }
-
-    public void setBusinessUnit(String businessUnit) {
-        this.businessUnit = businessUnit;
-    }
 }

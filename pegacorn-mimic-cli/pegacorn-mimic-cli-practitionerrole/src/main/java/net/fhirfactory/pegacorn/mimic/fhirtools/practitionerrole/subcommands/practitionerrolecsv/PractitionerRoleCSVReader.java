@@ -27,7 +27,6 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,14 +35,11 @@ import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
 import net.fhirfactory.buildingblocks.esr.models.resources.CommonIdentifierESDTTypes;
-import net.fhirfactory.buildingblocks.esr.models.resources.PractitionerRoleESR;
 import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.ContactPointESDT;
 import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.ContactPointESDTTypeEnum;
 import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.ContactPointESDTUseEnum;
 import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.IdentifierESDT;
 import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.IdentifierESDTUseEnum;
-import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.OrganisationStructure;
-import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.OrganisationStructureElementType;
 import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.cvsentries.PractitionerRoleCSVEntry;
 import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.intermediary.PractitionerRoleESRApproximate;
 
@@ -149,9 +145,6 @@ public class PractitionerRoleCSVReader {
             // Assign SimplifiedID
             practitionerRoleESRApproximate.assignSimplifiedID(true, identifierTypes.getShortName(), IdentifierESDTUseEnum.USUAL);
             
-            addOrganisationStructure(practitionerRoleESRApproximate, currentEntry);
-            
-            
             // All done!
             workingList.add(practitionerRoleESRApproximate);
         }
@@ -213,65 +206,5 @@ public class PractitionerRoleCSVReader {
             phoneList.add(commChannel);
         }
         return(phoneList);
-    }
-
-    
-    /**
-     * Add the organisation structure.
-     * 
-     * @param practitioner
-     */
-    public void addOrganisationStructure(PractitionerRoleESR practitionerRole, PractitionerRoleCSVEntry entry) {
-        
-        int order = 1;
-        
-       
-        for (OrganisationStructureElementType structureType : OrganisationStructureElementType.values()) {
-            boolean added = false;
-            
-            OrganisationStructure orgStructure = new OrganisationStructure();
-            
-            if (structureType == OrganisationStructureElementType.DIVISION) {
-                if (StringUtils.isNotBlank(entry.getDivision())) {
-                    added = true;
-                    orgStructure.setValue(entry.getDivision());
-                    
-                }
-                
-            } else if (structureType == OrganisationStructureElementType.BRANCH) {
-                if (StringUtils.isNotBlank(entry.getBranch())) {
-                    added = true;
-                    orgStructure.setValue(entry.getBranch());
-                    
-                }
-                
-            } else if (structureType == OrganisationStructureElementType.SECTION) {
-                if (StringUtils.isNotBlank(entry.getSection())) {
-                    added = true;
-                    orgStructure.setValue(entry.getSection());
-                    
-                }
-                
-            } else if (structureType == OrganisationStructureElementType.SUB_SECTION) {
-                if (StringUtils.isNotBlank(entry.getSubSection())) {
-                    added = true;
-                    orgStructure.setValue(entry.getSubSection());
-                    
-                }
-                
-            } else if (structureType == OrganisationStructureElementType.BUSINESS_UNIT) {
-                if (StringUtils.isNotBlank(entry.getBusinessUnit())) {
-                    added = true;
-                    orgStructure.setValue(entry.getBusinessUnit());
-                }
-            }
-            
-            if (added) {
-                orgStructure.setIndex(order);
-                orgStructure.setType(structureType);
-                practitionerRole.getOrganisationStructure().add(orgStructure);
-                order++;
-            }
-        }
     }
 }

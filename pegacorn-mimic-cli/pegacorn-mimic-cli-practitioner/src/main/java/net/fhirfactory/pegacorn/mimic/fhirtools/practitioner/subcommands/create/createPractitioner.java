@@ -229,7 +229,7 @@ public class createPractitioner implements Runnable{
     		
     		if (added) {
     			orgStructure.setIndex(order);
-        		orgStructure.setType(structureType);
+        		orgStructure.setType(structureType.name());
     			practitioner.getOrganisationStructure().add(orgStructure);
     			order++;
     		}
