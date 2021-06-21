@@ -203,6 +203,7 @@ public class PractitionerRoleCSVReader {
             commChannel.setType(ContactPointESDTTypeEnum.MOBILE);
             commChannel.setName("Mobile");
             commChannel.setRank(rank++);
+            commChannel.setUse(ContactPointESDTUseEnum.WORK);
             phoneList.add(commChannel);
         }
         return(phoneList);
