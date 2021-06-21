@@ -25,10 +25,10 @@ import com.opencsv.bean.CsvBindByPosition;
 
 public class HealthcareServiceCSVEntry {
     @CsvBindByPosition(position = 0)
-    private String healthCareServiceLongName;
+    private String healthCareServiceShortName;
 
     @CsvBindByPosition(position = 1)
-    private String healthCareServiceShortName;
+    private String healthCareServiceLongName;
     
     @CsvBindByPosition(position = 2)
     private String organisationalUnit;
