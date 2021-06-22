@@ -41,6 +41,7 @@ import net.fhirfactory.pegacorn.internals.esr.brokers.OrganizationESRBroker;
 import net.fhirfactory.pegacorn.internals.esr.brokers.PractitionerRoleESRBroker;
 import net.fhirfactory.pegacorn.internals.esr.search.Pagination;
 import net.fhirfactory.pegacorn.internals.esr.search.SearchCriteria;
+import net.fhirfactory.pegacorn.internals.esr.search.SearchParam;
 import net.fhirfactory.pegacorn.internals.esr.search.SearchParamNames;
 import net.fhirfactory.pegacorn.internals.esr.search.Sort;
 import net.fhirfactory.pegacorn.internals.esr.search.filter.BaseFilter;
@@ -145,7 +146,7 @@ public class PractitionerRoleCreator extends ResourceStorageService {
 
     private String getLocationID(String providedName){
         try {
-            ESRMethodOutcome outcome = locationBroker.searchForESRsUsingAttribute(new SearchCriteria(SearchParamNames.LEAF_VALUE,providedName), new ArrayList<BaseFilter>(), new Sort(), new Pagination());
+            ESRMethodOutcome outcome = locationBroker.searchForESRsUsingAttribute(new SearchCriteria(new SearchParam(SearchParamNames.LEAF_VALUE,providedName)), new ArrayList<BaseFilter>(), new Sort(), new Pagination());
             if(outcome.isSearchSuccessful()) {
                 ExtremelySimplifiedResource esr = outcome.getSearchResult().get(0);
                 String identifierValue = esr.getSimplifiedID();
@@ -159,7 +160,7 @@ public class PractitionerRoleCreator extends ResourceStorageService {
 
     private String getOrganizationID(String providedName){
         try {
-            ESRMethodOutcome outcome = organizationBroker.searchForESRsUsingAttribute(new SearchCriteria(SearchParamNames.LEAF_VALUE,providedName),new ArrayList<BaseFilter>(), new Sort(), new Pagination());
+            ESRMethodOutcome outcome = organizationBroker.searchForESRsUsingAttribute(new SearchCriteria(new SearchParam(SearchParamNames.LEAF_VALUE,providedName)),new ArrayList<BaseFilter>(), new Sort(), new Pagination());
             if(outcome.isSearchSuccessful()) {
                 ExtremelySimplifiedResource esr = outcome.getSearchResult().get(0);
                 String identifierValue = esr.getSimplifiedID();
