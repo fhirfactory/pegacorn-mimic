@@ -83,7 +83,7 @@ public class HealthCareServiceCSVReader {
         for(HealthcareServiceCSVEntry currentEntry: healthCareServiceCSVEntries) {
             HealthcareServiceESR newHealthCareService = new HealthcareServiceESR();
             
-            newHealthCareService.setOrganisationalUnit(currentEntry.getOrganisationalUnit());
+            newHealthCareService.setPrimaryOrganizationID(currentEntry.getOrganisationalUnit());
            
         	
             CommonIdentifierESDTTypes identifierTypes = new CommonIdentifierESDTTypes();
