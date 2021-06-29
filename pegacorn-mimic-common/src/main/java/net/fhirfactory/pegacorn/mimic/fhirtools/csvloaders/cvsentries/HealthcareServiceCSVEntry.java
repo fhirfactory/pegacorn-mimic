@@ -34,7 +34,10 @@ public class HealthcareServiceCSVEntry {
     private String organisationalUnit;
     
     @CsvBindByPosition(position = 3)
-    private String telephoneNumber;
+    private String telephoneNumber1;
+    
+    @CsvBindByPosition(position = 4)
+    private String telephoneNumber2;
 
     public String getHealthCareServiceLongName() {
         return healthCareServiceLongName;
@@ -60,11 +63,19 @@ public class HealthcareServiceCSVEntry {
         this.organisationalUnit = organisationalUnit;
     }
 
-    public String getTelephoneNumber() {
-        return telephoneNumber;
+    public String getTelephoneNumber1() {
+        return telephoneNumber1;
     }
 
-    public void setTelephoneNumber(String telephoneNumber) {
-        this.telephoneNumber = telephoneNumber;
+    public void setTelephoneNumber1(String telephoneNumber1) {
+        this.telephoneNumber1 = telephoneNumber1;
     }
+
+    public String getTelephoneNumber2() {
+        return telephoneNumber2;
+    }
+
+    public void setTelephoneNumber2(String telephoneNumber2) {
+        this.telephoneNumber2 = telephoneNumber2;
+    } 
 }

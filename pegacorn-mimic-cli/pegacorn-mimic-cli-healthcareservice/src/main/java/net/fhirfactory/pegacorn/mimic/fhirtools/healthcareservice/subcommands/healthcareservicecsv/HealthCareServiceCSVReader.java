@@ -27,6 +27,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -101,16 +102,27 @@ public class HealthCareServiceCSVReader {
         	newHealthCareService.getIdentifiers().add(longNameBasedIdentifier);
         	
         	
-            String telehoneNumber = currentEntry.getTelephoneNumber();
-            ContactPointESDT telephoneNumberContactChannel = new ContactPointESDT();
-            telephoneNumberContactChannel.setName("Telephone");
-            telephoneNumberContactChannel.setValue(telehoneNumber);
-            telephoneNumberContactChannel.setType(ContactPointESDTTypeEnum.LANDLINE);
-            telephoneNumberContactChannel.setUse(ContactPointESDTUseEnum.WORK);
-            telephoneNumberContactChannel.setRank(1);
-            newHealthCareService.getContactPoints().add(telephoneNumberContactChannel); 
-        	
+            String telehoneNumber1 = currentEntry.getTelephoneNumber1();
+            ContactPointESDT telephoneNumberContactChannel1 = new ContactPointESDT();
+            telephoneNumberContactChannel1.setName("Telephone");
+            telephoneNumberContactChannel1.setValue(telehoneNumber1);
+            telephoneNumberContactChannel1.setType(ContactPointESDTTypeEnum.LANDLINE);
+            telephoneNumberContactChannel1.setUse(ContactPointESDTUseEnum.WORK);
+            telephoneNumberContactChannel1.setRank(1);
+            newHealthCareService.getContactPoints().add(telephoneNumberContactChannel1); 
         	healthCareServices.add(newHealthCareService);
+
+        	String telehoneNumber2 = currentEntry.getTelephoneNumber2();
+            if (StringUtils.isNotBlank(telehoneNumber2)) {
+                ContactPointESDT telephoneNumberContactChannel2 = new ContactPointESDT();
+                telephoneNumberContactChannel2.setName("Telephone");
+                telephoneNumberContactChannel2.setValue(telehoneNumber2);
+                telephoneNumberContactChannel2.setType(ContactPointESDTTypeEnum.LANDLINE);
+                telephoneNumberContactChannel2.setUse(ContactPointESDTUseEnum.WORK);
+                telephoneNumberContactChannel2.setRank(2);
+                newHealthCareService.getContactPoints().add(telephoneNumberContactChannel2); 
+                healthCareServices.add(newHealthCareService);
+            }
         }
         
         return(healthCareServices);
