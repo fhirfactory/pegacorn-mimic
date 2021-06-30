@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.fhirfactory.buildingblocks.esr.models.resources.PractitionerESR;
 import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.IdentifierESDTUseEnum;
+import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.IdentifierType;
 import net.fhirfactory.buildingblocks.esr.models.transaction.ESRMethodOutcome;
 import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.practitioner.tasks.PractitionerCreator;
 
@@ -70,7 +71,7 @@ public class PractitionerCLIRPCServer {
         }
         if(practitionerESR != null){
             LOG.info(".createPractitioner(): Invoke PractitionerDirectoryEntry Conversion & Server Creation process");
-            practitionerESR.assignSimplifiedID(true, "EmailAddress", IdentifierESDTUseEnum.USUAL);
+            practitionerESR.assignSimplifiedID(true, IdentifierType.EMAIL_ADDRESS, IdentifierESDTUseEnum.USUAL);
             ESRMethodOutcome outcome = practitionerCreator.createPractitioner(practitionerESR);
             LOG.info(".createPractitioner(): Conversion/Creation process complete. Outcome --> {}", outcome);
             return(outcome.toString());

@@ -36,10 +36,10 @@ import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
 import net.fhirfactory.buildingblocks.esr.models.helpers.ContextualisedIdentifierValueFactory;
-import net.fhirfactory.buildingblocks.esr.models.resources.CommonIdentifierESDTTypes;
 import net.fhirfactory.buildingblocks.esr.models.resources.LocationESR;
 import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.IdentifierESDT;
 import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.IdentifierESDTUseEnum;
+import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.IdentifierType;
 import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.TypeESDT;
 import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.cvsentries.LocationCSVEntry;
 
@@ -77,7 +77,6 @@ public class LocationCSVReader {
 
     public List<LocationESR> organiseLocationHierarchy(){
         LOG.debug(".organiseLocationHierarchy(): Entry");
-        CommonIdentifierESDTTypes identifierTypes = new CommonIdentifierESDTTypes();
         ArrayList<LocationCSVEntry> initialWorkingList = new ArrayList<>();
         ArrayList<LocationCSVEntry> nonRootWorkingList = new ArrayList<>();
         LOG.debug(".organiseLocationHierarchy(): Creating working list (initialWorkingList)");
@@ -89,7 +88,7 @@ public class LocationCSVReader {
             if(currentEntry.getParentLocationShortName() == null || currentEntry.getParentLocationShortName().isEmpty()){
                 LOG.info(".organiseLocationHierarchy(): Is root Node");
                 LocationESR organisation = buildLocation(null, currentEntry);
-                processedEntries.put(organisation.getIdentifierWithType(identifierTypes.getShortName()).getLeafValue(), organisation);
+                processedEntries.put(organisation.getIdentifierWithType(IdentifierType.SHORT_NAME).getLeafValue(), organisation);
             } else {
                 LOG.info(".organiseLocationHierarchy(): Is not a root Node");
                 nonRootWorkingList.add(currentEntry);
@@ -105,7 +104,7 @@ public class LocationCSVReader {
                     LocationESR currentLocationParent = processedEntries.get(currentEntry.getParentLocationShortName());
                     LocationESR currentLocation = buildLocation(currentLocationParent, currentEntry);
                     processedList.add(currentEntry);
-                    processedEntries.put(currentLocation.getIdentifierWithType(identifierTypes.getShortName()).getLeafValue(), currentLocation);
+                    processedEntries.put(currentLocation.getIdentifierWithType(IdentifierType.SHORT_NAME).getLeafValue(), currentLocation);
                 }
             }
             nonRootWorkingList.removeAll(processedList);
@@ -134,7 +133,7 @@ public class LocationCSVReader {
         if(entry == null){
             return(null);
         }
-        CommonIdentifierESDTTypes identifierTypes = new CommonIdentifierESDTTypes();
+
         ContextualisedIdentifierValueFactory identifierValueFactory = new ContextualisedIdentifierValueFactory();
         LocationESR location = new LocationESR();
         String newShortNameIdentifierValue = null;
@@ -147,11 +146,11 @@ public class LocationCSVReader {
             orgType.setTypeValue("Campus");
             orgType.setTypeDisplayValue("Campus");
         } else {
-            IdentifierESDT shortNameIdentifier = parentLocation.getIdentifierWithType(identifierTypes.getShortName());
+            IdentifierESDT shortNameIdentifier = parentLocation.getIdentifierWithType(IdentifierType.SHORT_NAME);
             String parentShortName = shortNameIdentifier.getValue();
             newShortNameIdentifierValue = identifierValueFactory.buildComprehensiveIdentifierValue(parentShortName, entry.getLocationShortName());
             location.setContainingLocationID(parentLocation.getSimplifiedID());
-            IdentifierESDT longNameIdentifier = parentLocation.getIdentifierWithType(identifierTypes.getLongName());
+            IdentifierESDT longNameIdentifier = parentLocation.getIdentifierWithType(IdentifierType.LONG_NAME);
             String parentLongName = longNameIdentifier.getValue();
             newLongNameIdentifierValue = identifierValueFactory.buildComprehensiveIdentifierValue(parentLongName, entry.getLocationLongName());
             parentLocation.getContainedLocationIDs().add(newShortNameIdentifierValue);
@@ -159,18 +158,18 @@ public class LocationCSVReader {
             orgType.setTypeDisplayValue("Building");
         }
         IdentifierESDT shortnameBasedIdentifier = new IdentifierESDT();
-        shortnameBasedIdentifier.setType(identifierTypes.getShortName());
+        shortnameBasedIdentifier.setType(IdentifierType.SHORT_NAME);
         shortnameBasedIdentifier.setUse(IdentifierESDTUseEnum.USUAL);
         shortnameBasedIdentifier.setValue(newShortNameIdentifierValue);
         shortnameBasedIdentifier.setLeafValue(entry.getLocationShortName());
         location.getIdentifiers().add(shortnameBasedIdentifier);
         IdentifierESDT longNameBasedIdentifier = new IdentifierESDT();
-        longNameBasedIdentifier.setType(identifierTypes.getLongName());
+        longNameBasedIdentifier.setType(IdentifierType.LONG_NAME);
         longNameBasedIdentifier.setUse(IdentifierESDTUseEnum.OFFICIAL);
         longNameBasedIdentifier.setValue(newLongNameIdentifierValue);
         longNameBasedIdentifier.setLeafValue(entry.getLocationLongName());
         location.getIdentifiers().add(longNameBasedIdentifier);
-        location.assignSimplifiedID(true, identifierTypes.getShortName(), IdentifierESDTUseEnum.OFFICIAL);
+        location.assignSimplifiedID(true, IdentifierType.SHORT_NAME, IdentifierESDTUseEnum.OFFICIAL);
         location.setDisplayName(entry.getLocationShortName());
         location.setDescription(entry.getLocationLongName());
         location.setLocationType(orgType);

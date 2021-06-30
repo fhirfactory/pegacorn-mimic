@@ -37,9 +37,9 @@ import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
 import net.fhirfactory.buildingblocks.esr.models.resources.CareTeamESR;
-import net.fhirfactory.buildingblocks.esr.models.resources.CommonIdentifierESDTTypes;
 import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.IdentifierESDT;
 import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.IdentifierESDTUseEnum;
+import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.IdentifierType;
 import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.ParticipantESDT;
 import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.cvsentries.CareTeamCSVEntry;
 
@@ -95,24 +95,22 @@ public class CareTeamCSVReader {
         
         // Now we have all the data in the map we can convert this to care teams.
         List<CareTeamESR>careTeams = new ArrayList<>();
-        
-        CommonIdentifierESDTTypes identifierTypes = new CommonIdentifierESDTTypes();
-        
+                
         for (Map.Entry<String, List<ParticipantESDT>> entry : careTeamsMap.entrySet()) {
         	CareTeamESR newCareTeam = new CareTeamESR();
         	
         	newCareTeam.setParticipants(entry.getValue());
         	
         	IdentifierESDT shortNameBasedIdentifier = new IdentifierESDT();
-            shortNameBasedIdentifier.setType(identifierTypes.getShortName());
+            shortNameBasedIdentifier.setType(IdentifierType.SHORT_NAME);
             shortNameBasedIdentifier.setUse(IdentifierESDTUseEnum.USUAL);
             shortNameBasedIdentifier.setValue(entry.getKey());
             shortNameBasedIdentifier.setLeafValue(entry.getKey());
             newCareTeam.getIdentifiers().add(shortNameBasedIdentifier);
-            newCareTeam.assignSimplifiedID(true, identifierTypes.getShortName(), IdentifierESDTUseEnum.USUAL);
+            newCareTeam.assignSimplifiedID(true, IdentifierType.SHORT_NAME, IdentifierESDTUseEnum.USUAL);
 
             IdentifierESDT longNameBasedIdentifier = new IdentifierESDT();
-        	longNameBasedIdentifier.setType(identifierTypes.getLongName());
+        	longNameBasedIdentifier.setType(IdentifierType.LONG_NAME);
         	longNameBasedIdentifier.setUse(IdentifierESDTUseEnum.SECONDARY);
         	longNameBasedIdentifier.setValue(entry.getKey());
         	longNameBasedIdentifier.setLeafValue(entry.getKey());

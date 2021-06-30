@@ -31,7 +31,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import net.fhirfactory.buildingblocks.esr.models.exceptions.ResourceInvalidSearchException;
-import net.fhirfactory.buildingblocks.esr.models.resources.CommonIdentifierESDTTypes;
 import net.fhirfactory.buildingblocks.esr.models.resources.ExtremelySimplifiedResource;
 import net.fhirfactory.buildingblocks.esr.models.resources.PractitionerRoleESR;
 import net.fhirfactory.buildingblocks.esr.models.transaction.ESRMethodOutcome;
@@ -54,9 +53,6 @@ public class PractitionerRoleCreator extends ResourceStorageService {
 
     @Inject
     private PractitionerRoleESRBroker practitionerRoleDirectoryResourceBroker;
-
-    @Inject
-    private CommonIdentifierESDTTypes commonIdentifierESDTTypes;
 
     @Inject
     private RoleCreator roleCreator;

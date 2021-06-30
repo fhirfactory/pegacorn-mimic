@@ -34,12 +34,12 @@ import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
-import net.fhirfactory.buildingblocks.esr.models.resources.CommonIdentifierESDTTypes;
 import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.ContactPointESDT;
 import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.ContactPointESDTTypeEnum;
 import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.ContactPointESDTUseEnum;
 import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.IdentifierESDT;
 import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.IdentifierESDTUseEnum;
+import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.IdentifierType;
 import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.cvsentries.PractitionerRoleCSVEntry;
 import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.intermediary.PractitionerRoleESRApproximate;
 
@@ -76,7 +76,7 @@ public class PractitionerRoleCSVReader {
 
     public List<PractitionerRoleESRApproximate> convertCSVEntry2PractitionerRoleLite(List<PractitionerRoleCSVEntry> prSet){
         LOG.debug(".convertCSVEntry2PractitionerRoleLite(): Entry");
-        CommonIdentifierESDTTypes identifierTypes = new CommonIdentifierESDTTypes();
+
         ArrayList<PractitionerRoleESRApproximate> workingList = new ArrayList<>();
         LOG.trace(".convertCSVEntry2PractitionerRoleLite(): Iterate through CSV Entries and Converting to PractitionerRoleLite");
         for(PractitionerRoleCSVEntry currentEntry: prSet) {
@@ -86,14 +86,14 @@ public class PractitionerRoleCSVReader {
             practitionerRoleESRApproximate.setPrimaryOrganizationIDContextual(true);
             // Add ShortName
             IdentifierESDT practitionerRoleIdentifier0 = new IdentifierESDT();
-            practitionerRoleIdentifier0.setType("ShortName");
+            practitionerRoleIdentifier0.setType(IdentifierType.SHORT_NAME);
             practitionerRoleIdentifier0.setUse(IdentifierESDTUseEnum.USUAL);
             practitionerRoleIdentifier0.setValue(currentEntry.getPractitionerRoleShortName());
             practitionerRoleIdentifier0.setLeafValue(currentEntry.getPractitionerRoleShortName());
             practitionerRoleESRApproximate.addIdentifier(practitionerRoleIdentifier0);
             // Add LongName
             IdentifierESDT practitionerRoleIdentifier1 = new IdentifierESDT();
-            practitionerRoleIdentifier1.setType("LongName");
+            practitionerRoleIdentifier1.setType(IdentifierType.LONG_NAME);
             practitionerRoleIdentifier1.setUse(IdentifierESDTUseEnum.SECONDARY);
             practitionerRoleIdentifier1.setValue(currentEntry.getPractitionerRoleLongName());
             practitionerRoleIdentifier1.setLeafValue(currentEntry.getPractitionerRoleLongName());
@@ -143,7 +143,7 @@ public class PractitionerRoleCSVReader {
             List<ContactPointESDT> mobilePhoneNumbers = getMobilePhoneNumbers(currentEntry.getContactMobile(), rank);
             practitionerRoleESRApproximate.getContactPoints().addAll(mobilePhoneNumbers);
             // Assign SimplifiedID
-            practitionerRoleESRApproximate.assignSimplifiedID(true, identifierTypes.getShortName(), IdentifierESDTUseEnum.USUAL);
+            practitionerRoleESRApproximate.assignSimplifiedID(true, IdentifierType.SHORT_NAME, IdentifierESDTUseEnum.USUAL);
             
             // All done!
             workingList.add(practitionerRoleESRApproximate);

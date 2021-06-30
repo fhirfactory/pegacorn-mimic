@@ -35,13 +35,13 @@ import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
-import net.fhirfactory.buildingblocks.esr.models.resources.CommonIdentifierESDTTypes;
 import net.fhirfactory.buildingblocks.esr.models.resources.HealthcareServiceESR;
 import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.ContactPointESDT;
 import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.ContactPointESDTTypeEnum;
 import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.ContactPointESDTUseEnum;
 import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.IdentifierESDT;
 import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.IdentifierESDTUseEnum;
+import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.IdentifierType;
 import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.cvsentries.HealthcareServiceCSVEntry;
 
 public class HealthCareServiceCSVReader {
@@ -84,19 +84,16 @@ public class HealthCareServiceCSVReader {
             HealthcareServiceESR newHealthCareService = new HealthcareServiceESR();
             
             newHealthCareService.setPrimaryOrganizationID(currentEntry.getOrganisationalUnit());
-           
-        	
-            CommonIdentifierESDTTypes identifierTypes = new CommonIdentifierESDTTypes();
             	
         	IdentifierESDT shortNameBasedIdentifier = new IdentifierESDT();
-            shortNameBasedIdentifier.setType(identifierTypes.getShortName());
+            shortNameBasedIdentifier.setType(IdentifierType.SHORT_NAME);
             shortNameBasedIdentifier.setUse(IdentifierESDTUseEnum.USUAL);
             shortNameBasedIdentifier.setValue(currentEntry.getHealthCareServiceShortName());
             newHealthCareService.getIdentifiers().add(shortNameBasedIdentifier);
-            newHealthCareService.assignSimplifiedID(true, identifierTypes.getShortName(), IdentifierESDTUseEnum.USUAL);
+            newHealthCareService.assignSimplifiedID(true, IdentifierType.SHORT_NAME, IdentifierESDTUseEnum.USUAL);
     
             IdentifierESDT longNameBasedIdentifier = new IdentifierESDT();
-        	longNameBasedIdentifier.setType(identifierTypes.getLongName());
+        	longNameBasedIdentifier.setType(IdentifierType.LONG_NAME);
         	longNameBasedIdentifier.setUse(IdentifierESDTUseEnum.SECONDARY);
         	longNameBasedIdentifier.setValue(currentEntry.getHealthCareServiceLongName());
         	newHealthCareService.getIdentifiers().add(longNameBasedIdentifier);
