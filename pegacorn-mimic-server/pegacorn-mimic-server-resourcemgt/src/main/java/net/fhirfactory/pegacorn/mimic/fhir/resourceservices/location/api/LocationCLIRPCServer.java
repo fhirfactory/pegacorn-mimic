@@ -13,8 +13,8 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import net.fhirfactory.buildingblocks.esr.models.resources.LocationESR;
 import net.fhirfactory.buildingblocks.esr.models.transaction.ESRMethodOutcome;
+import net.fhirfactory.buildingblocks.esr.resources.LocationESR;
 import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.location.tasks.LocationCreator;
 
 @ApplicationScoped

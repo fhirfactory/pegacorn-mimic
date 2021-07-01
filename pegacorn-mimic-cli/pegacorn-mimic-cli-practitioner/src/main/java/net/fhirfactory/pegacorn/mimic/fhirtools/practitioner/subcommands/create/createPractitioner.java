@@ -37,15 +37,15 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import net.fhirfactory.buildingblocks.esr.models.resources.PractitionerESR;
-import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.ContactPointESDT;
-import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.ContactPointESDTTypeEnum;
-import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.ContactPointESDTUseEnum;
-import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.EffectivePeriod;
-import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.HumanNameESDT;
-import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.HumanNameESDTUseEnum;
-import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.OrganisationStructure;
-import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.OrganisationStructureElementType;
+import net.fhirfactory.buildingblocks.esr.resources.PractitionerESR;
+import net.fhirfactory.buildingblocks.esr.resources.datatypes.ContactPointESDT;
+import net.fhirfactory.buildingblocks.esr.resources.datatypes.ContactPointESDTTypeEnum;
+import net.fhirfactory.buildingblocks.esr.resources.datatypes.ContactPointESDTUseEnum;
+import net.fhirfactory.buildingblocks.esr.resources.datatypes.EffectivePeriod;
+import net.fhirfactory.buildingblocks.esr.resources.datatypes.HumanNameESDT;
+import net.fhirfactory.buildingblocks.esr.resources.datatypes.HumanNameESDTUseEnum;
+import net.fhirfactory.buildingblocks.esr.resources.datatypes.OrganisationStructure;
+import net.fhirfactory.buildingblocks.esr.resources.datatypes.OrganisationStructureElementType;
 import picocli.CommandLine;
 
 @CommandLine.Command(

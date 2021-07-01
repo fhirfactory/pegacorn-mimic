@@ -36,11 +36,11 @@ import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
 import net.fhirfactory.buildingblocks.esr.models.helpers.ContextualisedIdentifierValueFactory;
-import net.fhirfactory.buildingblocks.esr.models.resources.LocationESR;
-import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.IdentifierESDT;
-import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.IdentifierESDTUseEnum;
-import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.IdentifierType;
-import net.fhirfactory.buildingblocks.esr.models.resources.datatypes.TypeESDT;
+import net.fhirfactory.buildingblocks.esr.resources.LocationESR;
+import net.fhirfactory.buildingblocks.esr.resources.datatypes.IdentifierESDT;
+import net.fhirfactory.buildingblocks.esr.resources.datatypes.IdentifierESDTUseEnum;
+import net.fhirfactory.buildingblocks.esr.resources.datatypes.IdentifierType;
+import net.fhirfactory.buildingblocks.esr.resources.datatypes.TypeESDT;
 import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.cvsentries.LocationCSVEntry;
 
 public class LocationCSVReader {

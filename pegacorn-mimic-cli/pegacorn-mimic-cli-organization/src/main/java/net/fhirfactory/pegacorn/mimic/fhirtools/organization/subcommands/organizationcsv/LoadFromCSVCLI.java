@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import net.fhirfactory.buildingblocks.esr.models.resources.OrganizationESR;
+import net.fhirfactory.buildingblocks.esr.resources.OrganizationESR;
 import picocli.CommandLine;
 
 @CommandLine.Command(

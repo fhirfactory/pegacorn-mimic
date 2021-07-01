@@ -21,7 +21,7 @@
  */
 package net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.intermediary;
 
-import net.fhirfactory.buildingblocks.esr.models.resources.PractitionerRoleESR;
+import net.fhirfactory.buildingblocks.esr.resources.PractitionerRoleESR;
 
 public class PractitionerRoleESRApproximate extends PractitionerRoleESR {
     private boolean primaryOrganizationIDContextual;
