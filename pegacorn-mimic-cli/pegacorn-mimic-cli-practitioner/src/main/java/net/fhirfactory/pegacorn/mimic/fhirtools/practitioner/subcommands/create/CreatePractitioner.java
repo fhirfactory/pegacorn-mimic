@@ -37,11 +37,11 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import net.fhirfactory.pegacorn.common.model.dates.EffectivePeriod;
 import net.fhirfactory.pegacorn.internals.esr.resources.PractitionerESR;
 import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.ContactPointESDT;
 import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.ContactPointESDTTypeEnum;
 import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.ContactPointESDTUseEnum;
-import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.EffectivePeriod;
 import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.HumanNameESDT;
 import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.HumanNameESDTUseEnum;
 import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.OrganisationStructure;
@@ -52,8 +52,8 @@ import picocli.CommandLine;
         name="create",
         description="Creates a Practitioner (and associated) Resources"
 )
-public class createPractitioner implements Runnable{
-    private static final Logger LOG = LoggerFactory.getLogger(createPractitioner.class);
+public class CreatePractitioner implements Runnable{
+    private static final Logger LOG = LoggerFactory.getLogger(CreatePractitioner.class);
     private Address actualAddress;
     private JChannel rpcClient;
     private RpcDispatcher rpcDispatcher;
@@ -117,8 +117,7 @@ public class createPractitioner implements Runnable{
             practitionerName.setNameUse(HumanNameESDTUseEnum.OFFICIAL);
         }
         
-        EffectivePeriod period = new EffectivePeriod();
-        period.setStartDate(Date.from(Instant.now()));
+        EffectivePeriod period = new EffectivePeriod(Date.from(Instant.now()));
         practitionerName.setPeriod(period);
         practitioner.setOfficialName(practitionerName);
       

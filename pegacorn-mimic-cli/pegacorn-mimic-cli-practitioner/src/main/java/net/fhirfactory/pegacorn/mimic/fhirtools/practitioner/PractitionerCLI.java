@@ -21,14 +21,14 @@
  */
 package net.fhirfactory.pegacorn.mimic.fhirtools.practitioner;
 
-import net.fhirfactory.pegacorn.mimic.fhirtools.practitioner.subcommands.create.createPractitioner;
+import net.fhirfactory.pegacorn.mimic.fhirtools.practitioner.subcommands.create.CreatePractitioner;
 import picocli.CommandLine;
 
 @CommandLine.Command(
         name="Practitioner",
         description="Practitioner CLI",
         subcommands = {
-                createPractitioner.class
+                CreatePractitioner.class
         }
 )
 public class PractitionerCLI implements Runnable{
