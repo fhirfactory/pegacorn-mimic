@@ -13,10 +13,10 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import net.fhirfactory.buildingblocks.esr.models.transaction.ESRMethodOutcome;
-import net.fhirfactory.buildingblocks.esr.resources.PractitionerESR;
-import net.fhirfactory.buildingblocks.esr.resources.datatypes.IdentifierESDTUseEnum;
-import net.fhirfactory.buildingblocks.esr.resources.datatypes.IdentifierType;
+import net.fhirfactory.pegacorn.internals.esr.resources.PractitionerESR;
+import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.IdentifierESDTUseEnum;
+import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.IdentifierType;
+import net.fhirfactory.pegacorn.internals.esr.transactions.ESRMethodOutcome;
 import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.practitioner.tasks.PractitionerCreator;
 
 @ApplicationScoped

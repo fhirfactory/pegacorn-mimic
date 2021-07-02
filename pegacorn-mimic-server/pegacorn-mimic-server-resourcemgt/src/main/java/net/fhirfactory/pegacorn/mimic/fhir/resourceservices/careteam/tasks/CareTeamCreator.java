@@ -27,13 +27,13 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import net.fhirfactory.buildingblocks.esr.models.exceptions.ResourceInvalidSearchException;
-import net.fhirfactory.buildingblocks.esr.models.transaction.ESRMethodOutcome;
-import net.fhirfactory.buildingblocks.esr.models.transaction.ESRMethodOutcomeEnum;
-import net.fhirfactory.buildingblocks.esr.resources.CareTeamESR;
-import net.fhirfactory.buildingblocks.esr.resources.LocationESR;
 import net.fhirfactory.pegacorn.internals.esr.brokers.CareTeamESRBroker;
 import net.fhirfactory.pegacorn.internals.esr.brokers.LocationESRBroker;
+import net.fhirfactory.pegacorn.internals.esr.resources.CareTeamESR;
+import net.fhirfactory.pegacorn.internals.esr.resources.LocationESR;
+import net.fhirfactory.pegacorn.internals.esr.transactions.ESRMethodOutcome;
+import net.fhirfactory.pegacorn.internals.esr.transactions.ESRMethodOutcomeEnum;
+import net.fhirfactory.pegacorn.internals.esr.transactions.exceptions.ResourceInvalidSearchException;
 import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.common.ResourceStorageService;
 
 @ApplicationScoped

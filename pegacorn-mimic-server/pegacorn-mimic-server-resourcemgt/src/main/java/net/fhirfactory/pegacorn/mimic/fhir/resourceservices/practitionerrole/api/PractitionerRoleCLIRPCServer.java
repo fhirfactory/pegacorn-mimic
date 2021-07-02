@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import net.fhirfactory.buildingblocks.esr.models.transaction.ESRMethodOutcome;
+import net.fhirfactory.pegacorn.internals.esr.transactions.ESRMethodOutcome;
 import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.practitionerrole.tasks.PractitionerRoleCreator;
 import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.intermediary.PractitionerRoleESRApproximate;
 

@@ -13,8 +13,8 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import net.fhirfactory.buildingblocks.esr.models.transaction.ESRMethodOutcome;
-import net.fhirfactory.buildingblocks.esr.resources.CareTeamESR;
+import net.fhirfactory.pegacorn.internals.esr.resources.CareTeamESR;
+import net.fhirfactory.pegacorn.internals.esr.transactions.ESRMethodOutcome;
 import net.fhirfactory.pegacorn.mimic.fhir.resourceservices.careteam.tasks.CareTeamCreator;
 
 @ApplicationScoped

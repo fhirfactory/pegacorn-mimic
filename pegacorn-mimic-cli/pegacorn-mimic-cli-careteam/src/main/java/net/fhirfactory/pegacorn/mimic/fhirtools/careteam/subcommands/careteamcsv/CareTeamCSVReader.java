@@ -36,11 +36,11 @@ import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
-import net.fhirfactory.buildingblocks.esr.resources.CareTeamESR;
-import net.fhirfactory.buildingblocks.esr.resources.datatypes.IdentifierESDT;
-import net.fhirfactory.buildingblocks.esr.resources.datatypes.IdentifierESDTUseEnum;
-import net.fhirfactory.buildingblocks.esr.resources.datatypes.IdentifierType;
-import net.fhirfactory.buildingblocks.esr.resources.datatypes.ParticipantESDT;
+import net.fhirfactory.pegacorn.internals.esr.resources.CareTeamESR;
+import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.IdentifierESDT;
+import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.IdentifierESDTUseEnum;
+import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.IdentifierType;
+import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.ParticipantESDT;
 import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.cvsentries.CareTeamCSVEntry;
 
 public class CareTeamCSVReader {

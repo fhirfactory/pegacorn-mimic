@@ -35,15 +35,15 @@ import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
-import net.fhirfactory.buildingblocks.esr.models.helpers.ContextualisedIdentifierValueFactory;
-import net.fhirfactory.buildingblocks.esr.resources.OrganizationESR;
-import net.fhirfactory.buildingblocks.esr.resources.datatypes.ContactPointESDT;
-import net.fhirfactory.buildingblocks.esr.resources.datatypes.ContactPointESDTTypeEnum;
-import net.fhirfactory.buildingblocks.esr.resources.datatypes.ContactPointESDTUseEnum;
-import net.fhirfactory.buildingblocks.esr.resources.datatypes.IdentifierESDT;
-import net.fhirfactory.buildingblocks.esr.resources.datatypes.IdentifierESDTUseEnum;
-import net.fhirfactory.buildingblocks.esr.resources.datatypes.IdentifierType;
-import net.fhirfactory.buildingblocks.esr.resources.datatypes.TypeESDT;
+import net.fhirfactory.pegacorn.internals.esr.helpers.ContextualisedIdentifierValueFactory;
+import net.fhirfactory.pegacorn.internals.esr.resources.OrganizationESR;
+import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.ContactPointESDT;
+import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.ContactPointESDTTypeEnum;
+import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.ContactPointESDTUseEnum;
+import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.IdentifierESDT;
+import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.IdentifierESDTUseEnum;
+import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.IdentifierType;
+import net.fhirfactory.pegacorn.internals.esr.resources.datatypes.TypeESDT;
 import net.fhirfactory.pegacorn.mimic.fhirtools.csvloaders.cvsentries.OrganizationCSVEntry;
 
 public class OrganizationCSVReader {
