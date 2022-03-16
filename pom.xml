@@ -23,7 +23,7 @@
     
     <modules>
         <module>common</module>
-        <module>server</module>
+        <!--module>server</module-->
         <module>cli</module>
     </modules>
 </project>
