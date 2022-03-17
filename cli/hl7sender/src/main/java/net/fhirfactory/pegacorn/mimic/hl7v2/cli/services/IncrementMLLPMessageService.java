@@ -27,12 +27,16 @@ import ca.uhn.hl7v2.model.Message;
 import ca.uhn.hl7v2.model.v24.message.ORU_R01;
 import ca.uhn.hl7v2.parser.Parser;
 import ca.uhn.hl7v2.util.Terser;
+import net.fhirfactory.pegacorn.core.constants.petasos.PetasosPropertyConstants;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.charset.StandardCharsets;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 public class IncrementMLLPMessageService {
     private static final Logger LOG = LoggerFactory.getLogger(IncrementMLLPMessageService.class);
@@ -42,6 +46,7 @@ public class IncrementMLLPMessageService {
     private String lastNameSeed;
     private String accessionSeed;
     private Integer initialMR;
+    private DateTimeFormatter timeFormatter;
 
     //
     // Constructor(s)
@@ -56,6 +61,8 @@ public class IncrementMLLPMessageService {
         this.lastNameSeed = lastNameSeed;
         this.accessionSeed = accessionSeed;
         this.initialMR = initialMR;
+        timeFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss").withZone(ZoneId.of(PetasosPropertyConstants.DEFAULT_TIMEZONE));
+
     }
 
     //
@@ -88,6 +95,8 @@ public class IncrementMLLPMessageService {
             ORU_R01 outMesssage = (ORU_R01)toMessage(messageString);
             LOG.info(".incrementMessage(): Structure->{}", outMesssage.printStructure());
             Terser terser = new Terser(outMesssage);
+            String currentTime = timeFormatter.format(Instant.now());
+            terser.set("/.MSH-7-1",currentTime);
             String initialMRString = Integer.toString(initialMR);
             LOG.info(".setStartValues(): mr->{}", initialMRString);
             terser.set("/PATIENT_RESULT/PATIENT/PID-3(0)-1",Integer.toString(initialMR));
@@ -123,6 +132,9 @@ public class IncrementMLLPMessageService {
             ORU_R01 outMesssage = (ORU_R01)toMessage(messageString);
             LOG.info(".incrementMessage(): Structure->{}", outMesssage.printStructure());
             Terser terser = new Terser(outMesssage);
+
+            String currentTime = timeFormatter.format(Instant.now());
+            terser.set("/.MSH-7-1",currentTime);
 
             String pidMR = terser.get("/PATIENT_RESULT/PATIENT/PID-3(0)-1");
             LOG.info(".incrementMessage(): pidMR->{}", pidMR);
