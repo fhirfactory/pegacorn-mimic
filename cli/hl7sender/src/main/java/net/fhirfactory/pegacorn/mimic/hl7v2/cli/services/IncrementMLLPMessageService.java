@@ -33,7 +33,6 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -136,7 +135,7 @@ public class IncrementMLLPMessageService {
         return(newAccessionNumber);
     }
 
-    public String incrementMessage(String oriMessage){
+    public String incrementORUMessage(String oriMessage){
         LOG.info(".incrementMessage(): Entry");
         String messageString = SerializationUtils.clone(oriMessage);
         String outMesssageString = null;
