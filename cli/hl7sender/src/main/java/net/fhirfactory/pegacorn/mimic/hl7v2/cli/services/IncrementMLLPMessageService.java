@@ -27,12 +27,15 @@ import ca.uhn.hl7v2.model.Message;
 import ca.uhn.hl7v2.model.v24.message.ORU_R01;
 import ca.uhn.hl7v2.parser.Parser;
 import ca.uhn.hl7v2.util.Terser;
+import net.fhirfactory.pegacorn.core.constants.petasos.PetasosPropertyConstants;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.nio.charset.StandardCharsets;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 public class IncrementMLLPMessageService {
     private static final Logger LOG = LoggerFactory.getLogger(IncrementMLLPMessageService.class);
@@ -42,6 +45,9 @@ public class IncrementMLLPMessageService {
     private String lastNameSeed;
     private String accessionSeed;
     private Integer initialMR;
+    private DateTimeFormatter timeFormatter;
+    private DateTimeFormatter dateFormatter;
+    private Integer messageControlCounter;
 
     //
     // Constructor(s)
@@ -56,6 +62,9 @@ public class IncrementMLLPMessageService {
         this.lastNameSeed = lastNameSeed;
         this.accessionSeed = accessionSeed;
         this.initialMR = initialMR;
+        timeFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss").withZone(ZoneId.of(PetasosPropertyConstants.DEFAULT_TIMEZONE));
+        dateFormatter = DateTimeFormatter.ofPattern("yyMMdd").withZone(ZoneId.of(PetasosPropertyConstants.DEFAULT_TIMEZONE));
+        messageControlCounter = 0;
     }
 
     //
@@ -88,17 +97,28 @@ public class IncrementMLLPMessageService {
             ORU_R01 outMesssage = (ORU_R01)toMessage(messageString);
             LOG.info(".incrementMessage(): Structure->{}", outMesssage.printStructure());
             Terser terser = new Terser(outMesssage);
+
+            String currentTime = timeFormatter.format(Instant.now());
+            terser.set("/.MSH-7-1",currentTime);
+
+            String messageControlId = dateFormatter.format(Instant.now()) + "." + String.format("%06d", messageControlCounter);
+            terser.set("/.MSH-10-1",messageControlId);
+
             String initialMRString = Integer.toString(initialMR);
             LOG.info(".setStartValues(): mr->{}", initialMRString);
             terser.set("/PATIENT_RESULT/PATIENT/PID-3(0)-1",Integer.toString(initialMR));
+
             String familyName = addSuffixToLastName(terser.get("/PATIENT_RESULT/PATIENT/PID-5(0)-1"));
             LOG.info(".setStartValues(): familyName->{}", familyName);
             terser.set("/PATIENT_RESULT/PATIENT/PID-5(0)-1", familyName);
+
             String firstName = addSuffixToFirstName(terser.get("/PATIENT_RESULT/PATIENT/PID-5(0)-2"));
             LOG.info(".setStartValues(): firstName->{}", firstName);
             terser.set("/PATIENT_RESULT/PATIENT/PID-5(0)-2", firstName);
+
             terser.set("/PATIENT_RESULT/ORDER_OBSERVATION/ORC-3-1", accessionSeed);
             terser.set("/PATIENT_RESULT/ORDER_OBSERVATION/OBR-3-1", accessionSeed);
+
             outMesssageString = parser.encode(outMesssage);
         } catch (Exception ex){
             LOG.info(".setStartValues(): Error, message->{}", ExceptionUtils.getMessage(ex));
@@ -115,7 +135,7 @@ public class IncrementMLLPMessageService {
         return(newAccessionNumber);
     }
 
-    public String incrementMessage(String oriMessage){
+    public String incrementORUMessage(String oriMessage){
         LOG.info(".incrementMessage(): Entry");
         String messageString = SerializationUtils.clone(oriMessage);
         String outMesssageString = null;
@@ -123,6 +143,14 @@ public class IncrementMLLPMessageService {
             ORU_R01 outMesssage = (ORU_R01)toMessage(messageString);
             LOG.info(".incrementMessage(): Structure->{}", outMesssage.printStructure());
             Terser terser = new Terser(outMesssage);
+
+            String currentTime = timeFormatter.format(Instant.now());
+            terser.set("/.MSH-7-1",currentTime);
+
+            messageControlCounter += 1;
+            String messageControlId = dateFormatter.format(Instant.now()) + "." + String.format("%06d", messageControlCounter);
+            terser.set("/.MSH-10-1",messageControlId);
+
 
             String pidMR = terser.get("/PATIENT_RESULT/PATIENT/PID-3(0)-1");
             LOG.info(".incrementMessage(): pidMR->{}", pidMR);

@@ -1,8 +1,5 @@
 package net.fhirfactory.pegacorn.mimic.hl7v2.cli.subcommands;
 
-import ca.uhn.hl7v2.model.Message;
-import ca.uhn.hl7v2.parser.Parser;
-import ca.uhn.hl7v2.util.Terser;
 import net.fhirfactory.pegacorn.mimic.hl7v2.cli.services.ForwardMLLPMessageService;
 import net.fhirfactory.pegacorn.mimic.hl7v2.cli.services.IncrementMLLPMessageService;
 import org.apache.commons.io.FileUtils;
@@ -19,7 +16,7 @@ import java.nio.charset.StandardCharsets;
 
 @CommandLine.Command(
         name="sendMultipleMessages",
-        description="Sends Multiple MLLP Messages based on a file --> with PID, Timestamp and Assession incremented"
+        description="Sends Multiple MLLP Messages based on a file --> with PID, Timestamp and Accession incremented"
 )
 public class SendMultipleMessageCommand implements Runnable{
     private static final Logger LOG = LoggerFactory.getLogger(SendSingleMessageCommand.class);
@@ -96,7 +93,7 @@ public class SendMultipleMessageCommand implements Runnable{
         String actualMessageString = incrementMLLPMessageService.setStartValues(messageString);
         for(Integer sendCount = 0; sendCount < count; sendCount += 1){
             mllpForwarder.sendMessage(actualMessageString);
-            actualMessageString = incrementMLLPMessageService.incrementMessage(actualMessageString);
+            actualMessageString = incrementMLLPMessageService.incrementORUMessage(actualMessageString);
             try {
                 Thread.sleep(gap);
             } catch(Exception ex){
