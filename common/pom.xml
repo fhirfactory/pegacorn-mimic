@@ -5,15 +5,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>net.fhirfactory.pegacorn</groupId>
-        <artifactId>pegacorn-mimic</artifactId>
-        <version>1.5.0-SNAPSHOT</version>
+        <groupId>net.fhirfactory.dricats</groupId>
+        <artifactId>dricats-mimic</artifactId>
+        <version>1.6.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>pegacorn-mimic-common</artifactId>
+    <artifactId>dricats-mimic-common</artifactId>
     <packaging>jar</packaging>
 
-    <name>Pegacorn :: Mimic :: Common (Models)</name>
+    <name>DRICATS :: Mimic :: Common (Models)</name>
 
     <licenses>
         <license>

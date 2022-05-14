@@ -3,15 +3,15 @@
     <modelVersion>4.0.0</modelVersion>
     
     <parent>
-        <groupId>net.fhirfactory.pegacorn</groupId>
-        <artifactId>pegacorn-mimic</artifactId>
+        <groupId>net.fhirfactory.dricats</groupId>
+        <artifactId>dricats-mimic</artifactId>
         <version>1.6.0-SNAPSHOT</version>
     </parent>
         
-    <artifactId>pegacorn-mimic-server</artifactId>
+    <artifactId>dricats-mimic-server</artifactId>
     <packaging>pom</packaging>
     
-    <name>Pegacorn :: Mimic :: Server</name>
+    <name>DRICATS :: Mimic :: Server</name>
     <description>A System Endpoint Simulation Service</description>
 
     <properties>

@@ -5,15 +5,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>net.fhirfactory.pegacorn</groupId>
-        <artifactId>pegacorn-mimic-cli</artifactId>
-        <version>1.5.0-SNAPSHOT</version>
+        <groupId>net.fhirfactory.dricats</groupId>
+        <artifactId>dricats-mimic-cli</artifactId>
+        <version>1.6.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>pegacorn-mimic-cli-hl7sender</artifactId>
+    <artifactId>dricats-mimic-cli-hl7sender</artifactId>
     <packaging>jar</packaging>
 
-    <name>Pegacorn :: Mimic :: CLI :: HL7 Sender</name>
+    <name>DRICATS :: Mimic :: CLI :: HL7 Sender</name>
     <description>CLI for Sending HL7 Messages</description>
 
     <licenses>
