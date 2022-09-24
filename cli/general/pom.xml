@@ -79,8 +79,8 @@
         </dependency>
 
         <dependency>
-            <groupId>net.fhirfactory.pegacorn</groupId>
-            <artifactId>pegacorn-mimic-common</artifactId>
+            <groupId>net.fhirfactory.dricats</groupId>
+            <artifactId>dricats-mimic-common</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
@@ -93,8 +93,8 @@
         </dependency>
 
         <dependency>
-            <groupId>net.fhirfactory.pegacorn</groupId>
-            <artifactId>pegacorn-buildingblocks-datamodels-core</artifactId>
+            <groupId>net.fhirfactory.dricats</groupId>
+            <artifactId>dricats-datamodels-petasos</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
@@ -168,7 +168,7 @@
                             <archive>
                                 <manifest>
                                     <mainClass>
-                                        net.fhirfactory.pegacorn.mimic.fhirtools.fhirserverclient.FHIRServerClientCLI
+                                        net.fhirfactory.dricats.mimic.fhirtools.fhirserverclient.FHIRServerClientCLI
                                     </mainClass>
                                 </manifest>
                             </archive>

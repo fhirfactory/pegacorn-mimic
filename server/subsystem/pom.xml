@@ -46,22 +46,22 @@
         <!-- Pegacorn Core Libraries -->
         <!--                         -->
         <dependency>
-            <groupId>net.fhirfactory.pegacorn</groupId>
-            <artifactId>pegacorn-buildingblocks-commoncode</artifactId>
+            <groupId>net.fhirfactory.dricats</groupId>
+            <artifactId>dricats-buildingblocks-commoncode</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
             <type>jar</type>
         </dependency>
         <dependency>
-            <groupId>net.fhirfactory.pegacorn</groupId>
-            <artifactId>pegacorn-buildingblocks-datamodels-core</artifactId>
+            <groupId>net.fhirfactory.dricats</groupId>
+            <artifactId>dricats-datamodels-petasos</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
             <type>jar</type>
         </dependency>
         <dependency>
-            <groupId>net.fhirfactory.pegacorn</groupId>
-            <artifactId>pegacorn-buildingblocks-datamodels-fhir</artifactId>
+            <groupId>net.fhirfactory.dricats</groupId>
+            <artifactId>dricats-datamodels-fhir</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
             <type>jar</type>
@@ -72,15 +72,8 @@
         <!--                               -->
 
         <dependency>
-            <groupId>net.fhirfactory.pegacorn</groupId>
-            <artifactId>pegacorn-deployment-properties</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-            <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>net.fhirfactory.pegacorn</groupId>
-            <artifactId>pegacorn-deployment-datasets</artifactId>
+            <groupId>net.fhirfactory.dricats</groupId>
+            <artifactId>dricats-deployment-configuration</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
             <type>jar</type>
@@ -90,41 +83,34 @@
         <!-- Pegacorn Mimic Libraries -->
         <!--                          -->
         <dependency>
-            <groupId>net.fhirfactory.pegacorn</groupId>
-            <artifactId>pegacorn-mimic-server-resourcemgt</artifactId>
+            <groupId>net.fhirfactory.dricats</groupId>
+            <artifactId>dricats-mimic-server-resourcemgt</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
             <type>jar</type>
         </dependency>
         <dependency>
-            <groupId>net.fhirfactory.pegacorn</groupId>
-            <artifactId>pegacorn-mimic-common</artifactId>
+            <groupId>net.fhirfactory.dricats</groupId>
+            <artifactId>dricats-mimic-common</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
             <type>jar</type>
         </dependency>
-        <dependency>
-            <groupId>net.fhirfactory.pegacorn</groupId>
-            <artifactId>pegacorn-mimic-server-microapis-directoryservices</artifactId>
+        <!--dependency>
+            <groupId>net.fhirfactory.dricats</groupId>
+            <artifactId>dricats-mimic-server-microapis-directoryservices</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
             <type>jar</type>
-        </dependency>
+        </dependency-->
 
         <!--                                    -->
         <!-- Pegacorn Building Blocks Libraries -->
         <!--                                    -->
 
         <dependency>
-            <groupId>net.fhirfactory.pegacorn</groupId>
-            <artifactId>pegacorn-buildingblocks-datamodels-communicate</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-            <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>net.fhirfactory.pegacorn</groupId>
-            <artifactId>pegacorn-buildingblocks-directoryservices</artifactId>
+            <groupId>net.fhirfactory.dricats</groupId>
+            <artifactId>dricats-datamodels-communicate</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
             <type>jar</type>

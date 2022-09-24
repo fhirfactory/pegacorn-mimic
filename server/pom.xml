@@ -22,6 +22,6 @@
         <module>resourcemgt</module>
         <module>subsystem</module>
         <module>microapis</module>
-        <module>hl7v2mimic</module>
+        <module>hl7v2listener</module>
     </modules>
 </project>

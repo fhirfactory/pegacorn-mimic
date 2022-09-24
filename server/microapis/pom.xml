@@ -19,6 +19,6 @@
     </properties>
     
     <modules>
-        <module>directoryservices</module>
+        <!--module>directoryservices</module-->
     </modules>
 </project>

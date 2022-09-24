@@ -1,7 +1,7 @@
 package net.fhirfactory.pegacorn.mimic;
 
 
-import net.fhirfactory.pegacorn.core.constants.systemwide.DeploymentSystemIdentificationInterface;
+import net.fhirfactory.dricats.constants.systemwide.DeploymentSystemIdentificationInterface;
 import net.fhirfactory.pegacorn.core.model.componentid.PegacornSystemComponentTypeTypeEnum;
 import net.fhirfactory.pegacorn.core.model.generalid.FDN;
 import net.fhirfactory.pegacorn.core.model.generalid.FDNToken;
@@ -23,7 +23,7 @@ public class MimicSystemDetails implements DeploymentSystemIdentificationInterfa
 
     public FDNToken getSystemIdentifier() {
         FDN systemFDN = new FDN();
-        systemFDN.appendRDN(new RDN(PegacornSystemComponentTypeTypeEnum.SUBSYSTEM.getDisplayName(), "Mimic"));
+        systemFDN.appendRDN(new RDN(DricatsSoftwareComponentTypeEnum.SUBSYSTEM.getDisplayName(), "Mimic"));
         return(systemFDN.getToken());
     }
 

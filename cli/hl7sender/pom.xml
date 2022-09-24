@@ -89,8 +89,8 @@
 
         <!-- Pegacorn Mimic Datasets -->
         <dependency>
-            <groupId>net.fhirfactory.pegacorn</groupId>
-            <artifactId>pegacorn-mimic-common</artifactId>
+            <groupId>net.fhirfactory.dricats</groupId>
+            <artifactId>dricats-mimic-common</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
@@ -142,7 +142,7 @@
                             <archive>
                                 <manifest>
                                     <mainClass>
-                                        net.fhirfactory.pegacorn.mimic.hl7v2.cli.mllpCLI
+                                        net.fhirfactory.dricats.mimic.hl7v2.cli.mllpCLI
                                     </mainClass>
                                 </manifest>
                             </archive>
