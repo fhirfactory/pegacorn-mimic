@@ -19,28 +19,54 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.fhirfactory.pegacorn.mimic.hl7v2server.cli;
+package net.fhirfactory.pegacorn.mimic.hl7v2server.cli.services;
 
+import ca.uhn.hl7v2.protocol.ApplicationRouter;
 
-import net.fhirfactory.pegacorn.mimic.hl7v2server.cli.subcommands.HL7SimpleReceiver;
-import net.fhirfactory.pegacorn.mimic.hl7v2server.cli.subcommands.HL7v2QueryServer;
-import picocli.CommandLine;
+public class ORURoutingService implements ApplicationRouter.AppRoutingData {
+    String version;
+    String triggerEvent;
+    String processingId;
+    String messageType;
 
-@CommandLine.Command(
-        name="mllpServer",
-        description="MLLP Server Command Line Interface",
-        subcommands = {
-                HL7v2QueryServer.class, HL7SimpleReceiver.class
-        }
-)
-public class mllpServerCLI implements Runnable{
+    //
+    // Constructor(s)
+    //
+    public ORURoutingService(){
+        version = "*";
+        triggerEvent = "*";
+        processingId = "*";
+        messageType = "ORU";
+    }
 
-        public static void main(String[] args) {
-                CommandLine.run(new mllpServerCLI(), args);
-        }
+    public ORURoutingService(String version, String triggerEvent, String processingId, String messageType){
+        this.version = version;
+        this.triggerEvent = triggerEvent;
+        this.processingId = processingId;
+        this.messageType = messageType;
+    }
 
-        @Override
-        public void run() {
-                System.out.println("MLLP Receive Message Service");
-        }
+    //
+    // Getters
+    //
+
+    @Override
+    public String getVersion() {
+        return (version);
+    }
+
+    @Override
+    public String getTriggerEvent() {
+        return(triggerEvent);
+    }
+
+    @Override
+    public String getProcessingId() {
+        return(processingId);
+    }
+
+    @Override
+    public String getMessageType() {
+        return(messageType);
+    }
 }
