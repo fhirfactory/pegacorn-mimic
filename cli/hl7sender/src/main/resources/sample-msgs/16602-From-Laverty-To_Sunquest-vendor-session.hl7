@@ -1,0 +1,10 @@
+MSH|^~\&|ULTRA|LAV|ACTNOTIF|ACT|202209061440||ORU^R01|419871604|T|2.4|||AL||AU
+PID|||24575180622^^^AUSHIC^MC||AHLBERG^BRETT||19710602|M|||320 WENSLEYDALE STATION ROAD^^DEAKIN WEST^ACT^2600||0392440388|||||24575180622
+PV1||N|101042027|||||1234567X^COMPUTER DEPARTMENT^TESTING|PHUCA^PUBLIC HEALTH UNIT^CANBERRA
+ORC|RE||22-20220901-HPC-0||C
+OBR|1||22-20220901-HPC-0|HPC^HEPC PCR QUALITATIVE^LAVERTYEAP|||202209060900|||||||||1234567X^COMPUTER DEPARTMENT^TESTING^^COMP^DR|||||PHUCA|202209061440||GRP|F||^^^202209060956
+NTE|1|L|testing HPC
+OBX|1|FT|15431-0^^LN||                     \H\ HEPATITIS C NUCLEIC ACID TESTING\N\ \.br\\.br\  HEPATITIS C VIRUS RNA (Qualitative)  \H\ DETECTED \N\ \.br\\.br\  As of 30th May 2018, Hepatitis C Qualitative RNA testing has been\.br\  performed using the Roche cobas HCV quantitative nucleic acid test for\.br\  use on the cobas 6800/8800 system. The lower limit of sensitivity for\.br\  this test is 15 IU/mL.\.br\\.br\  The specimen required for this test is a dedicated EDTA (pink top) or a\.br\  dedicated clotted blood (SST or plain) tube. At least 3mLs of blood is\.br\  required.\.br\\.br\\.br\  This condition requires a notification to the Public Health Unit by\.br\  laboratories.|||A|||F
+OBX|2|TX|11259-9^^LN^Hepatitis C Virus RNA||\H\DETECTED\N\|||A|||F|||202209060958
+OBX|3|FT|15412-0^^LN^Hepatitis C Comment||The specimen required for this test is a dedicated EDTA (pink top) or a\.br\dedicated clotted blood (SST or plain) tube. At least 3mLs of blood is\.br\required.||||||F
+OBX|4|FT|54217-5^^LN^Comment||\.br\This condition requires a notification to the Public Health Unit by\.br\laboratories.||||||F

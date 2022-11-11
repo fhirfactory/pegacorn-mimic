@@ -1,0 +1,12 @@
+MSH|^~\&|ULTRA|LAV|ACT|ACT|202202281527||ORU^R01|419634364|T|2.4|||AL||AU
+PID|||204813^^^^||HIRD^JIM||19770221|M|||311 CANDY LANE^^GARREN^ACT^2605|||0455555555|||||51098975874
+PV1||N|LEI|||||0000000Y^ACT SURNAME^ACT GIVEN NAME|7ACT^ACT HEALTH
+ORC|RE||22-55533344-FMC-0||C
+OBR|1||22-55533344-FMC-0|FMC^FAECES MICROBIOLOGY^LAVERTYEAP|||202202280834|||||||||0000000Y^ACT SURNAME^ACT GIVEN NAME^MID^ACTT^DR|||||7ACT|202202281527||GRP|F||^^^202202280939
+OBX|1|NM|SW^^LN||1||||||F|||202202281523
+OBX|2|ST|32286-7^^LN||Semi-formed||||||F|||202202281523
+OBX|3|ST|13954-3^^LN||No ova,cysts or parasites detected.||||||F|||202202281523
+OBX|4|ST|B7^^LN||Campylobacter species||||||F
+OBX|5|FT|23826-1^^LN||\.br\This condition requires a notification to the Public Health Unit by\.br\laboratories.||||||F
+NTE|1|L|fmc
+NTE|2|L|\.br\Campylobacter gastroenteritis is usually self limiting. If antibiotic therapy is indicated for severe or prolonged disease, suggest using azithromycin or ciprofloxacin/norfloxacin. \.br\

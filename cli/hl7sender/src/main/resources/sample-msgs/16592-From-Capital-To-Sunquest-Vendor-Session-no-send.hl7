@@ -1,0 +1,36 @@
+MSH|^~\&|APOLLO|Capital Pathology|ACTNOTIF|Capital Pathology|202210261729+1100||ORU^R01|20221026-134.E.9|T|2.4|201||AL|AL|AU
+PID|1||180208221^^^NATA&Capital Pathology&N~^^^AUSHIC^MC||TEST^SMS^^^||19761213|F|||70 KENT ST^^DEAKIN^ACT^2600^AU||^^^^^^0439640466|^^^^^^|||||||||||||
+PV1|1|O||||||0458049H^HUNTER^STACEY^^^DR|0458049H^HUNTER^STACEY^^^DR|||||||||||
+ORC|RE||180208221-D-D999^NATA^Capital Pathology^N||CM|||||||0458049H^HUNTER^STACEY^^^DR
+OBR|1||180208221-D-D243^NATA^Capital Pathology^N|D-D274^COVID-19 PCR^Capital Pathology||20220802|202208021016+1100||||||Asymptomatic|202208021016+1100||0458049H^HUNTER^STACEY^^^DR||||LN&180208221||202210261729+1100||IMM|C||^^^20220802^^$
+OBX|1|ST|D0730^Site^Capital Pathology||Nose and Throat Swab|^|||||C|||202210261727
+OBX|2|ST|D2744^SARS-CoV-2 RNA^Capital Pathology^94500-6^SARS-CoV-2 RNA^LN||Detected|^||*|||C|||202210261727
+OBX|3|FT|D274^COVID-19 PCR^Capital Pathology||This is a notifiable result which has been communicated to the relevant\.br\State Health Department.\.br\ ||||||C|||202210261727
+OBX|4|FT|D274^COVID-19 PCR^Capital Pathology||||||||C|||202210261727
+OBX|5|FT|D274^COVID-19 PCR^Capital Pathology||||||||C|||202210261727
+OBX|6|FT|D274^COVID-19 PCR^Capital Pathology||Report amended on 03/08/2022 at 09:07: Additional testing performed.||||||C|||202210261727
+OBX|7|FT|D274^COVID-19 PCR^Capital Pathology||SARS-CoV-2 RNA previously reported as Detected on 02/08/2022 at 10:29.||||||C|||202210261727
+OBX|8|FT|D274^COVID-19 PCR^Capital Pathology||S gene previously reported as Detected on 02/08/2022 at 10:29.||||||C|||202210261727
+OBX|9|FT|D274^COVID-19 PCR^Capital Pathology||Interpretive Comments added on 03/08/2022 at 09:07.||||||C|||202210261727
+OBX|10|FT|D274^COVID-19 PCR^Capital Pathology||||||||C|||202210261727
+OBX|11|FT|D274^COVID-19 PCR^Capital Pathology||Report amended on 03/08/2022 at 09:28: Additional testing performed.||||||C|||202210261727
+OBX|12|FT|D274^COVID-19 PCR^Capital Pathology||SARS-CoV-2 RNA previously reported as Not Detected on 03/08/2022 at 09:12.||||||C|||202210261727
+OBX|13|FT|D274^COVID-19 PCR^Capital Pathology||Interpretive Comments amended on 03/08/2022 at 09:28.||||||C|||202210261727
+OBX|14|FT|D274^COVID-19 PCR^Capital Pathology||||||||C|||202210261727
+OBX|15|FT|D274^COVID-19 PCR^Capital Pathology||Report amended on 20/09/2022 at 11:01: Additional testing performed.||||||C|||202210261727
+OBX|16|FT|D274^COVID-19 PCR^Capital Pathology||SARS-CoV-2 RNA previously reported as Detected on 03/08/2022 at 09:28.||||||C|||202210261727
+OBX|17|FT|D274^COVID-19 PCR^Capital Pathology||Interpretive Comments added on 20/09/2022 at 11:01.||||||C|||202210261727
+OBX|18|FT|D274^COVID-19 PCR^Capital Pathology||||||||C|||202210261727
+OBX|19|FT|D274^COVID-19 PCR^Capital Pathology||Report amended on 26/10/2022 at 17:26: Additional testing performed.||||||C|||202210261727
+OBX|20|FT|D274^COVID-19 PCR^Capital Pathology||SARS-CoV-2 RNA previously reported as Not Detected on 20/09/2022 at 16:43.||||||C|||202210261727
+OBX|21|FT|D274^COVID-19 PCR^Capital Pathology||Interpretive Comments amended on 26/10/2022 at 17:26.||||||C|||202210261727
+OBX|22|FT|D274^COVID-19 PCR^Capital Pathology||||||||C|||202210261727
+OBX|23|FT|D274^COVID-19 PCR^Capital Pathology||Report amended on 26/10/2022 at 17:27: Additional testing performed.||||||C|||202210261727
+OBX|24|FT|D274^COVID-19 PCR^Capital Pathology||Interpretive Comments added on 26/10/2022 at 17:27.||||||C|||202210261727
+OBX|25|FT|D274^COVID-19 PCR^Capital Pathology||||||||C|||202210261727
+OBX|26|FT|D274^COVID-19 PCR^Capital Pathology||** AMENDED REPORT - Please discard the previous report for this test on this Lab number **||||||C|||202210261727
+OBX|27|FT|D274^COVID-19 PCR^Capital Pathology||||||||C|||202210261727
+OBX|28|FT|D274^COVID-19 PCR^Capital Pathology||Tests Completed: COV||||||C|||202210261727
+OBX|29|FT|D274^COVID-19 PCR^Capital Pathology||Tests Pending  : ||||||C|||202210261727
+OBX|30|FT|D274^COVID-19 PCR^Capital Pathology||Sample Pending : ||||||C|||202210261727
+
