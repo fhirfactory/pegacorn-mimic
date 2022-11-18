@@ -26,5 +26,6 @@
         <!--module>location</module-->
         <module>hl7sender</module>
         <module>hl7receiver</module>
+        <module>auditparser</module>
     </modules>
 </project>

@@ -50,13 +50,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>${version-org.json}</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
             <version>${version-com.fasterxml.jackson.core-jackson-core}</version>
@@ -142,7 +135,7 @@
                             <archive>
                                 <manifest>
                                     <mainClass>
-                                        net.fhirfactory.pegacorn.mimic.hl7v2.cli.mllpCLI
+                                        net.fhirfactory.dricats.mimic.tasking.cli.auditEventComparator
                                     </mainClass>
                                 </manifest>
                             </archive>
