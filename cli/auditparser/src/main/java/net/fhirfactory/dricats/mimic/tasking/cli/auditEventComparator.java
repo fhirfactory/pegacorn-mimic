@@ -22,14 +22,16 @@
 package net.fhirfactory.dricats.mimic.tasking.cli;
 
 
-import net.fhirfactory.dricats.mimic.tasking.cli.subcommands.IdentifyUnsentMessages;
+import net.fhirfactory.dricats.mimic.tasking.cli.subcommands.ParseLogsAndAuditTrail;
+import net.fhirfactory.dricats.mimic.tasking.cli.subcommands.ParseLogsOnly;
+import net.fhirfactory.dricats.mimic.tasking.cli.subcommands.ParseLokiLogsMLLPOnly;
 import picocli.CommandLine;
 
 @CommandLine.Command(
         name="auditEventParser",
         description="Tool to parse AuditEvent Details",
         subcommands = {
-                IdentifyUnsentMessages.class
+                ParseLogsAndAuditTrail.class, ParseLogsOnly.class, ParseLokiLogsMLLPOnly.class
         }
 )
 public class auditEventComparator implements Runnable{

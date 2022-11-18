@@ -6,7 +6,10 @@ import java.util.Objects;
 public class HL7SimpleMetadata implements Serializable {
     private String patientId;
     private String messageTimestamp;
+    private String messageType;
     private String messageId;
+    private String ackCode;
+    private boolean isAck;
 
     //
     // Constructors
@@ -16,17 +19,48 @@ public class HL7SimpleMetadata implements Serializable {
         this.patientId = null;
         this.messageId = null;
         this.messageTimestamp = null;
+        this.ackCode = null;
+        this.messageType = null;
+        this.isAck = false;
     }
 
     public HL7SimpleMetadata(String patientId, String messageTimestamp, String messageId){
         this.patientId = patientId;
         this.messageTimestamp = messageTimestamp;
         this.messageId = messageId;
+        this.ackCode = null;
+        this.messageType = null;
+        this.isAck = false;
+    }
+
+    public HL7SimpleMetadata(String messageTimestamp, String messageId){
+        this.patientId = null;
+        this.messageTimestamp = messageTimestamp;
+        this.messageId = messageId;
+        this.ackCode = null;
+        this.messageType = null;
+        this.isAck = false;
     }
 
     //
     // Getters and Setters
     //
+
+    public String getAckCode() {
+        return ackCode;
+    }
+
+    public void setAckCode(String ackCode) {
+        this.ackCode = ackCode;
+    }
+
+    public boolean isAck() {
+        return isAck;
+    }
+
+    public void setAck(boolean ack) {
+        isAck = ack;
+    }
 
     public String getPatientId() {
         return patientId;
@@ -52,6 +86,14 @@ public class HL7SimpleMetadata implements Serializable {
         this.messageId = messageId;
     }
 
+    public String getMessageType() {
+        return messageType;
+    }
+
+    public void setMessageType(String messageType) {
+        this.messageType = messageType;
+    }
+
     //
     // hashcode and equals
     //
@@ -66,7 +108,7 @@ public class HL7SimpleMetadata implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getPatientId(), getMessageTimestamp(), getMessageId());
+        return Objects.hash(getMessageTimestamp(), getMessageId());
     }
 
     //
@@ -79,6 +121,10 @@ public class HL7SimpleMetadata implements Serializable {
         sb.append("patientId='").append(patientId).append('\'');
         sb.append(", messageTimestamp='").append(messageTimestamp).append('\'');
         sb.append(", messageId='").append(messageId).append('\'');
+        sb.append(", ackCode='").append(ackCode).append('\'');
+        sb.append(", isAck=").append(isAck);
+        sb.append(", ack=").append(isAck());
+        sb.append(", messageType=").append(messageType);
         sb.append('}');
         return sb.toString();
     }
