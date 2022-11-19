@@ -67,6 +67,9 @@ public class ParseLokiLogsMLLPOnly implements Runnable{
     @CommandLine.Option(names = {"--ingresSystemLogDirectory"})
     private String ingresLogDirectory;
 
+    @CommandLine.Option(names = "--ingresPort")
+    private String ingresPort;
+
     @CommandLine.Option(names = {"--ingresAuditEventDirectory"})
     private String ingresAuditEventDirectory;
 
@@ -157,7 +160,7 @@ public class ParseLokiLogsMLLPOnly implements Runnable{
 
         for(String currentLogFilename: ingresLogFileList){
             LOG.info(".run(): [Build Ingres Subsystem Transaction Metadata Set] [Iterate Through Log Files] Processing->{}", currentLogFilename);
-            HashSet<HL7TransactionReport> currentMetadataSet = logFileParser.processIngresJSONLogFile(ingresSystemName, ingresLogDirectory, currentLogFilename,null);
+            HashSet<HL7TransactionReport> currentMetadataSet = logFileParser.processIngresJSONLogFile(ingresSystemName, ingresPort, ingresLogDirectory, currentLogFilename,null);
             transactionReportSet.addAll(currentMetadataSet);
         }
 

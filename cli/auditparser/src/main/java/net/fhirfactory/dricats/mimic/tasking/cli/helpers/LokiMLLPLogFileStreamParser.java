@@ -121,8 +121,8 @@ public class LokiMLLPLogFileStreamParser extends DRICaTSLogFileParserCommon {
     // Ingres Log File Processing
     //
 
-    public HashSet<HL7TransactionReport> processIngresJSONLogFile(String systemName, String logDirectoryName, String logFileName, Set<HL7UsefulMetadata> egressMessageMetadataSet){
-        LOG.debug(".processIngresLogFile(): Entry, systemName->{}, logDirectoryName->{}, logFileName->{}", systemName, logDirectoryName, logFileName);
+    public HashSet<HL7TransactionReport> processIngresJSONLogFile(String systemName, String ingresPort, String logDirectoryName, String logFileName, Set<HL7UsefulMetadata> egressMessageMetadataSet){
+        LOG.debug(".processIngresLogFile(): Entry, systemName->{}, ingresPort->{}, logDirectoryName->{}, logFileName->{}", systemName, ingresPort, logDirectoryName, logFileName);
         HashSet<HL7TransactionReport> transactionMetadataSet = null;
         try {
             LOG.trace(".processIngresLogFile(): [Create InputStream] Start");
@@ -132,7 +132,7 @@ public class LokiMLLPLogFileStreamParser extends DRICaTSLogFileParserCommon {
             InputStream eventStream = new FileInputStream(logFile);
             LOG.trace(".processIngresLogFile(): [Create InputStream] Finish");
             LOG.trace(".processIngresLogFile(): [Map InputStream to Metadata Set] Start");
-            transactionMetadataSet = processIngresLokiLogFileStream(systemName, eventStream,egressMessageMetadataSet);
+            transactionMetadataSet = processIngresLokiLogFileStream(systemName, ingresPort, eventStream,egressMessageMetadataSet);
             LOG.trace(".processIngresLogFile(): [Map InputStream to Metadata Set] Finish");
         }  catch( Exception ex){
             LOG.trace(".processIngresLogFile(): Problem loading file, error->{}", ExceptionUtils.getMessage(ex));
@@ -146,7 +146,7 @@ public class LokiMLLPLogFileStreamParser extends DRICaTSLogFileParserCommon {
         
     }
 
-    public HashSet<HL7TransactionReport> processIngresLokiLogFileStream(String systemName, InputStream eventStream, Set<HL7UsefulMetadata> egressMessageMetadataSet){
+    public HashSet<HL7TransactionReport> processIngresLokiLogFileStream(String systemName, String ingresPort, InputStream eventStream, Set<HL7UsefulMetadata> egressMessageMetadataSet){
         LOG.debug(".processIngresLokiLogFileStream(): Entry, systemName->{}", systemName);
         HashSet<HL7TransactionReport> transactionReports = new HashSet<>();
 
@@ -173,7 +173,7 @@ public class LokiMLLPLogFileStreamParser extends DRICaTSLogFileParserCommon {
                             String currentMLLPMessage = messageStart.substring(0, messageLeadOutLocation);
                             LOG.trace(".processIngresLokiLogFileStream(): [Do Substring] Finish");
                             LOG.trace(".processIngresLokiLogFileStream(): Adding Entry->{}", currentMLLPMessage);
-                            HL7TransactionReport hl7TransactionReport = processIngresSystemLogEntry(systemName, currentLine, currentMLLPMessage, egressMessageMetadataSet);
+                            HL7TransactionReport hl7TransactionReport = processIngresSystemLogEntry(systemName, ingresPort, currentLine, currentMLLPMessage, egressMessageMetadataSet);
                             if (hl7TransactionReport != null) {
                                 transactionReports.add(hl7TransactionReport);
                             }
@@ -188,7 +188,7 @@ public class LokiMLLPLogFileStreamParser extends DRICaTSLogFileParserCommon {
         return(transactionReports);
     }
 
-    public HL7TransactionReport processIngresSystemLogEntry(String subsystemName, String logEntry, String mllpMessage, Set<HL7UsefulMetadata> egressMessageMetadataSet){
+    public HL7TransactionReport processIngresSystemLogEntry(String subsystemName, String ingresPort, String logEntry, String mllpMessage, Set<HL7UsefulMetadata> egressMessageMetadataSet){
 
         getLogger().debug(".processIngresSystemLogEntry(): Entry, subsystemName->{}",subsystemName);
         if(StringUtils.isEmpty(logEntry)){
@@ -211,7 +211,14 @@ public class LokiMLLPLogFileStreamParser extends DRICaTSLogFileParserCommon {
                         metadata.setSubsystem(subsystemName);
                     }
                     LOG.trace(".processIngresSystemLogEntry(): metadata->{}", metadata);
-                    HL7TransactionReport report = buildTransactionReport(metadata, egressMessageMetadataSet);
+                    HL7TransactionReport report = null;
+                     if(StringUtils.isNotEmpty(ingresPort)) {
+                         if(StringUtils.isNotEmpty(portNumber) && portNumber.contentEquals(ingresPort)) {
+                             report = buildTransactionReport(metadata, egressMessageMetadataSet);
+                         }
+                     } else {
+                         report = buildTransactionReport(metadata, egressMessageMetadataSet);
+                     }
                     LOG.trace(".processIngresSystemLogEntry(): report->{}", report);
                     return(report);
                 }
