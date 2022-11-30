@@ -49,8 +49,8 @@ public class DRICaTSAuditEventParser extends HL7ContentParserCommon {
     // Business Methods
     //
 
-    public Set<String> getLogFilenamesFromDirectory(String directoryName) throws IOException {
-        try (Stream<Path> stream = Files.list(Paths.get(directoryName))) {
+    public Set<String> getFilenamesFromDirectory(String directoryName) throws IOException {
+        try (Stream<Path> stream = Files.walk(Paths.get(directoryName), 3)) {
             return stream
                     .filter(file -> !Files.isDirectory(file))
                     .map(Path::getFileName)
@@ -66,7 +66,7 @@ public class DRICaTSAuditEventParser extends HL7ContentParserCommon {
             LOG.info(".findMessageInIngresAuditEventSet(): [Get Ingres AuditEvent File List] Start");
             Set<String> ingresLogFileList = null;
             try {
-                ingresLogFileList = getLogFilenamesFromDirectory(ingresAuditEventDirectory);
+                ingresLogFileList = getFilenamesFromDirectory(ingresAuditEventDirectory);
             } catch(Exception ex){
                 LOG.error(".findMessageInIngresAuditEventSet[Get Ingres AuditEvent File List] Problem ->", ex);
                 System.exit(0);
